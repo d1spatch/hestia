@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+.eggs/
+
+# Generated output — not source
+site/
+output/
+
+# Old SQLite DB (replaced by YAML)
+data/ingredients.db
+
+# VS Code (optional — remove this line if you want to track workspace settings)
+.vscode/

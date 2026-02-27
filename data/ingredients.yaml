@@ -1,0 +1,26 @@
+bread flour:
+  category: grain
+  price_per_kg: 1.20
+  currency: USD
+  calories_per_100g: 364.0
+  protein_per_100g: 12.0
+  carbs_per_100g: 72.0
+  fat_per_100g: 1.5
+
+salt:
+  category: seasoning
+  price_per_kg: 0.50
+  currency: USD
+  calories_per_100g: 0.0
+
+sourdough starter:
+  category: fermented
+  price_per_kg: 0.10
+  currency: USD
+  calories_per_100g: 60.0
+
+water:
+  category: liquid
+  price_per_kg: 0.0
+  currency: USD
+  calories_per_100g: 0.0

@@ -1,0 +1,33 @@
+name: Sourdough Bread
+serves: 1 loaf (900g)
+tags: [bread, fermented, baking]
+
+ingredients:
+  - name: bread flour
+    amount: 500
+    unit: g
+  - name: water
+    amount: 375
+    unit: ml
+  - name: sourdough starter
+    amount: 100
+    unit: g
+  - name: salt
+    amount: 10
+    unit: g
+
+instructions:
+  - Combine bread flour and 350ml of water. Mix until no dry flour remains. Cover and rest for 30 minutes (autolyse).
+  - Add the sourdough starter and salt. Incorporate thoroughly using the stretch-and-fold method.
+  - Perform 4 sets of stretch-and-folds over 2 hours, every 30 minutes.
+  - Bulk ferment at room temperature (22-24°C) for an additional 2-4 hours until dough has risen ~50%.
+  - Pre-shape the dough into a round. Rest uncovered for 20 minutes.
+  - Final-shape and place in a floured banneton. Cover and refrigerate for 12-16 hours.
+  - Preheat oven with a Dutch oven inside to 250°C (480°F) for at least 45 minutes.
+  - Score the dough and bake covered for 20 minutes. Remove lid and bake a further 20-25 minutes until deep golden brown.
+  - Cool on a wire rack for at least 1 hour before slicing.
+
+notes: |
+  Hydration: 75% (including starter water content).
+  For a more open crumb, increase hydration to 80% (add 25g more water during autolyse).
+  Starter should be active and bubbly — feed 8-12 hours before mixing.

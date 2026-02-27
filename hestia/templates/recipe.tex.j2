@@ -1,0 +1,83 @@
+\documentclass[11pt, a4paper]{article}
+
+% ---------- packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{parskip}
+
+% ---------- colours ----------
+\definecolor{accent}{RGB}{92, 64, 51}
+\definecolor{light}{RGB}{212, 184, 150}
+
+% ---------- section styling ----------
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0em}{}[\color{light}\titlerule]
+\titlespacing{\section}{0pt}{1.5ex}{0.8ex}
+
+% ---------- document ----------
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{accent} \VAR{recipe.name | latex}}\\[0.4em]
+  {\small Serves: \VAR{recipe.serves | latex}
+  \BLOCK{ if recipe.tags }
+    \quad|\quad Tags: \VAR{recipe.tags | join(", ") | latex}
+  \BLOCK{ endif }
+  }
+\end{center}
+
+\vspace{1em}
+
+% ---------- ingredients ----------
+\section*{Ingredients}
+
+\begin{tabular}{@{} l r l @{}}
+  \toprule
+  \textbf{Ingredient} & \textbf{Amount} & \textbf{Unit} \\
+  \midrule
+  \BLOCK{ for ing in recipe.ingredients }
+  \VAR{ing.name | latex} & \VAR{ing.amount} & \VAR{ing.unit | latex} \\
+  \BLOCK{ endfor }
+  \bottomrule
+\end{tabular}
+
+\vspace{1em}
+
+% ---------- instructions ----------
+\section*{Instructions}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}]
+  \BLOCK{ for step in recipe.instructions }
+  \item \VAR{step | latex}
+  \BLOCK{ endfor }
+\end{enumerate}
+
+% ---------- notes ----------
+\BLOCK{ if recipe.notes }
+\section*{Notes}
+\begin{quote}
+  \itshape \VAR{recipe.notes | latex}
+\end{quote}
+\BLOCK{ endif }
+
+% ---------- nutrition / cost ----------
+\section*{Nutrition \& Cost}
+
+\begin{tabular}{@{} l l @{}}
+  Calories & \VAR{nutrition.calories}~kcal \\
+  Est.\ Cost & \VAR{nutrition.currency}~\VAR{"%.2f" | format(nutrition.cost) } \\
+\end{tabular}
+
+\BLOCK{ if nutrition.missing_ingredients }
+\vspace{0.5em}
+{\small\color{red} \textbf{Missing from catalog:} \VAR{nutrition.missing_ingredients | join(", ") | latex}}
+\BLOCK{ endif }
+
+\end{document}

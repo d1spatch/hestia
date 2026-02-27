@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ recipe.name }}</title>
+<style>
+  :root {
+    --accent: #5c4033;
+    --light: #fdf6ec;
+    --border: #d4b896;
+    --text: #2c1f14;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--light);
+    color: var(--text);
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 2.2rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .meta {
+    color: #7a5c44;
+    font-size: 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+  .tags span {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 0.78rem;
+    margin-right: 4px;
+  }
+  h2 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin: 2rem 0 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  th {
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    padding: 0.3rem 0.5rem;
+    color: var(--accent);
+  }
+  td { padding: 0.3rem 0.5rem; border-bottom: 1px solid #e8d8c4; }
+  tr:last-child td { border-bottom: none; }
+  ol { padding-left: 1.5rem; }
+  ol li { margin-bottom: 0.5rem; }
+  .notes {
+    background: #fff8ef;
+    border-left: 4px solid var(--border);
+    padding: 0.8rem 1rem;
+    font-style: italic;
+    color: #5a4030;
+    white-space: pre-line;
+  }
+  .nutrition-box {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem 2rem;
+    background: #fff8ef;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  .nutrition-box .label { color: #7a5c44; }
+  .nutrition-box .value { font-weight: bold; }
+  .missing { color: #c0392b; font-size: 0.85rem; margin-top: 0.5rem; }
+  @media print {
+    body { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>{{ recipe.name }}</h1>
+<div class="meta">
+  Serves: <strong>{{ recipe.serves }}</strong>
+  {% if recipe.tags %}
+  &nbsp;&nbsp;
+  <span class="tags">{% for tag in recipe.tags %}<span>{{ tag }}</span>{% endfor %}</span>
+  {% endif %}
+</div>
+
+<h2>Ingredients</h2>
+<table>
+  <thead>
+    <tr><th>Ingredient</th><th>Amount</th><th>Unit</th></tr>
+  </thead>
+  <tbody>
+    {% for ing in recipe.ingredients %}
+    <tr>
+      <td>{{ ing.name }}</td>
+      <td>{{ ing.amount }}</td>
+      <td>{{ ing.unit }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Instructions</h2>
+<ol>
+  {% for step in recipe.instructions %}
+  <li>{{ step }}</li>
+  {% endfor %}
+</ol>
+
+{% if recipe.notes %}
+<h2>Notes</h2>
+<div class="notes">{{ recipe.notes }}</div>
+{% endif %}
+
+<h2>Nutrition &amp; Cost</h2>
+<div class="nutrition-box">
+  <span class="label">Calories</span>
+  <span class="value">{{ nutrition.calories }} kcal</span>
+  <span></span>
+
+  <span class="label">Est. Cost</span>
+  <span class="value">{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</span>
+  <span></span>
+</div>
+{% if nutrition.missing_ingredients %}
+<p class="missing">
+  ⚠ Missing from catalog (no data): {{ nutrition.missing_ingredients | join(", ") }}
+</p>
+{% endif %}
+
+</body>
+</html>

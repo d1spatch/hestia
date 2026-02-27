@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hestia"
+version = "0.1.0"
+description = "A precision cookbook CLI with ingredient catalog and LaTeX/HTML rendering"
+requires-python = ">=3.10"
+dependencies = [
+    "typer[all]>=0.12",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "rich>=13.0",
+]
+
+[project.scripts]
+hestia = "hestia.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hestia*"]
