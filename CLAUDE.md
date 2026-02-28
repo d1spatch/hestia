@@ -1,0 +1,88 @@
+# Hestia — Claude Context
+
+A precision cookbook CLI. Store recipes as YAML, catalog ingredients with prices and macros, render to HTML or PDF.
+
+## Environment
+
+- **Python**: always use `c:\dev\projects\.venv313\Scripts\python.exe`, never bare `python`
+- **Run CLI**: `c:\dev\projects\.venv313\Scripts\python.exe -m hestia <command>`
+- **Docs**: `c:\dev\projects\.venv313\Scripts\python.exe -m mkdocs serve` (from project root)
+- **Install (editable)**: `c:\dev\projects\.venv313\Scripts\python.exe -m pip install -e .`
+- **PDF output** requires MiKTeX (`pdflatex` on PATH)
+
+## Key Commands
+
+```bash
+hestia recipe show <name>
+hestia recipe render <name> --format html|pdf|both
+hestia recipe add <path>
+hestia recipe list
+
+hestia ingredient add --name "..." --price 1.20 --calories 364
+hestia ingredient list [--category ...]
+hestia ingredient update <name> [--price ...] [--calories ...]
+hestia ingredient import <csv_path>
+```
+
+## Project Layout
+
+```
+hestia/
+├── hestia/
+│   ├── cli.py          # Typer entry points, Rich output
+│   ├── catalog.py      # CURRENT: YAML-backed ingredient catalog
+│   ├── db.py           # LEGACY: SQLite catalog (same API, kept for compat)
+│   ├── recipe.py       # Pydantic models, YAML parsing, nutrition math
+│   ├── renderer.py     # Jinja2 → HTML / LaTeX / PDF
+│   └── templates/      # recipe.html.j2, recipe.tex.j2
+├── data/
+│   ├── ingredients.yaml    # Human-editable ingredient catalog (primary)
+│   ├── ingredients.db      # SQLite DB (legacy)
+│   └── recipes/            # User recipe YAML files go here
+└── output/                 # Generated HTML/PDF files (named by recipe slug)
+```
+
+## Data Formats
+
+**Recipe YAML** (`data/recipes/<slug>.yaml`):
+```yaml
+name: Sourdough Bread
+serves: 1 loaf
+tags: [bread, fermented]
+ingredients:
+  - name: bread flour
+    amount: 500
+    unit: g   # weight units: g, kg, mg, oz, lb; volume: ml, l, cl, dl
+instructions:
+  - Step one.
+notes: |
+  Optional notes.
+```
+
+**Ingredient catalog** (`data/ingredients.yaml`):
+```yaml
+bread flour:
+  category: grain
+  price_per_kg: 1.20
+  currency: USD
+  calories_per_100g: 364.0
+  protein_per_100g: 12.0
+  carbs_per_100g: 72.0
+  fat_per_100g: 1.5
+  aliases: [strong flour, white flour]
+  notes: Optional text.
+```
+
+## Conventions
+
+- Ingredient lookup is **case-insensitive** and checks aliases
+- Non-weight units (tsp, cup, piece) are skipped in nutrition/cost math — this is intentional
+- `catalog.py` is the active backend; `db.py` is legacy — prefer `catalog.py` for new work
+- Use `pathlib.Path` throughout (no raw string paths)
+- CLI errors exit with `typer.Exit(1)`
+- No test suite exists — test manually via CLI
+
+## Dependencies
+
+`typer[all]`, `pydantic>=2.0`, `pyyaml`, `jinja2`, `rich`
+Docs: `mkdocs`, `mkdocs-material`, `mkdocstrings[python]`
