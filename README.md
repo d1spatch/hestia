@@ -5,7 +5,7 @@ A precision cookbook CLI. Store recipes with exact weights, catalog ingredients 
 ## Features
 
 - **Recipe YAML files** — human-editable, version-control friendly
-- **Ingredient catalog** — SQLite database with price per kg, calories, macros
+- **Ingredient catalog** — YAML file with price per kg, calories, macros
 - **Computed nutrition & cost** — automatically calculated per recipe
 - **HTML output** — print-ready, styled, opens in any browser
 - **PDF output** — typeset via LaTeX (requires MiKTeX)
@@ -74,12 +74,12 @@ Then open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 hestia/
 ├── hestia/           # Python package
 │   ├── cli.py        # All CLI commands (Typer)
-│   ├── db.py         # Ingredient catalog (SQLite)
+│   ├── catalog.py    # Ingredient catalog (YAML)
 │   ├── recipe.py     # YAML parsing + nutrition math
 │   ├── renderer.py   # Jinja2 → HTML / LaTeX / PDF
 │   └── templates/    # recipe.html.j2, recipe.tex.j2
 ├── data/
-│   ├── ingredients.db
+│   ├── ingredients.yaml
 │   └── recipes/      # Put your .yaml recipe files here
 └── output/           # Generated HTML and PDF files
 ```

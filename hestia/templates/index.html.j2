@@ -1,0 +1,45 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Recipes{% endblock %}
+
+{% block content %}
+<h1>All Recipes</h1>
+
+<form class="search-bar" method="get" action="/">
+  <input name="q"          value="{{ q }}"          placeholder="Search by name…">
+  <input name="tag"        value="{{ tag }}"         placeholder="Filter by tag…">
+  <input name="ingredient" value="{{ ingredient }}"  placeholder="Must contain ingredient…">
+  <button type="submit">Search</button>
+  {% if q or tag or ingredient %}
+    <a class="clear-link" href="/">Clear</a>
+  {% endif %}
+</form>
+
+{% if not recipes %}
+  <p class="no-results">No recipes match your search.</p>
+{% else %}
+  <div style="display:grid; gap:0.9rem">
+    {% for path, recipe in recipes %}
+    <div style="background:#fff8ef; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
+      <a href="/recipe/{{ recipe.slug }}"
+         style="font-size:1.2rem; color:var(--accent); font-weight:bold; text-decoration:none">
+        {{ recipe.name }}
+      </a>
+      <div style="font-size:0.85rem; color:#7a5c44; margin-top:0.3rem">
+        Serves <strong>{{ recipe.serves }}</strong>
+        {% if recipe.tags %}
+          &nbsp;&nbsp;
+          {% for t in recipe.tags %}
+            <span style="background:var(--accent); color:#fff; border-radius:3px;
+                         padding:1px 7px; font-size:0.75rem; margin-right:3px">{{ t }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div style="font-size:0.82rem; color:#a07860; margin-top:0.25rem">
+        {{ recipe.ingredients | map(attribute='name') | join(', ') }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

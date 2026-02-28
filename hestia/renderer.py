@@ -55,6 +55,26 @@ def _latex_escape(text: str) -> str:
     return text
 
 
+def render_html_str(
+    recipe: Recipe,
+    nutrition: dict[str, Any],
+    show_nav: bool = False,
+) -> str:
+    """Render a recipe to an HTML string without writing to disk.
+
+    Args:
+        recipe: A validated `Recipe` instance.
+        nutrition: Nutrition/cost dict from `recipe.compute_nutrition`.
+        show_nav: If True, includes the web navigation bar.
+
+    Returns:
+        The rendered HTML as a string.
+    """
+    env = _env(escape_latex=False)
+    template = env.get_template("recipe.html.j2")
+    return template.render(recipe=recipe, nutrition=nutrition, show_nav=show_nav)
+
+
 def render_html(
     recipe: Recipe,
     nutrition: dict[str, Any],
@@ -74,9 +94,7 @@ def render_html(
         Path to the generated `.html` file.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    env = _env(escape_latex=False)
-    template = env.get_template("recipe.html.j2")
-    html = template.render(recipe=recipe, nutrition=nutrition)
+    html = render_html_str(recipe, nutrition, show_nav=False)
     out = output_dir / f"{recipe.slug}.html"
     out.write_text(html, encoding="utf-8")
     return out

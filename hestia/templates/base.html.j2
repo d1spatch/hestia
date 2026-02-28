@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Hestia{% endblock %} — Hestia Cookbook</title>
+<style>
+  :root {
+    --accent: #5c4033;
+    --light:  #fdf6ec;
+    --border: #d4b896;
+    --text:   #2c1f14;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, serif;
+    background: var(--light);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  nav {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.7rem 2rem;
+    display: flex;
+    gap: 1.8rem;
+    align-items: center;
+  }
+  nav .brand {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 0.5rem;
+  }
+  nav a {
+    color: #e8d8c4;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  nav a:hover { color: #fff; text-decoration: underline; }
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+  h1 {
+    font-size: 1.9rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+    align-items: center;
+  }
+  .search-bar input {
+    flex: 1;
+    min-width: 140px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: Georgia, serif;
+    font-size: 0.9rem;
+    background: #fff8ef;
+    color: var(--text);
+  }
+  .search-bar button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.4rem 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 0.9rem;
+  }
+  .search-bar button:hover { background: #7a5c44; }
+  .clear-link {
+    color: var(--accent);
+    font-size: 0.88rem;
+    text-decoration: none;
+    align-self: center;
+  }
+  .clear-link:hover { text-decoration: underline; }
+  .no-results {
+    color: #7a5c44;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">Hestia</a>
+  <a href="/">Recipes</a>
+  <a href="/ingredients">Ingredients</a>
+</nav>
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

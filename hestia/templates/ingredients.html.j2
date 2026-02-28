@@ -1,0 +1,56 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Ingredients{% endblock %}
+
+{% block content %}
+<h1>Ingredient Catalog</h1>
+
+<form class="search-bar" method="get" action="/ingredients">
+  <input name="q" value="{{ q }}" placeholder="Search ingredients…">
+  <button type="submit">Search</button>
+  {% if q %}
+    <a class="clear-link" href="/ingredients">Clear</a>
+  {% endif %}
+</form>
+
+{% if not ingredients %}
+  <p class="no-results">No ingredients match your search.</p>
+{% else %}
+<table style="width:100%; border-collapse:collapse; font-size:0.93rem">
+  <thead>
+    <tr>
+      <th style="text-align:left; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Name</th>
+      <th style="text-align:left; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Category</th>
+      <th style="text-align:right; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Cal/100g</th>
+      <th style="text-align:right; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Protein</th>
+      <th style="text-align:right; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Carbs</th>
+      <th style="text-align:right; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Fat</th>
+      <th style="text-align:right; border-bottom:2px solid var(--border); padding:0.35rem 0.6rem; color:var(--accent)">Price/kg</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ing in ingredients %}
+    <tr>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; font-weight:bold">{{ ing.name }}</td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; color:#7a5c44">{{ ing.category or '—' }}</td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; text-align:right">
+        {% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }}{% else %}—{% endif %}
+      </td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; text-align:right">
+        {% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }}g{% else %}—{% endif %}
+      </td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; text-align:right">
+        {% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }}g{% else %}—{% endif %}
+      </td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; text-align:right">
+        {% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }}g{% else %}—{% endif %}
+      </td>
+      <td style="padding:0.35rem 0.6rem; border-bottom:1px solid #e8d8c4; text-align:right">
+        {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}{{ "%.2f"|format(ing.price_per_kg) }} {{ ing.currency or 'USD' }}{% else %}—{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

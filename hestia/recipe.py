@@ -7,6 +7,7 @@ from typing import Any
 
 import yaml
 from pydantic import BaseModel, field_validator
+from rich import print as rprint
 
 
 # ---------------------------------------------------------------------------
@@ -103,7 +104,7 @@ def load_all_recipes(recipes_dir: Path) -> list[tuple[Path, Recipe]]:
             results.append((p, load_recipe(p)))
         except Exception as exc:
             # Surface parse errors without crashing the whole list
-            print(f"[warn] Could not load {p.name}: {exc}")
+            rprint(f"[yellow][warn][/yellow] Could not load {p.name}: {exc}")
     return results
 
 

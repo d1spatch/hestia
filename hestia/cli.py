@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 from typing import Annotated, Optional
 
@@ -10,9 +11,10 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from . import catalog as _db
+from . import catalog as _catalog
 from .recipe import Recipe, load_all_recipes, load_recipe, compute_nutrition
 from .renderer import compile_pdf, render_html, render_latex
+from .server import run as _run_server
 
 app = typer.Typer(
     name="hestia",
@@ -38,7 +40,7 @@ def _build_catalog(recipe: Recipe) -> dict[str, dict]:
     """Fetch catalog entries for every ingredient in the recipe (case-insensitive)."""
     catalog: dict[str, dict] = {}
     for ing in recipe.ingredients:
-        entry = _db.get_ingredient(ing.name)
+        entry = _catalog.get_ingredient(ing.name)
         if entry:
             catalog[ing.name.lower()] = entry
     return catalog
@@ -76,7 +78,6 @@ def recipe_add(
     if dest.exists() and not force:
         rprint(f"[yellow]Recipe already exists:[/yellow] {dest.name}  (use --force to overwrite)")
         raise typer.Exit(1)
-    import shutil
     shutil.copy(path, dest)
     rprint(f"[green]Recipe added:[/green] {dest.name}")
 
@@ -222,7 +223,7 @@ def ingredient_add(
         data["notes"] = notes
 
     try:
-        _db.add_ingredient(data)
+        _catalog.add_ingredient(data)
         rprint(f"[green]Added:[/green] {name}")
     except ValueError as e:
         rprint(f"[red]{e}[/red]")
@@ -234,7 +235,7 @@ def ingredient_list(
     category: Annotated[Optional[str], typer.Option("--category", "-c")] = None,
 ):
     """List all ingredients in the catalog."""
-    items = _db.list_ingredients(category=category)
+    items = _catalog.list_ingredients(category=category)
     if not items:
         rprint("[yellow]No ingredients found.[/yellow]  Add one with: hestia ingredient add")
         return
@@ -291,7 +292,7 @@ def ingredient_update(
         raise typer.Exit(1)
 
     try:
-        _db.update_ingredient(name, updates)
+        _catalog.update_ingredient(name, updates)
         rprint(f"[green]Updated:[/green] {name}")
     except ValueError as e:
         rprint(f"[red]{e}[/red]")
@@ -306,5 +307,19 @@ def ingredient_import(
     if not csv_path.exists():
         rprint(f"[red]File not found:[/red] {csv_path}")
         raise typer.Exit(1)
-    inserted, skipped = _db.import_csv(csv_path)
+    inserted, skipped = _catalog.import_csv(csv_path)
     rprint(f"[green]Imported {inserted}[/green] ingredient(s), skipped {skipped}.")
+
+
+# ---------------------------------------------------------------------------
+# Web server
+# ---------------------------------------------------------------------------
+
+@app.command("serve")
+def serve(
+    host: Annotated[str, typer.Option("--host", help="Bind address.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option("--port", "-p", help="Port to listen on.")] = 8765,
+    no_browser: Annotated[bool, typer.Option("--no-browser", help="Don't auto-open browser.")] = False,
+):
+    """Start the Hestia web interface (recipe browser + ingredient catalog)."""
+    _run_server(host=host, port=port, open_browser=not no_browser)
