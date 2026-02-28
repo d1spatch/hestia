@@ -24,3 +24,39 @@ water:
   price_per_kg: 0.0
   currency: USD
   calories_per_100g: 0.0
+
+sugar:
+  category: sweetener
+  price_per_kg: 1.874
+  currency: USD
+  calories_per_100g: 387.0
+
+soy sauce:
+  category: seasoning
+  price_per_kg: 7.067
+  currency: USD
+  calories_per_100g: 53.0
+
+white vinegar:
+  category: seasoning
+  price_per_kg: 0.80
+  currency: USD
+  calories_per_100g: 18.0
+
+sesame oil:
+  category: oil
+  price_per_kg: 10.0
+  currency: USD
+  calories_per_100g: 884.0
+
+cucumber:
+  category: vegetable
+  price_per_kg: 1.50
+  currency: USD
+  calories_per_100g: 16.0
+
+crushed red pepper flakes:
+  category: seasoning
+  price_per_kg: 15.0
+  currency: USD
+  calories_per_100g: 282.0

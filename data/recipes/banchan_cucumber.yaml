@@ -1,0 +1,41 @@
+name: Cucumber Banchan
+serves: 1 week
+tags: [banchan, vegetable]
+
+ingredients:
+  - name: Cucumber
+    amount: 1
+    unit: g
+  - name: sugar
+    amount: 2
+    unit: tbsp
+  - name: white vinegar
+    amount: 2
+    unit: tbsp
+  - name: soy sauce
+    amount: 2
+    unit: tbsp
+  - name: sesame oil
+    amount: 2
+    unit: tbsp
+  - name: salt
+    amount: 2
+    unit: tbsp
+  - name: garlic
+    amount: 2
+    unit: cloves
+  - name: sliced onions
+    amount: 0.5
+    unit: cup
+
+instructions:
+  - Slice the cucumber in a mandoline and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
+  - Rinse the cucumber under cold water to remove excess salt. Drain and pat dry with paper towels.
+  - Once dry, add the cucumber back to the bowl and toss with sugar, white vinegar, soy sauce, crushed red pepper flakes, and sesame oil until well coated.
+  - Add garlic and sliced onions if desired.
+  - Squish into mason jar, fill to top with liquid, and let sit in the fridge for at least 30 minutes before serving. 
+  - Can be stored in the fridge for up to 1 week.
+
+notes: |
+  Using frozen garlic works.
+  Haejin really hates when you add tequilla to this recipe.
