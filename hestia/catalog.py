@@ -1,40 +1,44 @@
 """YAML-backed ingredient catalog.
 
 The catalog is a single human-editable file at ``data/ingredients.yaml``.
-Keys are ingredient names; values are dicts of optional fields.
+Keys are ingredient names; values are structured dicts with three optional sections.
 
 Example entry::
 
     bread flour:
-      category: grain
-      # Nutrition (per 100g)
-      calories_per_100g: 364.0
-      protein_per_100g: 12.0
-      carbs_per_100g: 72.0
-      fat_per_100g: 1.5
-      fiber_per_100g: 2.7
-      sugar_per_100g: 0.3
-      sodium_per_100g: 0.002        # grams (2 mg)
-      saturated_fat_per_100g: 0.2
-      cholesterol_per_100g: 0.0
-      # Pricing
-      currency: USD
-      price_per_kg: 1.20            # always mirrors the most recent price_history entry
-      price_history:
-        - date: 2026-01-01
-          price: 1.15
-          store: Costco
-        - date: 2026-03-14
-          price: 1.20
-          store: Whole Foods
-      # Source
-      source:
-        type: usda                  # usda | brand | manual | estimated
-        fdc_id: 169761
-        description: "Flour, wheat, bread"
-        retrieved: 2026-03-14
-      aliases: [plain flour, all-purpose flour]
-      notes: Strong white flour, ~12% protein
+      nutrition:
+        calories_per_100g: 364.0
+        protein_per_100g: 12.0
+        carbs_per_100g: 72.0
+        fat_per_100g: 1.5
+        fiber_per_100g: 2.7
+        sugar_per_100g: 0.3
+        sodium_per_100g: 0.002
+        saturated_fat_per_100g: 0.2
+        cholesterol_per_100g: 0.0
+        source:
+          type: usda
+          fdc_id: 169761
+          description: "Flour, wheat, bread"
+          retrieved: 2026-03-14
+      pricing:
+        currency: USD
+        price_per_kg: 1.20
+        price_history:
+          - date: 2026-01-01
+            price_per_kg: 1.15
+            store: Costco
+          - date: 2026-03-14
+            price_per_kg: 1.20
+            store: Whole Foods
+      user_defined:
+        category: grain
+        aliases: [plain flour, all-purpose flour]
+        g_per_tbsp: 8.0
+        notes: Strong white flour, ~12% protein
+
+Internally all entries are flattened to plain dicts for compatibility with
+recipe.py, cli.py, and usda.py. The nested structure is only on disk.
 """
 
 from __future__ import annotations
@@ -47,26 +51,68 @@ import yaml
 
 _DEFAULT_CATALOG = Path(__file__).parent.parent / "data" / "ingredients.yaml"
 
+# Fields that belong in each section on disk.
+_NUTRITION_FIELDS = frozenset({
+    "calories_per_100g", "protein_per_100g", "carbs_per_100g", "fat_per_100g",
+    "fiber_per_100g", "sugar_per_100g", "sodium_per_100g", "saturated_fat_per_100g",
+    "cholesterol_per_100g", "vitamin_c_per_100g", "vitamin_d_per_100g",
+    "vitamin_k_per_100g", "calcium_per_100g", "iron_per_100g", "magnesium_per_100g",
+    "potassium_per_100g", "manganese_per_100g", "source",
+})
+_PRICING_FIELDS = frozenset({"currency", "price_per_kg", "price_history"})
+_USER_DEFINED_FIELDS = frozenset({"category", "aliases", "g_per_tbsp", "notes"})
+
 
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
 
 def _load(catalog_path: Path) -> dict[str, dict[str, Any]]:
-    """Read the catalog file. Returns an empty dict if the file doesn't exist."""
+    """Read the catalog file and return flat entries. Returns {} if absent.
+
+    Handles both the current nested format (nutrition/pricing/user_defined
+    sections) and the legacy flat format transparently.
+    """
     if not catalog_path.exists():
         return {}
     with open(catalog_path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
+    for name, entry in data.items():
+        flat: dict[str, Any] = {}
+        for section in ("nutrition", "pricing", "user_defined"):
+            section_data = entry.pop(section, None)
+            if isinstance(section_data, dict):
+                flat.update(section_data)
+        flat.update(entry)  # remaining top-level fields (legacy flat or unknowns)
+        data[name] = flat
     return data
 
 
+def _structure(flat_entry: dict[str, Any]) -> dict[str, Any]:
+    """Convert a flat entry dict into the nested section format for YAML storage."""
+    nutrition = {k: v for k, v in flat_entry.items() if k in _NUTRITION_FIELDS}
+    pricing = {k: v for k, v in flat_entry.items() if k in _PRICING_FIELDS}
+    user_defined = {k: v for k, v in flat_entry.items() if k in _USER_DEFINED_FIELDS}
+    other = {k: v for k, v in flat_entry.items()
+             if k not in _NUTRITION_FIELDS | _PRICING_FIELDS | _USER_DEFINED_FIELDS}
+    structured: dict[str, Any] = {}
+    structured.update(other)
+    if nutrition:
+        structured["nutrition"] = nutrition
+    if pricing:
+        structured["pricing"] = pricing
+    if user_defined:
+        structured["user_defined"] = user_defined
+    return structured
+
+
 def _save(catalog: dict[str, dict[str, Any]], catalog_path: Path) -> None:
-    """Write the catalog back to disk, sorted by ingredient name."""
+    """Write the catalog back to disk in nested section format, sorted by name."""
     catalog_path.parent.mkdir(parents=True, exist_ok=True)
     sorted_catalog = dict(sorted(catalog.items(), key=lambda x: x[0].lower()))
+    structured_catalog = {name: _structure(entry) for name, entry in sorted_catalog.items()}
     with open(catalog_path, "w", encoding="utf-8") as f:
-        yaml.dump(sorted_catalog, f, default_flow_style=False, allow_unicode=True)
+        yaml.dump(structured_catalog, f, default_flow_style=False, allow_unicode=True)
 
 
 def _to_row(name: str, data: dict[str, Any]) -> dict[str, Any]:
