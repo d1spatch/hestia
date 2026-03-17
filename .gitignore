@@ -9,6 +9,7 @@ __pycache__/
 # Generated output — not source
 site/
 output/
+_site/
 
 # Old SQLite DB (replaced by YAML)
 data/ingredients.db

@@ -5,11 +5,11 @@
 {% block content %}
 <h1>Ingredient Catalog</h1>
 
-<form class="search-bar" method="get" action="/ingredients">
-  <input name="q" value="{{ q }}" placeholder="Search ingredients…">
+<form class="search-bar" method="get" action="{{ base }}ingredients/"{% if static %} onsubmit="return false"{% endif %}>
+  <input id="ing-q" name="q" value="{{ q }}" placeholder="Search ingredients…">
   <button type="submit">Search</button>
   {% if q %}
-    <a class="clear-link" href="/ingredients">Clear</a>
+    <a class="clear-link" href="{{ base }}ingredients/">Clear</a>
   {% endif %}
 </form>
 
@@ -30,9 +30,9 @@
   </thead>
   <tbody>
     {% for ing in ingredients %}
-    <tr>
+    <tr class="ing-row" data-name="{{ ing.name | lower }}">
       <td class="name-cell">
-        <a href="/ingredient/{{ ing.name | url_encode }}" class="ing-link">{{ ing.name }}</a>
+        <a href="{{ base }}ingredient/{{ ing.name | url_encode }}/" class="ing-link">{{ ing.name }}</a>
       </td>
       <td class="cat">{{ ing.category or '—' }}</td>
       <td class="r num">
@@ -54,6 +54,21 @@
     {% endfor %}
   </tbody>
 </table>
+{% endif %}
+
+{% if static %}
+<script>
+(function() {
+  var input = document.getElementById('ing-q');
+  function filter() {
+    var q = input.value.toLowerCase().trim();
+    document.querySelectorAll('.ing-row').forEach(function(row) {
+      row.style.display = (!q || row.dataset.name.includes(q)) ? '' : 'none';
+    });
+  }
+  input.addEventListener('input', filter);
+})();
+</script>
 {% endif %}
 
 <style>

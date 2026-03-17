@@ -62,6 +62,7 @@ def render_html_str(
     recipe: Recipe,
     nutrition: dict[str, Any],
     show_nav: bool = False,
+    base: str = "/",
 ) -> str:
     """Render a recipe to an HTML string without writing to disk.
 
@@ -69,13 +70,14 @@ def render_html_str(
         recipe: A validated `Recipe` instance.
         nutrition: Nutrition/cost dict from `recipe.compute_nutrition`.
         show_nav: If True, includes the web navigation bar.
+        base: Base URL prefix for all internal links (e.g. "/" or "/hestia/").
 
     Returns:
         The rendered HTML as a string.
     """
     env = _env(escape_latex=False)
     template = env.get_template("recipe.html.j2")
-    return template.render(recipe=recipe, nutrition=nutrition, show_nav=show_nav, debug=DEBUG_NUTRITION)
+    return template.render(recipe=recipe, nutrition=nutrition, show_nav=show_nav, debug=DEBUG_NUTRITION, base=base)
 
 
 def render_html(

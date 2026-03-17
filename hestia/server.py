@@ -40,6 +40,7 @@ def _web_env() -> Environment:
 
     env.filters["url_encode"] = quote_plus
     env.filters["tojson"] = _tojson
+    env.globals["base"] = "/"
     return env
 
 
@@ -111,7 +112,7 @@ def _handle_recipe(slug: str):
     _, recipe = match
     catalog = _build_catalog_for(recipe)
     nutrition = compute_nutrition(recipe, catalog)
-    html = render_html_str(recipe, nutrition, show_nav=True)
+    html = render_html_str(recipe, nutrition, show_nav=True, base="/")
     return _html_response(html)
 
 

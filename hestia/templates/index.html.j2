@@ -5,23 +5,36 @@
 {% block content %}
 <h1>All Recipes</h1>
 
-<form class="search-bar" method="get" action="/">
-  <input name="q"          value="{{ q }}"          placeholder="Search by name…">
-  <input name="tag"        value="{{ tag }}"         placeholder="Filter by tag…">
-  <input name="ingredient" value="{{ ingredient }}"  placeholder="Must contain ingredient…">
+<form class="search-bar" method="get" action="{{ base }}"{% if static %} onsubmit="return false"{% endif %}>
+  <input id="q-input"   name="q"          value="{{ q }}"          placeholder="Search by name…">
+  <input id="tag-input" name="tag"        value="{{ tag }}"         placeholder="Filter by tag…">
+  <input id="ing-input" name="ingredient" value="{{ ingredient }}"  placeholder="Must contain ingredient…">
   <button type="submit">Search</button>
   {% if q or tag or ingredient %}
-    <a class="clear-link" href="/">Clear</a>
+    <a class="clear-link" href="{{ base }}">Clear</a>
   {% endif %}
 </form>
 
 {% if not recipes %}
-  <p class="no-results">No recipes match your search.</p>
+  <p class="no-results" id="no-results">No recipes match your search.</p>
 {% else %}
-  <div style="display:grid; gap:0.9rem">
+  <p class="no-results" id="no-results" style="display:none">No recipes match your search.</p>
+  <div style="display:grid; gap:0.9rem" id="recipe-grid">
     {% for path, recipe in recipes %}
-    <div style="background:#fff8ef; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
-      <a href="/recipe/{{ recipe.slug }}"
+    {% set ing_names = [] %}
+    {% for item in recipe.ingredients %}
+      {% if item.items is defined %}
+        {% for ing in item.items %}{% set _ = ing_names.append(ing.name) %}{% endfor %}
+      {% else %}
+        {% set _ = ing_names.append(item.name) %}
+      {% endif %}
+    {% endfor %}
+    <div class="recipe-card"
+         data-name="{{ recipe.name | lower }}"
+         data-tags="{{ recipe.tags | join(',') | lower }}"
+         data-ingredients="{{ ing_names | join(',') | lower }}"
+         style="background:#fff8ef; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
+      <a href="{{ base }}recipe/{{ recipe.slug }}/"
          style="font-size:1.2rem; color:var(--accent); font-weight:bold; text-decoration:none">
         {{ recipe.name }}
       </a>
@@ -36,18 +49,42 @@
         {% endif %}
       </div>
       <div style="font-size:0.82rem; color:#a07860; margin-top:0.25rem">
-        {% set ing_names = [] %}
-        {% for item in recipe.ingredients %}
-          {% if item.items is defined %}
-            {% for ing in item.items %}{% set _ = ing_names.append(ing.name) %}{% endfor %}
-          {% else %}
-            {% set _ = ing_names.append(item.name) %}
-          {% endif %}
-        {% endfor %}
         {{ ing_names | join(', ') }}
       </div>
     </div>
     {% endfor %}
   </div>
+{% endif %}
+
+{% if static %}
+<script>
+(function() {
+  var qInput   = document.getElementById('q-input');
+  var tagInput = document.getElementById('tag-input');
+  var ingInput = document.getElementById('ing-input');
+  var noRes    = document.getElementById('no-results');
+
+  function filter() {
+    var q   = qInput.value.toLowerCase().trim();
+    var tag = tagInput.value.toLowerCase().trim();
+    var ing = ingInput.value.toLowerCase().trim();
+    var cards = document.querySelectorAll('.recipe-card');
+    var shown = 0;
+    cards.forEach(function(card) {
+      var match =
+        (!q   || card.dataset.name.includes(q)) &&
+        (!tag || card.dataset.tags.split(',').some(function(t) { return t.trim().includes(tag); })) &&
+        (!ing || card.dataset.ingredients.split(',').some(function(i) { return i.trim().includes(ing); }));
+      card.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    noRes.style.display = shown === 0 ? '' : 'none';
+  }
+
+  [qInput, tagInput, ingInput].forEach(function(el) {
+    el.addEventListener('input', filter);
+  });
+})();
+</script>
 {% endif %}
 {% endblock %}

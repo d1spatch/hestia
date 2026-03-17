@@ -962,3 +962,16 @@ def serve(
 ):
     """Start the Hestia web interface (recipe browser + ingredient catalog)."""
     _run_server(host=host, port=port, open_browser=not no_browser)
+
+
+@app.command("build")
+def build_site(
+    output: Annotated[Path, typer.Option("--output", "-o", help="Output directory.")] = Path("_site"),
+    base_url: Annotated[str, typer.Option("--base-url", help="Base URL path (e.g. /hestia/ for GitHub Pages).")] = "/",
+):
+    """Build a static site for deployment to GitHub Pages or any static host."""
+    from .builder import build as _build
+    rprint(f"[bold]Building static site[/bold] → [cyan]{output}[/cyan]  (base: {base_url})")
+    _build(output, base_url=base_url)
+    pages = sum(1 for _ in output.rglob("*.html"))
+    rprint(f"[green]✓ Done.[/green] {pages} pages written to {output}/")
