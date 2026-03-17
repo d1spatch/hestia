@@ -1,6 +1,6 @@
 # Hestia
 
-A precision cookbook CLI. Store recipes with exact weights, catalog ingredients with prices and macros, and render beautiful output as HTML or PDF (via LaTeX).
+A cost/nutrition oriented cookbook
 
 ## Features
 

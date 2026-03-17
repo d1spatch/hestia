@@ -1,3 +1,4 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -15,5 +16,10 @@ data/ingredients.db
 # Secrets — never commit
 .env
 
-# VS Code (optional — remove this line if you want to track workspace settings)
+# VS Code
 .vscode/
+
+# Test/type tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
