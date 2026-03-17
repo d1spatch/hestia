@@ -9,7 +9,7 @@ ingredients:
   - name: sweet onion
     amount: 1
     unit: cup
-  - name: sweet corn
+  - name: sweet corn  
     amount: 432
     unit: g
     note: "1 can of sweet corn, keeping the liquid"
@@ -17,14 +17,31 @@ ingredients:
     amount: 15
     unit: g
     note: "3 cloves, minced"
+  - name: jalapeno
+    amount: 30
+    unit: g
+    note: "any combination of jalapenos, serranos, or other spicy peppers, finely chopped"
   - name: tomato paste
     amount: 170
     unit: g
     note: "1 can of tomato paste (6oz)"
   - name: chicken broth
-    amount: 1.2
-    unit: l
-    note: "I use better than bouillon"
+    amount: 32
+    unit: oz
+    note: "About one costco carton of chicken broth or eqiuivalent better than bullion"
   - name: salt
     amount: 2
     unit: tsp
+    note: "If using a carton of chicken stock, you may want to reduce the salt to 1 tsp or less, depending on how salty your stock is."
+
+instructions:
+  - Rinse the rice in a fine mesh strainer until the water runs clear. Drain well.
+  - They say to toast the rice in oil before cooking, but I skip this step and just add the rice to the pot with the other ingredients.
+  - Add all ingredients to a large pot and stir to combine. Bring to a boil, then reduce to a simmer and cover with a tight fitting lid.
+  - Simmer for 15 minutes, let it steam. DO NOT OPEN THE LID.
+  - Fluff with a fork and serve. Can be stored in the fridge for up to 5 days.
+
+notes: |
+  - Don't open in the middle of cooking! The steam is what cooks the rice, so opening the lid will let the steam escape and can result in undercooked rice.
+  - Put the temperature as low as possible while steaming to prevent burning the bottom.
+  - I like to add some chopped cilantro and a squeeze of lime juice when serving.

@@ -14,6 +14,114 @@ BelVita Breakfast Biscuit:
   saturated_fat_per_100g: 0.0
   sodium_per_100g: 0.44
   sugar_per_100g: 20.0
+bay leaves:
+  calcium_per_100g: 0.0
+  calories_per_100g: 0.0
+  carbs_per_100g: 0.0
+  cholesterol_per_100g: 0.0
+  fat_per_100g: 0.0
+  fiber_per_100g: 50.0
+  iron_per_100g: 0.0
+  protein_per_100g: 0.0
+  saturated_fat_per_100g: 0.0
+  sodium_per_100g: 0.0
+  source:
+    description: BAY LEAVES
+    fdc_id: 451475
+    retrieved: '2026-03-17'
+    type: usda
+  sugar_per_100g: 0.0
+  vitamin_c_per_100g: 0.0
+better than bouillon, beef:
+  calories_per_100g: 250.0
+  carbs_per_100g: 16.67
+  currency: USD
+  fat_per_100g: 8.33
+  g_per_tbsp: 18.0
+  price_history:
+  - date: '2026-03-17'
+    package_price: 10.77
+    price_per_kg: 18.0905
+    store: Costco
+  price_per_kg: 18.0905
+  protein_per_100g: 16.67
+  sodium_per_100g: 11.667
+  source:
+    description: BETTER THAN BOUILLON, ORGANIC BEEF BASE
+    fdc_id: 2020636
+    retrieved: '2026-03-17'
+    type: usda
+better than bouillon, chicken:
+  calories_per_100g: 167.0
+  carbs_per_100g: 33.33
+  currency: USD
+  fat_per_100g: 0.0
+  g_per_tbsp: 18.0
+  price_history:
+  - date: '2026-03-17'
+    package_price: 10.77
+    price_per_kg: 18.0905
+    store: Costco
+  price_per_kg: 18.0905
+  protein_per_100g: 16.67
+  sodium_per_100g: 11.667
+  source:
+    description: ORGANIC ROASTED CHICKEN BASE
+    fdc_id: 2020644
+    retrieved: '2026-03-17'
+    type: usda
+black beans:
+  calcium_per_100g: 191.0
+  currency: USD
+  fat_per_100g: 1.45
+  fiber_per_100g: 4.2
+  iron_per_100g: 5.34
+  magnesium_per_100g: 180.0
+  manganese_per_100g: 2.08
+  potassium_per_100g: 1540.0
+  price_history:
+  - date: '2026-03-17'
+    package_price: 16.19
+    price_per_kg: 1.4277
+    store: Costco
+  price_per_kg: 1.4277
+  protein_per_100g: 24.4
+  source:
+    description: Beans, Dry, Black (0% moisture)
+    fdc_id: 747444
+    retrieved: '2026-03-17'
+    type: usda
+black pepper:
+  calcium_per_100g: 443.0
+  calories_per_100g: 251.0
+  carbs_per_100g: 63.95
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 3.26
+  fiber_per_100g: 25.3
+  g_per_tbsp: 15.0
+  iron_per_100g: 9.71
+  magnesium_per_100g: 171.0
+  manganese_per_100g: 12.753
+  potassium_per_100g: 1329.0
+  price_history:
+  - date: '2026-03-17'
+    package_price: 8.49
+    price_per_kg: 21.2394
+    store: Costco
+  price_per_kg: 21.2394
+  protein_per_100g: 10.39
+  saturated_fat_per_100g: 1.392
+  sodium_per_100g: 0.02
+  source:
+    description: Spices, pepper, black
+    fdc_id: 170931
+    retrieved: '2026-03-17'
+    type: usda
+  sugar_per_100g: 0.64
+  vitamin_c_per_100g: 0.0
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 163.7
 blueberries:
   calcium_per_100g: 11.69
   carbs_per_100g: 14.5718
@@ -89,6 +197,36 @@ butter:
   vitamin_c_per_100g: 0.0
   vitamin_d_per_100g: 0.4
   vitamin_k_per_100g: 7.0
+chicken broth:
+  calcium_per_100g: 187.0
+  calories_per_100g: 267.0
+  carbs_per_100g: 18.01
+  cholesterol_per_100g: 0.013
+  currency: USD
+  fat_per_100g: 13.88
+  fiber_per_100g: 0.0
+  iron_per_100g: 1.03
+  magnesium_per_100g: 56.0
+  manganese_per_100g: 0.15
+  potassium_per_100g: 309.0
+  price_history:
+  - date: '2026-03-17'
+    package_price: 10.2
+    price_per_kg: 1.8739
+    store: Costco
+  price_per_kg: 1.8739
+  protein_per_100g: 16.66
+  saturated_fat_per_100g: 3.43
+  sodium_per_100g: 23.875
+  source:
+    description: Soup, chicken broth or bouillon, dry
+    fdc_id: 171562
+    retrieved: '2026-03-17'
+    type: usda
+  sugar_per_100g: 17.36
+  vitamin_c_per_100g: 1.1
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 0.0
 cream cheese:
   calcium_per_100g: 97.11
   carbs_per_100g: 4.5561
@@ -259,10 +397,27 @@ heavy cream:
   vitamin_c_per_100g: 0.6
   vitamin_d_per_100g: 1.6
   vitamin_k_per_100g: 3.2
+jalapeno:
+  calcium_per_100g: 10.1
+  carbs_per_100g: 5.0757
+  fat_per_100g: 0.1488
+  fiber_per_100g: 1.725
+  iron_per_100g: 0.0376
+  magnesium_per_100g: 8.946
+  manganese_per_100g: 0.0774
+  potassium_per_100g: 166.9
+  protein_per_100g: 0.6211
+  sodium_per_100g: 0.0
+  source:
+    description: Peppers, jalapeno, seeded, raw
+    fdc_id: 2747661
+    retrieved: '2026-03-17'
+    type: usda
+  vitamin_c_per_100g: 89.94
 long grain white rice:
   calcium_per_100g: 4.46
-  carbs_per_100g: 80.3131
   calories_per_100g: 365.0
+  carbs_per_100g: 80.3131
   currency: USD
   fat_per_100g: 1.033
   fiber_per_100g: 0.1488
@@ -398,8 +553,8 @@ sugar:
     type: usda
 sweet corn:
   calcium_per_100g: 0.6563
-  carbs_per_100g: 14.6896
   calories_per_100g: 85.0
+  carbs_per_100g: 14.6896
   currency: USD
   fat_per_100g: 1.626
   fiber_per_100g: 2.428
@@ -452,8 +607,8 @@ sweet onion:
   vitamin_k_per_100g: 0.3
 tomato paste:
   calcium_per_100g: 36.85
+  calories_per_100g: 104.0
   carbs_per_100g: 20.1881
-  calories_per_100g: 104
   currency: USD
   fat_per_100g: 0.7325
   fiber_per_100g: 4.704

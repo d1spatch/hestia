@@ -1,0 +1,43 @@
+name: Black Beans
+serves: 20
+tags: [side dish, beans, not_fodmap]
+
+ingredients:
+  - name: black beans
+    amount: 2
+    unit: lb
+  - name: water
+    amount: 2
+    unit: lb
+    note: "enough to cover the beans by about 2 inches"
+  - name: salt
+    amount: 1
+    unit: tsp
+  - name: garlic
+    amount: 15
+    unit: g
+    note: "3 cloves, minced"
+  - name: sweet onion
+    amount: 1
+    unit: cup
+    note: "about one medium onion, diced"
+  - name: better than bouillon, chicken
+    amount: 2
+    unit: tbsp
+  - name: black pepper
+    amount: 2
+    unit: tsp
+  - name: bay leaves
+    amount: 2
+    unit: leaves
+    
+instructions:
+  - Rinse the beans in a fine mesh strainer and pick out any debris.
+  - Put beans, garlic, onion, salt, pepper, and bay leaves in a pressure cooker and cover with water.
+  - Place in pressure cooker and cook for 1 hour and 30 minutes.
+  - Release the pressure then simmer the water until it becomes thick.
+  - Add more spices like cumin, cajun seasoning, or chili powder if desired.
+
+notes: |
+  - You don't need to soak the beans, the softness of the beans comes from how young it is and will soften the longer it is simmered in hot water.
+  - I'm still working on the weird smell. Bay leaves definitely help.

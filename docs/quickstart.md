@@ -18,21 +18,27 @@ This installs all dependencies and makes the `hestia` command available in your 
 
 ## Step 1 — Add ingredients to the catalog
 
-Ingredients are stored in a central SQLite database. Add them one by one with flags, or interactively:
+Ingredients are stored in `data/ingredients.yaml` — a plain human-editable file. Add them with flags or interactively:
 
 ```bash
 # With flags (scriptable)
 hestia ingredient add \
   --name "bread flour" \
-  --price 1.20 \
-  --calories 364 \
-  --protein 12.0 \
-  --carbs 72.0 \
-  --fat 1.5 \
+  --package-price 5.99 --net-weight 5lb \
+  --serving-size 30 \
+  --calories 110 --protein 4 --carbs 22 --fat 0.5 \
   --category grain
 
-# Interactive mode (omit the flags you want to be prompted for)
+# Interactive mode (omit any flag to be prompted)
 hestia ingredient add
+```
+
+Or import nutritional data directly from the USDA FoodData Central database:
+
+```bash
+hestia ingredient lookup-usda "bread flour"
+hestia ingredient import-usda 169761 --name "bread flour" --category grain
+hestia ingredient update-price "bread flour" -P 5.99 -w 5lb -s "Whole Foods"
 ```
 
 Verify the catalog:
@@ -98,11 +104,21 @@ This copies the file to `data/recipes/`. You can also drop YAML files directly i
 hestia recipe show sourdough_bread
 ```
 
-Hestia displays the recipe with computed calories and estimated cost based on your ingredient catalog.
+Hestia displays the recipe with computed nutrition and estimated cost based on your ingredient catalog.
 
 ---
 
-## Step 5 — Render output
+## Step 5 — Browse in the web UI
+
+```bash
+hestia serve
+```
+
+Opens a local web interface at `http://127.0.0.1:8765` with a recipe browser and ingredient catalog.
+
+---
+
+## Step 6 — Render output
 
 ```bash
 # HTML only
@@ -121,7 +137,7 @@ Output files are written to the `output/` directory.
 
 ## Next steps
 
-- [Recipes guide](guide/recipes.md) — full YAML format reference, units, tags
-- [Ingredients guide](guide/ingredients.md) — bulk import from CSV, updating prices
+- [Recipes guide](guide/recipes.md) — full YAML format reference, units, grouped ingredients
+- [Ingredients guide](guide/ingredients.md) — USDA import, pricing, bulk CSV import
 - [Rendering guide](guide/rendering.md) — PDF setup, template customisation
 - [CLI Reference](reference/cli.md) — complete command reference
