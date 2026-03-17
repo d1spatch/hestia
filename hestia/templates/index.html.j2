@@ -36,7 +36,15 @@
         {% endif %}
       </div>
       <div style="font-size:0.82rem; color:#a07860; margin-top:0.25rem">
-        {{ recipe.ingredients | map(attribute='name') | join(', ') }}
+        {% set ing_names = [] %}
+        {% for item in recipe.ingredients %}
+          {% if item.items is defined %}
+            {% for ing in item.items %}{% set _ = ing_names.append(ing.name) %}{% endfor %}
+          {% else %}
+            {% set _ = ing_names.append(item.name) %}
+          {% endif %}
+        {% endfor %}
+        {{ ing_names | join(', ') }}
       </div>
     </div>
     {% endfor %}

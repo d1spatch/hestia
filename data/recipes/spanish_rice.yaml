@@ -1,0 +1,30 @@
+name: Spanish Rice
+serves: 20
+tags: [side dish, rice]
+
+ingredients:
+  - name: long grain white rice
+    amount: 2
+    unit: lb
+  - name: sweet onion
+    amount: 1
+    unit: cup
+  - name: sweet corn
+    amount: 432
+    unit: g
+    note: "1 can of sweet corn, keeping the liquid"
+  - name: garlic
+    amount: 15
+    unit: g
+    note: "3 cloves, minced"
+  - name: tomato paste
+    amount: 170
+    unit: g
+    note: "1 can of tomato paste (6oz)"
+  - name: chicken broth
+    amount: 1.2
+    unit: l
+    note: "I use better than bouillon"
+  - name: salt
+    amount: 2
+    unit: tsp

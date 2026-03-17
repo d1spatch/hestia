@@ -1,0 +1,66 @@
+name: Blueberry Cheesecake
+serves: 6 servings
+tags: [dessert, cake]
+
+ingredients:
+  - group: Filling
+    items:
+      - name: cream cheese
+        amount: 300
+        unit: g
+      - name: heavy cream
+        amount: 180
+        unit: g
+      - name: sugar
+        amount: 90
+        unit: g
+      - name: egg
+        amount: 100
+        unit: g
+        note: "Two Large Eggs"
+      - name: vanilla extract
+        amount: 1
+        unit: tsp
+      - name: lemon zest
+        amount: 1
+        unit: tsp
+        optional: true
+  - group: Crust
+    items:
+      - name: BelVita Breakfast Biscuit
+        amount: 350
+        unit: g
+      - name: butter
+        amount: 110
+        unit: g
+  - group: Compote
+    items:
+      - name: blueberries
+        amount: 300
+        unit: g
+      - name: maple syrup
+        amount: 70
+        unit: g
+      - name: vanilla extract
+        amount: 0.5
+        unit: tsp
+      - name: lemon juice
+        amount: 1
+        unit: tbsp
+
+instructions:
+  Crust:
+    - Crush biscuits and mix with melted butter. Press into pan and chill.
+  Filling:
+    - Add all ingredients and mix.
+    - Try not to overmix, as little air as possible.
+    - Preheat oven to 350°F.
+    - Pour into crust and bake until internal temp of 145°F, about 50 minutes.
+  Compote:
+    - Mix all ingredients with half of blueberries and cook over medium heat until thickened, about 10 minutes.
+    - Use immersion blender to break up blueberries, then add remaining blueberries.
+    - Add to cheesecake when serving.
+
+notes: |
+  - I like to use a springform pan for this, but you can also use a regular cake pan and line it with parchment paper.
+  - I'm going to try to add goat cheese next.

@@ -7,12 +7,32 @@ Example entry::
 
     bread flour:
       category: grain
-      price_per_kg: 1.20
-      currency: USD
+      # Nutrition (per 100g)
       calories_per_100g: 364.0
       protein_per_100g: 12.0
       carbs_per_100g: 72.0
       fat_per_100g: 1.5
+      fiber_per_100g: 2.7
+      sugar_per_100g: 0.3
+      sodium_per_100g: 0.002        # grams (2 mg)
+      saturated_fat_per_100g: 0.2
+      cholesterol_per_100g: 0.0
+      # Pricing
+      currency: USD
+      price_per_kg: 1.20            # always mirrors the most recent price_history entry
+      price_history:
+        - date: 2026-01-01
+          price: 1.15
+          store: Costco
+        - date: 2026-03-14
+          price: 1.20
+          store: Whole Foods
+      # Source
+      source:
+        type: usda                  # usda | brand | manual | estimated
+        fdc_id: 169761
+        description: "Flour, wheat, bread"
+        retrieved: 2026-03-14
       aliases: [plain flour, all-purpose flour]
       notes: Strong white flour, ~12% protein
 """
@@ -202,8 +222,12 @@ def import_csv(
             if not row.get("name"):
                 skipped += 1
                 continue
-            for float_col in ("price_per_kg", "calories_per_100g", "protein_per_100g",
-                               "carbs_per_100g", "fat_per_100g"):
+            for float_col in (
+                "price_per_kg", "calories_per_100g", "protein_per_100g",
+                "carbs_per_100g", "fat_per_100g", "fiber_per_100g",
+                "sugar_per_100g", "sodium_per_100g", "saturated_fat_per_100g",
+                "cholesterol_per_100g",
+            ):
                 if float_col in row:
                     try:
                         row[float_col] = float(row[float_col])
@@ -215,3 +239,60 @@ def import_csv(
             except ValueError:
                 skipped += 1
     return inserted, skipped
+
+
+def record_price(
+    name: str,
+    price: float,
+    currency: str = "USD",
+    store: str | None = None,
+    record_date: str | None = None,
+    package_price: float | None = None,
+    net_weight: str | None = None,
+    catalog_path: Path = _DEFAULT_CATALOG,
+) -> None:
+    """Append a price observation to an ingredient's price_history and update price_per_kg.
+
+    Args:
+        name: Exact ingredient name (case-insensitive fallback).
+        price: Price per kg (used for nutrition/cost math).
+        currency: Currency code (default ``USD``).
+        store: Optional store/retailer name.
+        record_date: ISO date string (``YYYY-MM-DD``). Defaults to today.
+        package_price: What you paid for the package (stored for reference).
+        net_weight: Package net weight string, e.g. ``"32oz"`` (stored for reference).
+        catalog_path: Path to ``ingredients.yaml``.
+
+    Raises:
+        ValueError: If the ingredient is not found.
+    """
+    from datetime import date as _date
+
+    catalog = _load(catalog_path)
+
+    # Exact match first, then case-insensitive fallback
+    if name not in catalog:
+        for key in catalog:
+            if key.lower() == name.lower():
+                name = key
+                break
+        else:
+            raise ValueError(f"Ingredient '{name}' not found.")
+
+    entry = catalog[name]
+    observation: dict[str, Any] = {
+        "date": record_date or _date.today().isoformat(),
+        "price_per_kg": price,
+    }
+    if package_price is not None:
+        observation["package_price"] = package_price
+    if net_weight is not None:
+        observation["net_weight"] = net_weight
+    if store:
+        observation["store"] = store
+
+    entry.setdefault("price_history", [])
+    entry["price_history"].append(observation)
+    entry["price_per_kg"] = price
+    entry["currency"] = currency
+    _save(catalog, catalog_path)

@@ -1,62 +1,525 @@
-bread flour:
-  category: grain
-  price_per_kg: 1.20
-  currency: USD
-  calories_per_100g: 364.0
-  protein_per_100g: 12.0
+BelVita Breakfast Biscuit:
+  calories_per_100g: 460.0
   carbs_per_100g: 72.0
-  fat_per_100g: 1.5
-
-salt:
-  category: seasoning
-  price_per_kg: 0.50
+  cholesterol_per_100g: 0.0
   currency: USD
-  calories_per_100g: 0.0
-
-sourdough starter:
-  category: fermented
-  price_per_kg: 0.10
+  fat_per_100g: 16.0
+  fiber_per_100g: 4.0
+  price_history:
+  - date: '2026-03-14'
+    package_price: 11.79
+    price_per_kg: 7.8765
+  price_per_kg: 7.8765
+  protein_per_100g: 6.0
+  saturated_fat_per_100g: 0.0
+  sodium_per_100g: 0.44
+  sugar_per_100g: 20.0
+blueberries:
+  calcium_per_100g: 11.69
+  carbs_per_100g: 14.5718
   currency: USD
-  calories_per_100g: 60.0
-
-water:
-  category: liquid
-  price_per_kg: 0.0
+  fat_per_100g: 0.3063
+  iron_per_100g: 0.3398
+  magnesium_per_100g: 6.179
+  manganese_per_100g: 0.4228
+  potassium_per_100g: 85.64
+  price_history:
+  - date: '2026-03-16'
+    package_price: 14.18
+    price_per_kg: 27.7881
+    store: Costco
+  price_per_kg: 27.7881
+  protein_per_100g: 0.7031
+  sodium_per_100g: 0.0
+  source:
+    description: Blueberries, raw
+    fdc_id: 2346411
+    retrieved: '2026-03-16'
+    type: usda
+  vitamin_c_per_100g: 8.059
+bread flour:
+  calcium_per_100g: 19.0
+  calories_per_100g: 363.0
+  carbs_per_100g: 72.8
   currency: USD
-  calories_per_100g: 0.0
-
-sugar:
-  category: sweetener
-  price_per_kg: 1.874
+  fat_per_100g: 1.65
+  iron_per_100g: 5.55
+  magnesium_per_100g: 35.9
+  manganese_per_100g: 0.751
+  potassium_per_100g: 127.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 7.49
+    price_per_kg: 3.3025
+    store: Ralphs
+  price_per_kg: 3.3025
+  protein_per_100g: 14.3
+  sodium_per_100g: 0.003
+  source:
+    description: Flour, bread, white, enriched, unbleached
+    fdc_id: 790146
+    retrieved: '2026-03-14'
+    type: usda
+butter:
+  calcium_per_100g: 21.0
+  calories_per_100g: 743.0
+  carbs_per_100g: 0.06
+  cholesterol_per_100g: 0.235
   currency: USD
-  calories_per_100g: 387.0
-
-soy sauce:
-  category: seasoning
-  price_per_kg: 7.067
+  fat_per_100g: 82.2
+  fiber_per_100g: 0.0
+  iron_per_100g: 0.06
+  magnesium_per_100g: 2.0
+  potassium_per_100g: 23.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 13.19
+    price_per_kg: 14.5395
+    store: Costco
+  price_per_kg: 14.5395
+  protein_per_100g: 0.85
+  saturated_fat_per_100g: 45.6
+  sodium_per_100g: 0.524
+  source:
+    description: Butter, stick
+    fdc_id: 2710155
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 0.58
+  vitamin_c_per_100g: 0.0
+  vitamin_d_per_100g: 0.4
+  vitamin_k_per_100g: 7.0
+cream cheese:
+  calcium_per_100g: 97.11
+  carbs_per_100g: 4.5561
+  cholesterol_per_100g: 0.101
   currency: USD
-  calories_per_100g: 53.0
-
-white vinegar:
-  category: seasoning
-  price_per_kg: 0.80
-  currency: USD
-  calories_per_100g: 18.0
-
-sesame oil:
-  category: oil
-  price_per_kg: 10.0
-  currency: USD
-  calories_per_100g: 884.0
-
-cucumber:
-  category: vegetable
-  price_per_kg: 1.50
-  currency: USD
-  calories_per_100g: 16.0
-
+  fat_per_100g: 33.49
+  iron_per_100g: 0.0
+  magnesium_per_100g: 8.914
+  manganese_per_100g: 0.0
+  potassium_per_100g: 124.8
+  price_history:
+  - date: '2026-03-16'
+    package_price: 12.47
+    price_per_kg: 9.1639
+    store: Costco
+  price_per_kg: 9.1639
+  protein_per_100g: 5.7899
+  saturated_fat_per_100g: 19.73
+  sodium_per_100g: 0.3678
+  source:
+    description: Cream cheese, full fat, block
+    fdc_id: 2346385
+    retrieved: '2026-03-16'
+    type: usda
+  vitamin_k_per_100g: 2.4
 crushed red pepper flakes:
+  calcium_per_100g: 134.0
+  calories_per_100g: 314.0
+  carbs_per_100g: 68.7
   category: seasoning
-  price_per_kg: 15.0
   currency: USD
-  calories_per_100g: 282.0
+  fat_per_100g: 3.0
+  fiber_per_100g: 21.3
+  g_per_tbsp: 5.5
+  iron_per_100g: 10.4
+  potassium_per_100g: 3170.0
+  price_per_kg: 16.8962
+  protein_per_100g: 17.9
+  sugar_per_100g: 40.8
+  vitamin_c_per_100g: 1900.0
+  vitamin_k_per_100g: 114.0
+cucumber:
+  calcium_per_100g: 16.34
+  calories_per_100g: 15.0
+  carbs_per_100g: 3.67
+  category: vegetable
+  currency: USD
+  fat_per_100g: 0.1
+  fiber_per_100g: 0.5
+  iron_per_100g: 0.25
+  magnesium_per_100g: 10.1
+  manganese_per_100g: 0.085
+  potassium_per_100g: 170.0
+  price_history:
+  - date: '2025-03-14'
+    package_price: 1.99
+    price_per_kg: 6.6333
+    store: Ralphs
+  - date: '2026-03-14'
+    package_price: 1.99
+    price_per_kg: 6.6333
+    store: Ralphs
+  price_per_kg: 6.6333
+  protein_per_100g: 0.67
+  source:
+    description: Cucumber, with peel, raw
+    fdc_id: 2346406
+    retrieved: '2026-03-14'
+    type: usda
+  vitamin_k_per_100g: 24.0
+egg:
+  calcium_per_100g: 48.0
+  calories_per_100g: 147.0
+  carbs_per_100g: 0.96
+  category: dairy
+  cholesterol_per_100g: 0.411
+  currency: USD
+  fat_per_100g: 9.96
+  iron_per_100g: 1.67
+  magnesium_per_100g: 11.4
+  manganese_per_100g: 0.05
+  potassium_per_100g: 132.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 8.61
+    price_per_kg: 7.175
+  price_per_kg: 7.175
+  protein_per_100g: 12.4
+  sodium_per_100g: 0.129
+garlic:
+  calcium_per_100g: 181.0
+  calories_per_100g: 143.0
+  carbs_per_100g: 28.2
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 0.38
+  fiber_per_100g: 2.7
+  iron_per_100g: 1.7
+  magnesium_per_100g: 25.0
+  potassium_per_100g: 401.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 14.09
+    price_per_kg: 10.3544
+    store: Costco
+  price_per_kg: 10.3544
+  protein_per_100g: 6.62
+  saturated_fat_per_100g: 0.089
+  sodium_per_100g: 0.017
+  source:
+    description: Garlic, raw
+    fdc_id: 2709786
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 1.0
+  vitamin_c_per_100g: 10.0
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 1.7
+goat cheese (costco):
+  calcium_per_100g: 46.6667
+  calories_per_100g: 266.67
+  carbs_per_100g: 3.33
+  category: cheese
+  cholesterol_per_100g: 0.0667
+  currency: USD
+  fat_per_100g: 20.0
+  fiber_per_100g: 0.0
+  iron_per_100g: 0.0
+  potassium_per_100g: 80.0
+  price_history:
+  - date: '2026-03-14'
+    net_weight: 600g
+    package_price: 8.29
+    price_per_kg: 13.8167
+    store: Costco
+  price_per_kg: 13.8167
+  protein_per_100g: 16.67
+  saturated_fat_per_100g: 13.33
+  sodium_per_100g: 0.3333
+  sugar_per_100g: 0.0
+  vitamin_d_per_100g: 0.0
+heavy cream:
+  calcium_per_100g: 61.0
+  calories_per_100g: 343.0
+  carbs_per_100g: 3.8
+  cholesterol_per_100g: 0.103
+  currency: USD
+  fat_per_100g: 35.6
+  fiber_per_100g: 0.0
+  iron_per_100g: 0.0
+  magnesium_per_100g: 6.0
+  potassium_per_100g: 97.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 4.99
+    price_per_kg: 10.3958
+    store: Trader Joes
+  price_per_kg: 10.3958
+  protein_per_100g: 2.02
+  saturated_fat_per_100g: 20.4
+  sodium_per_100g: 0.021
+  source:
+    description: Cream, heavy
+    fdc_id: 2705597
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 2.92
+  vitamin_c_per_100g: 0.6
+  vitamin_d_per_100g: 1.6
+  vitamin_k_per_100g: 3.2
+long grain white rice:
+  calcium_per_100g: 4.46
+  carbs_per_100g: 80.3131
+  calories_per_100g: 365.0
+  currency: USD
+  fat_per_100g: 1.033
+  fiber_per_100g: 0.1488
+  iron_per_100g: 0.1405
+  magnesium_per_100g: 26.53
+  manganese_per_100g: 0.9811
+  potassium_per_100g: 82.26
+  price_history:
+  - date: '2026-03-16'
+    package_price: 1.99
+    price_per_kg: 2.1936
+    store: Ralphs
+  price_per_kg: 2.1936
+  protein_per_100g: 7.0389
+  sodium_per_100g: 0.0005
+  source:
+    description: Rice, white, long grain, unenriched, raw
+    fdc_id: 2512381
+    retrieved: '2026-03-16'
+    type: usda
+maple syrup:
+  calcium_per_100g: 102.0
+  calories_per_100g: 260.0
+  carbs_per_100g: 67.04
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 0.06
+  fiber_per_100g: 0.0
+  iron_per_100g: 0.11
+  magnesium_per_100g: 21.0
+  manganese_per_100g: 2.908
+  potassium_per_100g: 212.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 14.29
+    price_per_kg: 14.9132
+    store: Costco
+  price_per_kg: 14.9132
+  protein_per_100g: 0.04
+  saturated_fat_per_100g: 0.007
+  sodium_per_100g: 0.012
+  source:
+    description: Syrups, maple
+    fdc_id: 169661
+    retrieved: '2026-03-16'
+    type: usda
+  sugar_per_100g: 60.46
+  vitamin_c_per_100g: 0.0
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 0.0
+salt:
+  calories_per_100g: 0.0
+  category: seasoning
+  currency: USD
+  g_per_tbsp: 18.0
+  price_per_kg: 2.27
+  sodium_per_100g: 100
+sesame oil:
+  calories_per_100g: 884.0
+  category: oil
+  currency: USD
+  g_per_tbsp: 13.6
+  price_history:
+  - date: '2026-03-14'
+    package_price: 27.99
+    price_per_kg: 153.7912
+    store: H-Mart
+  price_per_kg: 153.7912
+sourdough starter:
+  calories_per_100g: 60.0
+  category: fermented
+  currency: USD
+  price_per_kg: 0.1
+soy sauce:
+  calcium_per_100g: 33.0
+  calories_per_100g: 53.0
+  carbs_per_100g: 4.93
+  category: seasoning
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 0.57
+  fiber_per_100g: 0.8
+  g_per_tbsp: 16.0
+  iron_per_100g: 1.45
+  magnesium_per_100g: 74.0
+  potassium_per_100g: 435.0
+  price_history:
+  - date: '2026-03-14'
+    package_price: 6.99
+    price_per_kg: 8.1279
+    store: H-Mart
+  price_per_kg: 8.1279
+  protein_per_100g: 8.14
+  saturated_fat_per_100g: 0.073
+  sodium_per_100g: 3.6
+  source:
+    description: Soy sauce
+    fdc_id: 2707442
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 0.4
+  vitamin_c_per_100g: 0.0
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 0.0
+sugar:
+  calcium_per_100g: 1.0
+  calories_per_100g: 385.0
+  carbs_per_100g: 99.6
+  category: sweetener
+  currency: USD
+  fat_per_100g: 0.32
+  g_per_tbsp: 12.5
+  iron_per_100g: 0.05
+  magnesium_per_100g: 0.3
+  manganese_per_100g: 0.004
+  potassium_per_100g: 2.0
+  price_history:
+  - date: '2026-03-14'
+    package_price: 5.49
+    price_per_kg: 3.0258
+    store: Ralphs
+  - date: '2026-03-16'
+    package_price: 4.27
+    price_per_kg: 2.3534
+    store: Walmart
+  price_per_kg: 2.3534
+  protein_per_100g: 0.0
+  sodium_per_100g: 0.001
+  source:
+    description: Sugars, granulated
+    fdc_id: 746784
+    retrieved: '2026-03-14'
+    type: usda
+sweet corn:
+  calcium_per_100g: 0.6563
+  carbs_per_100g: 14.6896
+  calories_per_100g: 85.0
+  currency: USD
+  fat_per_100g: 1.626
+  fiber_per_100g: 2.428
+  iron_per_100g: 0.3875
+  magnesium_per_100g: 25.76
+  manganese_per_100g: 0.1898
+  potassium_per_100g: 237.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 13.95
+    price_per_kg: 1.6146
+    store: Costco
+  price_per_kg: 1.6146
+  protein_per_100g: 2.7894
+  sodium_per_100g: 0.0
+  source:
+    description: Corn, sweet, yellow and white kernels,  fresh, raw
+    fdc_id: 2710826
+    retrieved: '2026-03-16'
+    type: usda
+sweet onion:
+  calcium_per_100g: 20.0
+  calories_per_100g: 32.0
+  carbs_per_100g: 7.55
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 0.08
+  fiber_per_100g: 0.9
+  g_per_tbsp: 10.0
+  iron_per_100g: 0.26
+  magnesium_per_100g: 9.0
+  manganese_per_100g: 0.076
+  potassium_per_100g: 119.0
+  price_history:
+  - date: '2026-03-16'
+    package_price: 0.8
+    price_per_kg: 4.5714
+    store: Trader Joes
+  price_per_kg: 4.5714
+  protein_per_100g: 0.8
+  sodium_per_100g: 0.008
+  source:
+    description: Onions, sweet, raw
+    fdc_id: 170008
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 5.02
+  vitamin_c_per_100g: 4.8
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 0.3
+tomato paste:
+  calcium_per_100g: 36.85
+  carbs_per_100g: 20.1881
+  calories_per_100g: 104
+  currency: USD
+  fat_per_100g: 0.7325
+  fiber_per_100g: 4.704
+  iron_per_100g: 3.185
+  magnesium_per_100g: 49.61
+  manganese_per_100g: 0.3315
+  potassium_per_100g: 971.6
+  price_history:
+  - date: '2026-03-16'
+    package_price: 11.34
+    price_per_kg: 5.5588
+    store: Costco
+  price_per_kg: 5.5588
+  protein_per_100g: 4.2344
+  sodium_per_100g: 0.0611
+  source:
+    description: Tomato, paste, canned, without salt added
+    fdc_id: 2685580
+    retrieved: '2026-03-16'
+    type: usda
+  vitamin_c_per_100g: 18.4
+vinegar:
+  calcium_per_100g: 7.0
+  calories_per_100g: 21.0
+  carbs_per_100g: 0.93
+  category: seasoning
+  cholesterol_per_100g: 0.0
+  currency: USD
+  fat_per_100g: 0.0
+  fiber_per_100g: 0.0
+  g_per_tbsp: 15.0
+  iron_per_100g: 0.2
+  magnesium_per_100g: 5.0
+  potassium_per_100g: 73.0
+  price_history:
+  - date: '2026-03-14'
+    package_price: 3.99
+    price_per_kg: 3.7753
+    store: Ralphs
+  price_per_kg: 3.7753
+  protein_per_100g: 0.0
+  saturated_fat_per_100g: 0.0
+  sodium_per_100g: 0.005
+  source:
+    description: Vinegar
+    fdc_id: 2709351
+    retrieved: '2026-03-14'
+    type: usda
+  sugar_per_100g: 0.4
+  vitamin_c_per_100g: 0.0
+  vitamin_d_per_100g: 0.0
+  vitamin_k_per_100g: 0.0
+water:
+  calories_per_100g: 0.0
+  category: liquid
+  currency: USD
+  price_per_kg: 0.0
+whole milk:
+  calories_per_100g: 62.5
+  carbs_per_100g: 5.0
+  category: dairy
+  cholesterol_per_100g: 0.0146
+  currency: USD
+  fat_per_100g: 3.33
+  price_per_kg: 1.4503
+  protein_per_100g: 3.33
+  saturated_fat_per_100g: 2.08
+  sodium_per_100g: 0.0437
+  sugar_per_100g: 5.0

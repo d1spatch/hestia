@@ -15,6 +15,9 @@ from .recipe import Recipe
 _TEMPLATES_DIR = Path(__file__).parent / "templates"
 _OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
+# Set to True to show per-ingredient nutrition breakdown on recipe pages.
+DEBUG_NUTRITION = True
+
 
 def _env(escape_latex: bool = False) -> Environment:
     if escape_latex:
@@ -72,7 +75,7 @@ def render_html_str(
     """
     env = _env(escape_latex=False)
     template = env.get_template("recipe.html.j2")
-    return template.render(recipe=recipe, nutrition=nutrition, show_nav=show_nav)
+    return template.render(recipe=recipe, nutrition=nutrition, show_nav=show_nav, debug=DEBUG_NUTRITION)
 
 
 def render_html(

@@ -23,10 +23,24 @@ _TEMPLATES_DIR = Path(__file__).parent / "templates"
 # ---------------------------------------------------------------------------
 
 def _web_env() -> Environment:
-    return Environment(
+    import json
+    from urllib.parse import quote_plus
+    env = Environment(
         loader=FileSystemLoader(str(_TEMPLATES_DIR)),
         autoescape=select_autoescape(["html"]),
     )
+    import datetime
+
+    def _tojson(v):
+        def default(obj):
+            if isinstance(obj, (datetime.date, datetime.datetime)):
+                return obj.isoformat()
+            raise TypeError(f"Not serializable: {type(obj)}")
+        return json.dumps(v, default=default)
+
+    env.filters["url_encode"] = quote_plus
+    env.filters["tojson"] = _tojson
+    return env
 
 
 # ---------------------------------------------------------------------------
@@ -45,7 +59,7 @@ def _get_recipes():
 
 def _build_catalog_for(recipe):
     catalog: dict[str, dict] = {}
-    for ing in recipe.ingredients:
+    for ing in recipe.all_ingredients:
         entry = _catalog.get_ingredient(ing.name, catalog_path=_CATALOG_PATH)
         if entry:
             catalog[ing.name.lower()] = entry
@@ -114,6 +128,17 @@ def _handle_ingredients(query: str):
     return _html_response(html)
 
 
+def _handle_ingredient_detail(name: str):
+    from urllib.parse import unquote_plus
+    decoded_name = unquote_plus(name)
+    item = _catalog.get_ingredient(decoded_name, catalog_path=_CATALOG_PATH)
+    if item is None:
+        return _handle_404()
+    env = _web_env()
+    html = env.get_template("ingredient_detail.html.j2").render(ing=item)
+    return _html_response(html)
+
+
 def _handle_404():
     html = "<html><body><h1>404 Not Found</h1></body></html>"
     return _html_response(html, "404 Not Found")
@@ -134,6 +159,10 @@ def _route(environ):
         return _handle_recipe(parts[1])
     if parts[0] == "ingredients" and len(parts) == 1:
         return _handle_ingredients(query)
+    if parts[0] == "ingredient" and len(parts) >= 2:
+        from urllib.parse import unquote_plus
+        raw = "/".join(parts[1:])
+        return _handle_ingredient_detail(raw)
     if parts[0] == "favicon.ico":
         return "404 Not Found", [], b""
     return _handle_404()
@@ -144,7 +173,14 @@ def _route(environ):
 # ---------------------------------------------------------------------------
 
 def application(environ, start_response):
-    status, headers, body = _route(environ)
+    import traceback
+    try:
+        status, headers, body = _route(environ)
+    except Exception:
+        tb = traceback.format_exc()
+        status = "500 Internal Server Error"
+        headers = [("Content-Type", "text/plain; charset=utf-8")]
+        body = f"500 Internal Server Error\n\n{tb}".encode()
     start_response(status, headers)
     return [body]
 
@@ -163,15 +199,20 @@ class _QuietHandler(WSGIRequestHandler):
 # ---------------------------------------------------------------------------
 
 def run(host: str = "127.0.0.1", port: int = 8765, open_browser: bool = True) -> None:
+    import os
     server = make_server(host, port, application, handler_class=_QuietHandler)
     url = f"http://{host}:{port}"
     if open_browser:
-        threading.Timer(0.5, webbrowser.open, args=[url]).start()
+        t = threading.Timer(0.5, webbrowser.open, args=[url])
+        t.daemon = True
+        t.start()
+    srv = threading.Thread(target=server.serve_forever, daemon=True)
+    srv.start()
     print(f"  Hestia running at {url}")
     print("  Press Ctrl+C to stop.")
     try:
-        server.serve_forever()
+        while srv.is_alive():
+            srv.join(timeout=0.5)
     except KeyboardInterrupt:
         print("\n  Stopped.")
-    finally:
-        server.server_close()
+    os._exit(0)

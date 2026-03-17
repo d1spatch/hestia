@@ -1,0 +1,218 @@
+{% extends "base.html.j2" %}
+
+{% block title %}{{ ing.name }}{% endblock %}
+
+{% block content %}
+<p style="margin-bottom:1rem">
+  <a href="/ingredients" style="color:var(--accent);text-decoration:none;font-size:0.9rem">&larr; All Ingredients</a>
+</p>
+
+<h1>{{ ing.name }}</h1>
+
+{% if ing.category or ing.aliases or ing.notes %}
+<div class="meta-row">
+  {% if ing.category %}<span class="badge">{{ ing.category }}</span>{% endif %}
+  {% if ing.aliases %}
+    <span class="meta-label">Also known as:</span>
+    <span class="meta-val">{{ ing.aliases | join(', ') }}</span>
+  {% endif %}
+  {% if ing.notes %}
+    <span class="meta-label" style="margin-left:1rem">Note:</span>
+    <span class="meta-val">{{ ing.notes }}</span>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="detail-grid">
+
+  <!-- Nutrition Facts -->
+  <section class="card">
+    <h2>Nutrition Facts</h2>
+    <p class="subhead">per 100 g</p>
+    <table class="nf-table">
+      <tbody>
+        <tr class="major"><td>Calories</td>
+          <td>{% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }} kcal{% else %}—{% endif %}</td></tr>
+        <tr><td>Protein</td>
+          <td>{% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }} g{% else %}—{% endif %}</td></tr>
+        <tr><td>Total Fat</td>
+          <td>{% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}—{% endif %}</td></tr>
+        {% if ing.saturated_fat_per_100g is defined and ing.saturated_fat_per_100g is not none %}
+        <tr class="sub"><td>Saturated Fat</td><td>{{ "%.1f"|format(ing.saturated_fat_per_100g) }} g</td></tr>
+        {% endif %}
+        <tr><td>Total Carbohydrate</td>
+          <td>{% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }} g{% else %}—{% endif %}</td></tr>
+        {% if ing.fiber_per_100g is defined and ing.fiber_per_100g is not none %}
+        <tr class="sub"><td>Dietary Fiber</td><td>{{ "%.1f"|format(ing.fiber_per_100g) }} g</td></tr>
+        {% endif %}
+        {% if ing.sugar_per_100g is defined and ing.sugar_per_100g is not none %}
+        <tr class="sub"><td>Total Sugars</td><td>{{ "%.1f"|format(ing.sugar_per_100g) }} g</td></tr>
+        {% endif %}
+        {% if ing.cholesterol_per_100g is defined and ing.cholesterol_per_100g is not none %}
+        <tr><td>Cholesterol</td><td>{{ "%.1f"|format(ing.cholesterol_per_100g * 1000) }} mg</td></tr>
+        {% endif %}
+        {% if ing.sodium_per_100g is defined and ing.sodium_per_100g is not none %}
+        <tr><td>Sodium</td><td>{{ "%.0f"|format(ing.sodium_per_100g * 1000) }} mg</td></tr>
+        {% endif %}
+        {% if ing.potassium_per_100g is defined and ing.potassium_per_100g is not none %}
+        <tr><td>Potassium</td><td>{{ "%.0f"|format(ing.potassium_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.calcium_per_100g is defined and ing.calcium_per_100g is not none %}
+        <tr><td>Calcium</td><td>{{ "%.0f"|format(ing.calcium_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.iron_per_100g is defined and ing.iron_per_100g is not none %}
+        <tr><td>Iron</td><td>{{ "%.2f"|format(ing.iron_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.magnesium_per_100g is defined and ing.magnesium_per_100g is not none %}
+        <tr><td>Magnesium</td><td>{{ "%.0f"|format(ing.magnesium_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.manganese_per_100g is defined and ing.manganese_per_100g is not none %}
+        <tr><td>Manganese</td><td>{{ "%.3f"|format(ing.manganese_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.vitamin_c_per_100g is defined and ing.vitamin_c_per_100g is not none %}
+        <tr><td>Vitamin C</td><td>{{ "%.1f"|format(ing.vitamin_c_per_100g) }} mg</td></tr>
+        {% endif %}
+        {% if ing.vitamin_d_per_100g is defined and ing.vitamin_d_per_100g is not none %}
+        <tr><td>Vitamin D</td><td>{{ "%.1f"|format(ing.vitamin_d_per_100g) }} mcg</td></tr>
+        {% endif %}
+        {% if ing.vitamin_k_per_100g is defined and ing.vitamin_k_per_100g is not none %}
+        <tr><td>Vitamin K</td><td>{{ "%.1f"|format(ing.vitamin_k_per_100g) }} mcg</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    {% if ing.source %}
+    <p class="source-note">
+      Source: {{ ing.source.type | upper }}
+      {% if ing.source.fdc_id %} &middot; FDC ID {{ ing.source.fdc_id }}{% endif %}
+      {% if ing.source.description %} &middot; {{ ing.source.description }}{% endif %}
+      {% if ing.source.retrieved %} &middot; retrieved {{ ing.source.retrieved }}{% endif %}
+    </p>
+    {% endif %}
+  </section>
+
+  <!-- Pricing -->
+  <section class="card">
+    <h2>Pricing</h2>
+    {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}
+    <p class="current-price">
+      {{ "%.2f"|format(ing.price_per_kg) }} <span class="ccy">{{ ing.currency or 'USD' }}</span>
+      <span class="per">/&nbsp;kg</span>
+    </p>
+    {% else %}
+    <p style="color:#7a5c44;font-style:italic">No price recorded.</p>
+    {% endif %}
+
+    {% if ing.price_history and ing.price_history | length > 0 %}
+    <h3 style="margin-top:1.4rem;margin-bottom:0.6rem">Price History</h3>
+    <table class="ph-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Store</th>
+          <th class="r">Package</th>
+          <th class="r">Net Wt</th>
+          <th class="r">Per kg</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for h in ing.price_history | reverse %}
+        <tr>
+          <td>{{ h.date }}</td>
+          <td>{{ h.store or '—' }}</td>
+          <td class="r">{% if h.package_price is defined and h.package_price is not none %}{{ "%.2f"|format(h.package_price) }} {{ ing.currency or 'USD' }}{% else %}—{% endif %}</td>
+          <td class="r">{{ h.net_weight or '—' }}</td>
+          <td class="r">{{ "%.4f"|format(h.price_per_kg) }} {{ ing.currency or 'USD' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if ing.price_history | length > 1 %}
+    <div style="margin-top:1.4rem">
+      <canvas id="priceChart" height="180"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script>
+    (function() {
+      var history = {{ ing.price_history | tojson }};
+      var labels = history.map(function(h) { return h.date; });
+      var prices = history.map(function(h) { return h.price_per_kg; });
+      var stores = history.map(function(h) { return h.store || ''; });
+      new Chart(document.getElementById('priceChart'), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Price / kg',
+            data: prices,
+            borderColor: '#5c4033',
+            backgroundColor: 'rgba(92,64,51,0.1)',
+            pointBackgroundColor: '#5c4033',
+            pointRadius: 5,
+            tension: 0.2,
+            fill: true,
+          }]
+        },
+        options: {
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterBody: function(ctx) {
+                  var i = ctx[0].dataIndex;
+                  return stores[i] ? 'Store: ' + stores[i] : '';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: { callback: function(v) { return '$' + v.toFixed(2); } }
+            }
+          }
+        }
+      });
+    })();
+    </script>
+    {% endif %}
+
+    {% endif %}
+  </section>
+
+</div>
+
+<style>
+.meta-row { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; align-items:center; margin-bottom:1.4rem; font-size:0.9rem; }
+.badge { background:var(--accent); color:#fff; border-radius:3px; padding:2px 10px; font-size:0.8rem; }
+.meta-label { color:#7a5c44; font-style:italic; }
+.meta-val { color:var(--text); }
+
+.detail-grid { display:grid; grid-template-columns: 1fr 1fr; gap:1.4rem; align-items:start; }
+@media(max-width:680px) { .detail-grid { grid-template-columns:1fr; } }
+
+.card { background:#fff8ef; border:1px solid var(--border); border-radius:8px; padding:1.3rem 1.6rem; }
+.card h2 { font-size:1.05rem; color:var(--accent); margin-bottom:0.15rem; border-bottom:1px solid var(--border); padding-bottom:0.3rem; }
+.subhead { font-size:0.78rem; color:#7a5c44; margin-bottom:0.7rem; }
+
+.nf-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.nf-table td { padding:0.28rem 0.2rem; border-bottom:1px solid #e8d8c4; }
+.nf-table td:last-child { text-align:right; font-variant-numeric:tabular-nums; font-weight:bold; }
+.nf-table tr.major td { font-size:1.1rem; font-weight:bold; border-bottom:3px solid var(--border); }
+.nf-table tr.sub td:first-child { padding-left:1.2rem; color:#7a5c44; }
+
+.current-price { font-size:2rem; font-weight:bold; color:var(--accent); line-height:1.2; }
+.current-price .ccy { font-size:1rem; font-weight:normal; color:#7a5c44; }
+.current-price .per { font-size:1rem; font-weight:normal; color:#7a5c44; }
+
+.ph-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.ph-table th { text-align:left; border-bottom:2px solid var(--border); padding:0.3rem 0.4rem; color:var(--accent); font-style:italic; font-size:0.8rem; }
+.ph-table th.r { text-align:right; }
+.ph-table td { padding:0.3rem 0.4rem; border-bottom:1px solid #e8d8c4; }
+.ph-table td.r { text-align:right; font-variant-numeric:tabular-nums; }
+.ph-table tr:first-child td { font-weight:bold; }
+
+.source-note { font-size:0.75rem; color:#a07860; margin-top:1rem; line-height:1.5; }
+</style>
+{% endblock %}

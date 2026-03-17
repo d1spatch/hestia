@@ -72,19 +72,12 @@
     color: #5a4030;
     white-space: pre-line;
   }
-  .nutrition-box {
-    display: inline-grid;
-    grid-template-columns: auto auto auto;
-    gap: 0.5rem 2rem;
-    background: #fff8ef;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem 1.5rem;
-    font-size: 0.9rem;
-  }
-  .nutrition-box .label { color: #7a5c44; }
-  .nutrition-box .value { font-weight: bold; }
   .missing { color: #c0392b; font-size: 0.85rem; margin-top: 0.5rem; }
+  .ing-group { font-size: 1rem; color: #7a5c44; margin: 1.2rem 0 0.4rem; font-style: italic; text-transform: none; letter-spacing: 0; }
+  tr.ing-group-row td { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: bold; padding-top: 1rem; border-bottom: 1px solid var(--border); background: transparent; }
+  td.ing-indent { padding-left: 1rem; }
+  .optional { font-size: 0.75rem; color: #a07860; font-style: italic; margin-left: 0.4rem; }
+  .ing-note { font-style: italic; color: #a07860; font-size: 0.85rem; text-align: left; }
   @media print {
     body { padding: 1.5rem; }
   }
@@ -110,47 +103,196 @@
 </div>
 
 <h2>Ingredients</h2>
+{% set has_groups = recipe.ingredients | selectattr('group', 'defined') | list | length > 0 %}
 <table>
-  <thead>
-    <tr><th>Ingredient</th><th>Amount</th><th>Unit</th></tr>
-  </thead>
+  <thead><tr><th>Ingredient</th><th>Amount</th><th>Unit</th><th></th></tr></thead>
   <tbody>
-    {% for ing in recipe.ingredients %}
-    <tr>
-      <td>{{ ing.name }}</td>
-      <td>{{ ing.amount }}</td>
-      <td>{{ ing.unit }}</td>
-    </tr>
-    {% endfor %}
+    {% if has_groups %}
+      {% for item in recipe.ingredients %}
+        {% if item.group is defined %}
+        <tr class="ing-group-row"><td colspan="4">{{ item.group }}</td></tr>
+        {% for ing in item.items %}
+        <tr><td class="ing-indent">{{ ing.name }}{% if ing.optional %} <span class="optional">optional</span>{% endif %}</td><td>{{ ing.amount }}</td><td>{{ ing.unit }}</td><td class="ing-note">{{ ing.note }}</td></tr>
+        {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {% for ing in recipe.ingredients %}
+      <tr><td>{{ ing.name }}{% if ing.optional %} <span class="optional">optional</span>{% endif %}</td><td>{{ ing.amount }}</td><td>{{ ing.unit }}</td><td class="ing-note">{{ ing.note }}</td></tr>
+      {% endfor %}
+    {% endif %}
   </tbody>
 </table>
 
 <h2>Instructions</h2>
-<ol>
-  {% for step in recipe.instructions %}
-  <li>{{ step }}</li>
-  {% endfor %}
-</ol>
+{% set ns = namespace(n=1) %}
+{% for item in recipe.instructions %}
+  {% if item.section is defined %}
+  <h3 class="ing-group">{{ item.section }}</h3>
+  <ol start="{{ ns.n }}">
+    {% for step in item.steps %}
+    <li>{{ step }}</li>
+    {% set ns.n = ns.n + 1 %}
+    {% endfor %}
+  </ol>
+  {% else %}
+  <ol start="{{ ns.n }}">
+    <li>{{ item }}</li>
+  </ol>
+  {% set ns.n = ns.n + 1 %}
+  {% endif %}
+{% endfor %}
 
 {% if recipe.notes %}
 <h2>Notes</h2>
 <div class="notes">{{ recipe.notes }}</div>
 {% endif %}
 
-<h2>Nutrition &amp; Cost</h2>
-<div class="nutrition-box">
-  <span class="label">Calories</span>
-  <span class="value">{{ nutrition.calories }} kcal</span>
-  <span></span>
+{% set dv = {
+  'calories': 2000, 'fat': 78, 'saturated_fat': 20, 'cholesterol_mg': 300,
+  'sodium_mg': 2300, 'carbs': 275, 'fiber': 28, 'sugar': 50, 'protein': 50,
+  'potassium_mg': 4700, 'calcium_mg': 1300, 'iron_mg': 18, 'magnesium_mg': 420,
+  'manganese_mg': 2.3, 'vitamin_c_mg': 90, 'vitamin_d_mcg': 20, 'vitamin_k_mcg': 120
+} %}
+{% set srv = nutrition.serves_count %}
+<h2>Information</h2>
+<p class="dv-note">Per serving ({{ recipe.serves }}) &nbsp;·&nbsp; % Daily Value based on a 2,000 kcal diet</p>
+<div class="nf-grid">
 
-  <span class="label">Est. Cost</span>
-  <span class="value">{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</span>
-  <span></span>
+  <div class="nf-card">
+    <div class="nf-section-title">Cost</div>
+    <table class="nf-table">
+      {% for item in nutrition.cost_breakdown %}
+      <tr class="cost-item"><td colspan="3">{{ item.name }}</td><td>{{ nutrition.currency }} {{ "%.2f"|format(item.cost) }}</td></tr>
+      {% endfor %}
+      <tr class="major"><td colspan="3">Total Recipe</td><td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</td></tr>
+      <tr><td colspan="3">Per Serving</td><td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost / srv) }}</td></tr>
+    </table>
+  </div>
+
+  <div class="nf-card">
+    <div class="nf-section-title">Macros</div>
+    <table class="nf-table">
+      <tr class="major"><td>Calories</td><td>{{ (nutrition.calories / srv) | round(1) }} kcal</td><td class="dv">{{ (nutrition.calories / srv / dv.calories * 100) | round | int }}%</td></tr>
+      <tr><td>Protein</td><td>{{ (nutrition.protein / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.protein / srv / dv.protein * 100) | round | int }}%</td></tr>
+      <tr><td>Total Fat</td><td>{{ (nutrition.fat / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fat / srv / dv.fat * 100) | round | int }}%</td></tr>
+      {% if nutrition.saturated_fat %}<tr class="sub"><td>Saturated Fat</td><td>{{ (nutrition.saturated_fat / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.saturated_fat / srv / dv.saturated_fat * 100) | round | int }}%</td></tr>{% endif %}
+      <tr><td>Total Carbohydrate</td><td>{{ (nutrition.carbs / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.carbs / srv / dv.carbs * 100) | round | int }}%</td></tr>
+      {% if nutrition.fiber %}<tr class="sub"><td>Dietary Fiber</td><td>{{ (nutrition.fiber / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fiber / srv / dv.fiber * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.sugar %}<tr class="sub"><td>Total Sugars</td><td>{{ (nutrition.sugar / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.sugar / srv / dv.sugar * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.cholesterol_mg %}<tr><td>Cholesterol</td><td>{{ (nutrition.cholesterol_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.cholesterol_mg / srv / dv.cholesterol_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.sodium_mg %}<tr><td>Sodium</td><td>{{ (nutrition.sodium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.sodium_mg / srv / dv.sodium_mg * 100) | round | int }}%</td></tr>{% endif %}
+    </table>
+  </div>
+
+  {% if nutrition.potassium_mg or nutrition.calcium_mg or nutrition.iron_mg or nutrition.magnesium_mg or nutrition.manganese_mg or nutrition.vitamin_c_mg or nutrition.vitamin_d_mcg or nutrition.vitamin_k_mcg %}
+  <div class="nf-card">
+    <div class="nf-section-title">Vitamins &amp; Minerals</div>
+    <table class="nf-table">
+      {% if nutrition.potassium_mg %}<tr><td>Potassium</td><td>{{ (nutrition.potassium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.potassium_mg / srv / dv.potassium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.calcium_mg %}<tr><td>Calcium</td><td>{{ (nutrition.calcium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.calcium_mg / srv / dv.calcium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.iron_mg %}<tr><td>Iron</td><td>{{ (nutrition.iron_mg / srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.iron_mg / srv / dv.iron_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.magnesium_mg %}<tr><td>Magnesium</td><td>{{ (nutrition.magnesium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.magnesium_mg / srv / dv.magnesium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.manganese_mg %}<tr><td>Manganese</td><td>{{ (nutrition.manganese_mg / srv) | round(3) }} mg</td><td class="dv">{{ (nutrition.manganese_mg / srv / dv.manganese_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_c_mg %}<tr><td>Vitamin C</td><td>{{ (nutrition.vitamin_c_mg / srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.vitamin_c_mg / srv / dv.vitamin_c_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_d_mcg %}<tr><td>Vitamin D</td><td>{{ (nutrition.vitamin_d_mcg / srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_d_mcg / srv / dv.vitamin_d_mcg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_k_mcg %}<tr><td>Vitamin K</td><td>{{ (nutrition.vitamin_k_mcg / srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_k_mcg / srv / dv.vitamin_k_mcg * 100) | round | int }}%</td></tr>{% endif %}
+    </table>
+  </div>
+  {% endif %}
+
 </div>
 {% if nutrition.missing_ingredients %}
 <p class="missing">
   ⚠ Missing from catalog (no data): {{ nutrition.missing_ingredients | join(", ") }}
 </p>
+{% endif %}
+
+<style>
+.nf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+.nf-card { background: #fff8ef; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.2rem; }
+.nf-section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: bold; margin-bottom: 0.5rem; }
+.nf-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.nf-table td { padding: 0.2rem 0.2rem; border-bottom: 1px solid #e8d8c4; }
+.nf-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: bold; }
+.nf-table tr.major td { font-size: 1rem; font-weight: bold; border-bottom: 2px solid var(--border); }
+.nf-table tr.sub td:first-child { padding-left: 1rem; color: #7a5c44; }
+.nf-table tr.cost-item td { font-size: 0.84rem; color: #7a5c44; }
+.nf-table tr:last-child td { border-bottom: none; }
+.nf-table .dv { text-align: right; color: #7a5c44; font-weight: normal; font-size: 0.82rem; white-space: nowrap; }
+.dv-note { font-size: 0.75rem; color: #a07860; margin: 0.2rem 0 0.8rem; }
+.dbg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 0.5rem; }
+.dbg-table th { text-align: right; font-size: 0.75rem; color: var(--accent); border-bottom: 2px solid var(--border); padding: 0.2rem 0.4rem; white-space: nowrap; }
+.dbg-table th:first-child { text-align: left; }
+.dbg-table td { text-align: right; padding: 0.2rem 0.4rem; border-bottom: 1px solid #e8d8c4; font-variant-numeric: tabular-nums; }
+.dbg-table td:first-child { text-align: left; font-weight: bold; }
+.dbg-table tr:last-child td { border-bottom: 2px solid var(--border); font-weight: bold; background: #fff8ef; }
+.dbg-warn { color: #c0392b; font-weight: bold; }
+</style>
+
+{% if debug %}
+{% set dv = {
+  'calories': 2000, 'fat': 78, 'saturated_fat': 20, 'cholesterol_mg': 300,
+  'sodium_mg': 2300, 'carbs': 275, 'fiber': 28, 'sugar': 50, 'protein': 50,
+  'potassium_mg': 4700, 'calcium_mg': 1300, 'iron_mg': 18, 'magnesium_mg': 420
+} %}
+<h2 style="color:#c0392b">&#9881; Nutrition Debug</h2>
+<p style="font-size:0.8rem; color:#a07860; margin-bottom:0.8rem">Per-ingredient breakdown — total recipe (not per serving). % DV shown for flagged values.</p>
+<div style="overflow-x:auto">
+<table class="dbg-table">
+  <thead>
+    <tr>
+      <th>Ingredient</th><th>g</th><th>Cost</th>
+      <th>Cal</th><th>Protein</th><th>Carbs</th><th>Fat</th><th>Sat.Fat</th>
+      <th>Fiber</th><th>Sugar</th><th>Sodium mg</th><th>Chol mg</th>
+      <th>Calcium mg</th><th>Iron mg</th><th>Potassium mg</th><th>Mag. mg</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in nutrition.ingredient_breakdown %}
+  <tr>
+    <td>{{ i.name }}</td>
+    <td>{{ i.grams }}</td>
+    <td>{% if i.cost is not none %}{{ nutrition.currency }} {{ "%.2f"|format(i.cost) }}{% else %}—{% endif %}</td>
+    <td>{{ i.calories }}</td>
+    <td>{{ i.protein }}</td>
+    <td>{{ i.carbs }}</td>
+    <td>{{ i.fat }}</td>
+    <td>{{ i.saturated_fat }}</td>
+    <td>{{ i.fiber }}</td>
+    <td>{{ i.sugar }}</td>
+    <td{% if i.sodium_mg and dv.sodium_mg and (i.sodium_mg / dv.sodium_mg * 100) > 50 %} class="dbg-warn"{% endif %}>{{ i.sodium_mg }}</td>
+    <td{% if i.cholesterol_mg and dv.cholesterol_mg and (i.cholesterol_mg / dv.cholesterol_mg * 100) > 50 %} class="dbg-warn"{% endif %}>{{ i.cholesterol_mg }}</td>
+    <td>{{ i.calcium_mg }}</td>
+    <td>{{ i.iron_mg }}</td>
+    <td>{{ i.potassium_mg }}</td>
+    <td>{{ i.magnesium_mg }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td>TOTAL</td>
+    <td>—</td>
+    <td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</td>
+    <td>{{ nutrition.calories }}</td>
+    <td>{{ nutrition.protein }}</td>
+    <td>{{ nutrition.carbs }}</td>
+    <td>{{ nutrition.fat }}</td>
+    <td>{{ nutrition.saturated_fat }}</td>
+    <td>{{ nutrition.fiber }}</td>
+    <td>{{ nutrition.sugar }}</td>
+    <td>{{ nutrition.sodium_mg }}</td>
+    <td>{{ nutrition.cholesterol_mg }}</td>
+    <td>{{ nutrition.calcium_mg }}</td>
+    <td>{{ nutrition.iron_mg }}</td>
+    <td>{{ nutrition.potassium_mg }}</td>
+    <td>{{ nutrition.magnesium_mg }}</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+{% if nutrition.missing_ingredients %}
+<p style="font-size:0.82rem; color:#c0392b; margin-top:0.5rem">Not in catalog (excluded from totals): {{ nutrition.missing_ingredients | join(", ") }}</p>
+{% endif %}
 {% endif %}
 
 </body>

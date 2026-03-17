@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, model_validator
 from rich import print as rprint
 
 
@@ -27,6 +27,9 @@ class RecipeIngredient(BaseModel):
     name: str
     amount: float
     unit: str  # g, ml, kg, L, tsp, tbsp, cup, piece, etc.
+    optional: bool = False
+    note: str = ""
+    nutrition_pct: float = 100.0  # % of ingredient that counts toward nutrition (not cost)
 
     @field_validator("amount")
     @classmethod
@@ -36,6 +39,20 @@ class RecipeIngredient(BaseModel):
         return v
 
 
+class InstructionGroup(BaseModel):
+    """A named section of instructions (e.g. 'Crust', 'Filling')."""
+
+    section: str
+    steps: list[str]
+
+
+class IngredientGroup(BaseModel):
+    """A named group of ingredients (e.g. 'Crust', 'Filling')."""
+
+    group: str
+    items: list[RecipeIngredient]
+
+
 class Recipe(BaseModel):
     """A complete recipe parsed from a YAML file.
 
@@ -43,7 +60,7 @@ class Recipe(BaseModel):
         name: Display name of the recipe.
         serves: Serving description — can be a string (e.g. `"1 loaf"`), int, or float.
         tags: Freeform tags for organisation.
-        ingredients: Ordered list of ingredients with amounts and units.
+        ingredients: Flat or grouped ingredient list.
         instructions: Ordered list of instruction steps.
         notes: Freeform notes (multiline text).
     """
@@ -51,9 +68,30 @@ class Recipe(BaseModel):
     name: str
     serves: str | int | float = 1
     tags: list[str] = []
-    ingredients: list[RecipeIngredient]
-    instructions: list[str]
+    ingredients: list[IngredientGroup | RecipeIngredient] = []
+    instructions: list[InstructionGroup | str] = []
     notes: str = ""
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_instructions(cls, data: Any) -> Any:
+        instr = data.get("instructions")
+        if isinstance(instr, dict):
+            data["instructions"] = [
+                {"section": k, "steps": v} for k, v in instr.items()
+            ]
+        return data
+
+    @property
+    def all_ingredients(self) -> list[RecipeIngredient]:
+        """Flat list of all ingredients regardless of grouping."""
+        result: list[RecipeIngredient] = []
+        for item in self.ingredients:
+            if isinstance(item, IngredientGroup):
+                result.extend(item.items)
+            else:
+                result.append(item)
+        return result
 
     @property
     def slug(self) -> str:
@@ -126,25 +164,39 @@ _GRAM_CONVERSIONS: dict[str, float] = {
     "dl": 100.0,
 }
 
+# Volume units expressed as multiples of one tablespoon.
+# Requires an ingredient-specific g_per_tbsp to convert to grams.
+_TBSP_CONVERSIONS: dict[str, float] = {
+    "tsp": 1 / 3,
+    "tbsp": 1.0,
+    "cup": 16.0,
+}
 
-def to_grams(amount: float, unit: str) -> float | None:
+
+def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None) -> float | None:
     """Convert an ingredient quantity to grams.
 
-    Handles weight units (`g`, `kg`, `mg`, `oz`, `lb`) and volume units that
-    approximate water density (`ml`, `l`, `cl`, `dl`).
+    Handles weight units (`g`, `kg`, `mg`, `oz`, `lb`), metric volume units
+    that approximate water density (`ml`, `l`, `cl`, `dl`), and cooking volume
+    units (`tsp`, `tbsp`, `cup`) when *g_per_tbsp* is supplied.
 
     Args:
         amount: Numeric quantity.
         unit: Unit string (case-insensitive).
+        g_per_tbsp: Grams per tablespoon for this ingredient (from the catalog
+            field ``g_per_tbsp``). Required to convert `tsp`/`tbsp`/`cup`.
 
     Returns:
-        Equivalent mass in grams, or `None` if the unit cannot be converted
-        (e.g. `tsp`, `piece`, `cup`).
+        Equivalent mass in grams, or `None` if the unit cannot be converted.
     """
-    factor = _GRAM_CONVERSIONS.get(unit.lower())
-    if factor is None:
-        return None
-    return amount * factor
+    u = unit.lower()
+    factor = _GRAM_CONVERSIONS.get(u)
+    if factor is not None:
+        return amount * factor
+    tbsp_factor = _TBSP_CONVERSIONS.get(u)
+    if tbsp_factor is not None and g_per_tbsp is not None:
+        return amount * tbsp_factor * g_per_tbsp
+    return None
 
 
 def compute_nutrition(
@@ -171,31 +223,124 @@ def compute_nutrition(
         - `missing_ingredients` (`list[str]`): Names with no catalog entry.
     """
     total_cost = 0.0
-    total_calories = 0.0
     missing: list[str] = []
     currency = "USD"
+    cost_breakdown: list[dict] = []
+    ingredient_breakdown: list[dict] = []
 
-    for ing in recipe.ingredients:
+    # Macro/micro totals — keyed by catalog field name
+    _nutrient_fields = (
+        "calories_per_100g",
+        "protein_per_100g",
+        "carbs_per_100g",
+        "fat_per_100g",
+        "fiber_per_100g",
+        "sugar_per_100g",
+        "sodium_per_100g",
+        "saturated_fat_per_100g",
+        "cholesterol_per_100g",
+        # Vitamins & minerals (mg or mcg per 100g)
+        "vitamin_c_per_100g",
+        "vitamin_d_per_100g",
+        "vitamin_k_per_100g",
+        "calcium_per_100g",
+        "iron_per_100g",
+        "magnesium_per_100g",
+        "potassium_per_100g",
+        "manganese_per_100g",
+    )
+    totals: dict[str, float] = {f: 0.0 for f in _nutrient_fields}
+    
+    #print("recipe:")
+    #print(recipe.all_ingredients)#JK
+    #print("catalog:")
+    #print(catalog.get('sugar'))
+    for ing in recipe.all_ingredients:
         entry = catalog.get(ing.name.lower())
         if entry is None:
+            print(f"Missing Price info Ingredient:{ing.name}")
             missing.append(ing.name)
             continue
 
-        grams = to_grams(ing.amount, ing.unit)
+        grams = to_grams(ing.amount, ing.unit, entry.get("g_per_tbsp"))
         if grams is None:
             # Can't compute nutrition for non-weight units (e.g. "1 piece")
+            print(f"{entry['name']}: No gram conversion for unit '{ing.unit}'")
             continue
 
+        ing_cost: float | None = None
         if entry.get("price_per_kg") is not None:
-            total_cost += entry["price_per_kg"] * (grams / 1000.0)
+            print(f"{entry['name']}: {entry['price_per_kg']}")
+            _ic: float = float(entry["price_per_kg"]) * (grams / 1000.0)
+            total_cost += _ic
+            ing_cost = _ic
             currency = entry.get("currency", "USD")
+            cost_breakdown.append({"name": ing.name, "cost": round(_ic, 4)})
+        else:
+            print(f"{entry['name']}: No price available")
 
-        if entry.get("calories_per_100g") is not None:
-            total_calories += entry["calories_per_100g"] * (grams / 100.0)
+        ing_nutrients: dict[str, float] = {}
+        for field in _nutrient_fields:
+            if entry.get(field) is not None:
+                value = entry[field] * (grams / 100.0)
+                totals[field] += value
+                ing_nutrients[field] = value
+
+        ingredient_breakdown.append({
+            "name": ing.name,
+            "grams": round(grams, 2),
+            "cost": round(ing_cost, 4) if ing_cost is not None else None,
+            "calories": round(ing_nutrients.get("calories_per_100g", 0), 1),
+            "protein": round(ing_nutrients.get("protein_per_100g", 0), 1),
+            "carbs": round(ing_nutrients.get("carbs_per_100g", 0), 1),
+            "fat": round(ing_nutrients.get("fat_per_100g", 0), 1),
+            "fiber": round(ing_nutrients.get("fiber_per_100g", 0), 1),
+            "sugar": round(ing_nutrients.get("sugar_per_100g", 0), 1),
+            "sodium_mg": round(ing_nutrients.get("sodium_per_100g", 0) * 1000, 1),
+            "saturated_fat": round(ing_nutrients.get("saturated_fat_per_100g", 0), 1),
+            "cholesterol_mg": round(ing_nutrients.get("cholesterol_per_100g", 0) * 1000, 1),
+            "calcium_mg": round(ing_nutrients.get("calcium_per_100g", 0), 1),
+            "iron_mg": round(ing_nutrients.get("iron_per_100g", 2), 2),
+            "potassium_mg": round(ing_nutrients.get("potassium_per_100g", 0), 1),
+            "magnesium_mg": round(ing_nutrients.get("magnesium_per_100g", 0), 1),
+        })
+
+    # Parse serves into a numeric count for per-serving math
+    import re as _re
+    serves_raw = recipe.serves
+    serves_count: float = 1.0
+    if isinstance(serves_raw, (int, float)):
+        serves_count = float(serves_raw)
+    else:
+        m = _re.search(r"[\d.]+", str(serves_raw))
+        if m:
+            serves_count = float(m.group())
+    if serves_count <= 0:
+        serves_count = 1.0
 
     return {
         "cost": round(total_cost, 2),
+        "serves_count": serves_count,
         "currency": currency,
-        "calories": round(total_calories, 1),
+        "cost_breakdown": cost_breakdown,
+        "ingredient_breakdown": ingredient_breakdown,
+        "calories": round(totals["calories_per_100g"], 1),
+        "protein": round(totals["protein_per_100g"], 1),
+        "carbs": round(totals["carbs_per_100g"], 1),
+        "fat": round(totals["fat_per_100g"], 1),
+        "fiber": round(totals["fiber_per_100g"], 1),
+        "sugar": round(totals["sugar_per_100g"], 1),
+        "sodium_mg": round(totals["sodium_per_100g"] * 1000, 1),
+        "saturated_fat": round(totals["saturated_fat_per_100g"], 1),
+        "cholesterol_mg": round(totals["cholesterol_per_100g"] * 1000, 1),
+        # Vitamins & minerals
+        "vitamin_c_mg": round(totals["vitamin_c_per_100g"], 2),
+        "vitamin_d_mcg": round(totals["vitamin_d_per_100g"], 2),
+        "vitamin_k_mcg": round(totals["vitamin_k_per_100g"], 2),
+        "calcium_mg": round(totals["calcium_per_100g"], 1),
+        "iron_mg": round(totals["iron_per_100g"], 2),
+        "magnesium_mg": round(totals["magnesium_per_100g"], 1),
+        "potassium_mg": round(totals["potassium_per_100g"], 1),
+        "manganese_mg": round(totals["manganese_per_100g"], 3),
         "missing_ingredients": missing,
     }

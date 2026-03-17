@@ -1,15 +1,16 @@
 name: Cucumber Banchan
-serves: 1 week
+serves: 30 servings
 tags: [banchan, vegetable]
 
 ingredients:
-  - name: Cucumber
-    amount: 1
+  - name: cucumber
+    amount: 300
     unit: g
+    note: "about 1 cucumber"
   - name: sugar
     amount: 2
     unit: tbsp
-  - name: white vinegar
+  - name: vinegar
     amount: 2
     unit: tbsp
   - name: soy sauce
@@ -18,18 +19,24 @@ ingredients:
   - name: sesame oil
     amount: 2
     unit: tbsp
+  - name: crushed red pepper flakes
+    amount: 2
+    unit: tbsp
   - name: salt
     amount: 2
     unit: tbsp
+    nutrition_pct: 10.0
   - name: garlic
-    amount: 2
-    unit: cloves
-  - name: sliced onions
-    amount: 0.5
+    amount: 15
+    unit: g
+    note: "3 cloves, minced"
+  - name: sweet onion
+    amount: 0.25
     unit: cup
+    note: "about a 4th of an onion, thinly sliced"
 
 instructions:
-  - Slice the cucumber in a mandoline and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
+  - Thinly slice the cucumber in a mandoline and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
   - Rinse the cucumber under cold water to remove excess salt. Drain and pat dry with paper towels.
   - Once dry, add the cucumber back to the bowl and toss with sugar, white vinegar, soy sauce, crushed red pepper flakes, and sesame oil until well coated.
   - Add garlic and sliced onions if desired.
