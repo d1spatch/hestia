@@ -3,8 +3,6 @@ name: Deploy Hestia to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - "hestia/**"
   workflow_dispatch:
 
 permissions:
@@ -27,18 +25,14 @@ jobs:
           python-version: "3.13"
 
       - name: Install hestia
-        run: pip install -e ./hestia
+        run: pip install -e .
 
       - name: Build static site
-        run: |
-          cd hestia
-          python -m hestia build \
-            --base-url /${{ github.event.repository.name }}/ \
-            --output _site
+        run: hestia build --base-url /${{ github.event.repository.name }}/ --output _site
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: hestia/_site
+          path: _site
 
   deploy:
     needs: build
