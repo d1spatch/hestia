@@ -67,6 +67,7 @@ class Recipe(BaseModel):
 
     name: str
     serves: str | int | float = 1
+    total_recipe_grams: float | None = None  # override computed ingredient sum (e.g. accounts for cooking loss)
     tags: list[str] = []
     ingredients: list[IngredientGroup | RecipeIngredient] = []
     instructions: list[InstructionGroup | str] = []
@@ -176,12 +177,21 @@ _TBSP_RATIOS: dict[str, float] = {
 }
 
 
-def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None, g_per_ml: float | None = None) -> float | None:
+def to_grams(
+    amount: float,
+    unit: str,
+    g_per_tbsp: float | None = None,
+    g_per_ml: float | None = None,
+    unit_sizes: dict[str, float] | None = None,
+    g_per_unit: float | None = None,
+) -> float | None:
     """Convert an ingredient quantity to grams.
 
     Handles weight units (`g`, `kg`, `mg`, `oz`, `lb`), metric volume units
-    that approximate water density (`ml`, `l`, `cl`, `dl`), and cooking volume
-    units (`tsp`, `tbsp`, `cup`) when *g_per_tbsp* is supplied.
+    that approximate water density (`ml`, `l`, `cl`, `dl`), cooking volume
+    units (`tsp`, `tbsp`, `cup`) when *g_per_tbsp* is supplied, named natural
+    units (e.g. `whole`, `clove`, `square`) when *unit_sizes* is supplied, and
+    the generic `unit` unit when *g_per_unit* is supplied.
 
     Args:
         amount: Numeric quantity.
@@ -190,6 +200,10 @@ def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None, g_per_ml
             via fixed ratios (1 tbsp = 3 tsp = 1/16 cup).
         g_per_ml: Grams per mL (catalog field). Converts ml/l/cl/dl. Falls back
             to water density (1.0 g/mL) if not provided.
+        unit_sizes: Dict mapping unit name → grams per unit (catalog field).
+            E.g. ``{"whole": 100.0, "clove": 5.0, "square": 30.0}``.
+        g_per_unit: Grams per generic unit (catalog field). Used when unit is
+            ``"unit"`` (e.g. ``amount: 2, unit: unit`` for 2 average limes).
 
     Returns:
         Equivalent mass in grams, or `None` if the unit cannot be converted.
@@ -205,6 +219,10 @@ def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None, g_per_ml
         ratio = _TBSP_RATIOS.get(u)
         if ratio is not None:
             return amount * ratio * g_per_tbsp
+    if u == "unit" and g_per_unit is not None:
+        return amount * g_per_unit
+    if unit_sizes and u in unit_sizes:
+        return amount * unit_sizes[u]
     return None
 
 
@@ -271,11 +289,15 @@ def compute_nutrition(
             missing.append(ing.name)
             continue
 
-        grams = to_grams(ing.amount, ing.unit, entry.get("g_per_tbsp"), entry.get("g_per_ml"))
+        grams = to_grams(ing.amount, ing.unit, entry.get("g_per_tbsp"), entry.get("g_per_ml"), entry.get("unit_sizes"), entry.get("g_per_unit"))
         if grams is None:
-            # Can't compute nutrition for non-weight units (e.g. "1 piece")
-            print(f"{entry['name']}: No gram conversion for unit '{ing.unit}'")
-            continue
+            g_per_unit = entry.get("g_per_unit")
+            if g_per_unit is not None:
+                print(f"{ing.name}: Unrecognized unit '{ing.unit}', falling back to g_per_unit ({g_per_unit}g)")
+                grams = ing.amount * g_per_unit
+            else:
+                print(f"{ing.name}: Unrecognized unit '{ing.unit}', no gram conversion available")
+                continue
 
         ing_cost: float | None = None
         if entry.get("price_per_kg") is not None:
@@ -328,9 +350,19 @@ def compute_nutrition(
     if serves_count <= 0:
         serves_count = 1.0
 
+    ingredient_grams = sum(i["grams"] for i in ingredient_breakdown)
+    total_grams = recipe.total_recipe_grams if recipe.total_recipe_grams is not None else ingredient_grams
+
+    grams_per_serving = total_grams / serves_count
+    # Scale factor: what fraction of total recipe nutrients go into one serving
+    serving_scale = grams_per_serving / ingredient_grams if ingredient_grams > 0 else (1.0 / serves_count)
+
     return {
         "cost": round(total_cost, 2),
         "serves_count": serves_count,
+        "total_grams": round(ingredient_grams, 1),
+        "grams_per_serving": round(grams_per_serving, 1),
+        "serving_scale": serving_scale,
         "currency": currency,
         "cost_breakdown": cost_breakdown,
         "ingredient_breakdown": ingredient_breakdown,

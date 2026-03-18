@@ -57,7 +57,8 @@ _NUTRITION_FIELDS = frozenset({
     "fiber_per_100g", "sugar_per_100g", "sodium_per_100g", "saturated_fat_per_100g",
     "cholesterol_per_100g", "vitamin_c_per_100g", "vitamin_d_per_100g",
     "vitamin_k_per_100g", "calcium_per_100g", "iron_per_100g", "magnesium_per_100g",
-    "potassium_per_100g", "manganese_per_100g", "g_per_tbsp", "g_per_ml", "source",
+    "potassium_per_100g", "manganese_per_100g", "g_per_tbsp", "g_per_ml", "g_per_unit", "source",
+    "unit_sizes",  # dict mapping unit name → grams per unit (e.g. {whole: 100.0, clove: 5.0})
 })
 _PRICING_FIELDS = frozenset({"currency", "price_per_kg", "price_history"})
 _USER_DEFINED_FIELDS = frozenset({"category", "aliases", "notes"})

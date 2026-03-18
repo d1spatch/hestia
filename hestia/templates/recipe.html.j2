@@ -71,6 +71,8 @@
 <h1>{{ recipe.name }}</h1>
 <div class="meta">
   Serves: <strong>{{ recipe.serves }}</strong>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  Serving size: <strong>{{ nutrition.grams_per_serving }}g</strong>
   {% if recipe.tags %}
   &nbsp;&nbsp;
   <span class="tags">{% for tag in recipe.tags %}<span>{{ tag }}</span>{% endfor %}</span>
@@ -129,9 +131,9 @@
   'potassium_mg': 4700, 'calcium_mg': 1300, 'iron_mg': 18, 'magnesium_mg': 420,
   'manganese_mg': 2.3, 'vitamin_c_mg': 90, 'vitamin_d_mcg': 20, 'vitamin_k_mcg': 120
 } %}
-{% set srv = nutrition.serves_count %}
+{% set srv = nutrition.serving_scale %}
 <h2>Information</h2>
-<p class="dv-note">Per serving ({{ recipe.serves }}) &nbsp;·&nbsp; % Daily Value based on a 2,000 kcal diet</p>
+<p class="dv-note">Per serving ({{ nutrition.grams_per_serving }}g) &nbsp;·&nbsp; % Daily Value based on a 2,000 kcal diet</p>
 <div class="nf-grid">
 
   <div class="nf-card">
@@ -141,22 +143,22 @@
       <tr class="cost-item"><td colspan="3">{{ item.name }}</td><td>{{ csym }}{{ "%.2f"|format(item.cost) }}</td></tr>
       {% endfor %}
       <tr class="major"><td colspan="3">Total Recipe</td><td>{{ csym }}{{ "%.2f"|format(nutrition.cost) }}</td></tr>
-      <tr><td colspan="3">Per Serving</td><td>{{ csym }}{{ "%.2f"|format(nutrition.cost / srv) }}</td></tr>
+      <tr><td colspan="3">Per Serving</td><td>{{ csym }}{{ "%.2f"|format(nutrition.cost * srv) }}</td></tr>
     </table>
   </div>
 
   <div class="nf-card">
     <div class="nf-section-title">Macros</div>
     <table class="nf-table">
-      <tr class="major"><td>Calories</td><td>{{ (nutrition.calories / srv) | round(1) }} kcal</td><td class="dv">{{ (nutrition.calories / srv / dv.calories * 100) | round | int }}%</td></tr>
-      <tr><td>Protein</td><td>{{ (nutrition.protein / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.protein / srv / dv.protein * 100) | round | int }}%</td></tr>
-      <tr><td>Total Fat</td><td>{{ (nutrition.fat / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fat / srv / dv.fat * 100) | round | int }}%</td></tr>
-      {% if nutrition.saturated_fat %}<tr class="sub"><td>Saturated Fat</td><td>{{ (nutrition.saturated_fat / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.saturated_fat / srv / dv.saturated_fat * 100) | round | int }}%</td></tr>{% endif %}
-      <tr><td>Total Carbohydrate</td><td>{{ (nutrition.carbs / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.carbs / srv / dv.carbs * 100) | round | int }}%</td></tr>
-      {% if nutrition.fiber %}<tr class="sub"><td>Dietary Fiber</td><td>{{ (nutrition.fiber / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fiber / srv / dv.fiber * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.sugar %}<tr class="sub"><td>Total Sugars</td><td>{{ (nutrition.sugar / srv) | round(1) }} g</td><td class="dv">{{ (nutrition.sugar / srv / dv.sugar * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.cholesterol_mg %}<tr><td>Cholesterol</td><td>{{ (nutrition.cholesterol_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.cholesterol_mg / srv / dv.cholesterol_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.sodium_mg %}<tr><td>Sodium</td><td>{{ (nutrition.sodium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.sodium_mg / srv / dv.sodium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      <tr class="major"><td>Calories</td><td>{{ (nutrition.calories * srv) | round(1) }} kcal</td><td class="dv">{{ (nutrition.calories * srv / dv.calories * 100) | round | int }}%</td></tr>
+      <tr><td>Protein</td><td>{{ (nutrition.protein * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.protein * srv / dv.protein * 100) | round | int }}%</td></tr>
+      <tr><td>Total Fat</td><td>{{ (nutrition.fat * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fat * srv / dv.fat * 100) | round | int }}%</td></tr>
+      {% if nutrition.saturated_fat %}<tr class="sub"><td>Saturated Fat</td><td>{{ (nutrition.saturated_fat * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.saturated_fat * srv / dv.saturated_fat * 100) | round | int }}%</td></tr>{% endif %}
+      <tr><td>Total Carbohydrate</td><td>{{ (nutrition.carbs * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.carbs * srv / dv.carbs * 100) | round | int }}%</td></tr>
+      {% if nutrition.fiber %}<tr class="sub"><td>Dietary Fiber</td><td>{{ (nutrition.fiber * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.fiber * srv / dv.fiber * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.sugar %}<tr class="sub"><td>Total Sugars</td><td>{{ (nutrition.sugar * srv) | round(1) }} g</td><td class="dv">{{ (nutrition.sugar * srv / dv.sugar * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.cholesterol_mg %}<tr><td>Cholesterol</td><td>{{ (nutrition.cholesterol_mg * srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.cholesterol_mg * srv / dv.cholesterol_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.sodium_mg %}<tr><td>Sodium</td><td>{{ (nutrition.sodium_mg * srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.sodium_mg * srv / dv.sodium_mg * 100) | round | int }}%</td></tr>{% endif %}
     </table>
   </div>
 
@@ -164,14 +166,14 @@
   <div class="nf-card">
     <div class="nf-section-title">Vitamins &amp; Minerals</div>
     <table class="nf-table">
-      {% if nutrition.potassium_mg %}<tr><td>Potassium</td><td>{{ (nutrition.potassium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.potassium_mg / srv / dv.potassium_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.calcium_mg %}<tr><td>Calcium</td><td>{{ (nutrition.calcium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.calcium_mg / srv / dv.calcium_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.iron_mg %}<tr><td>Iron</td><td>{{ (nutrition.iron_mg / srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.iron_mg / srv / dv.iron_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.magnesium_mg %}<tr><td>Magnesium</td><td>{{ (nutrition.magnesium_mg / srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.magnesium_mg / srv / dv.magnesium_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.manganese_mg %}<tr><td>Manganese</td><td>{{ (nutrition.manganese_mg / srv) | round(3) }} mg</td><td class="dv">{{ (nutrition.manganese_mg / srv / dv.manganese_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.vitamin_c_mg %}<tr><td>Vitamin C</td><td>{{ (nutrition.vitamin_c_mg / srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.vitamin_c_mg / srv / dv.vitamin_c_mg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.vitamin_d_mcg %}<tr><td>Vitamin D</td><td>{{ (nutrition.vitamin_d_mcg / srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_d_mcg / srv / dv.vitamin_d_mcg * 100) | round | int }}%</td></tr>{% endif %}
-      {% if nutrition.vitamin_k_mcg %}<tr><td>Vitamin K</td><td>{{ (nutrition.vitamin_k_mcg / srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_k_mcg / srv / dv.vitamin_k_mcg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.potassium_mg %}<tr><td>Potassium</td><td>{{ (nutrition.potassium_mg * srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.potassium_mg * srv / dv.potassium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.calcium_mg %}<tr><td>Calcium</td><td>{{ (nutrition.calcium_mg * srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.calcium_mg * srv / dv.calcium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.iron_mg %}<tr><td>Iron</td><td>{{ (nutrition.iron_mg * srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.iron_mg * srv / dv.iron_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.magnesium_mg %}<tr><td>Magnesium</td><td>{{ (nutrition.magnesium_mg * srv) | round(1) }} mg</td><td class="dv">{{ (nutrition.magnesium_mg * srv / dv.magnesium_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.manganese_mg %}<tr><td>Manganese</td><td>{{ (nutrition.manganese_mg * srv) | round(3) }} mg</td><td class="dv">{{ (nutrition.manganese_mg * srv / dv.manganese_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_c_mg %}<tr><td>Vitamin C</td><td>{{ (nutrition.vitamin_c_mg * srv) | round(2) }} mg</td><td class="dv">{{ (nutrition.vitamin_c_mg * srv / dv.vitamin_c_mg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_d_mcg %}<tr><td>Vitamin D</td><td>{{ (nutrition.vitamin_d_mcg * srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_d_mcg * srv / dv.vitamin_d_mcg * 100) | round | int }}%</td></tr>{% endif %}
+      {% if nutrition.vitamin_k_mcg %}<tr><td>Vitamin K</td><td>{{ (nutrition.vitamin_k_mcg * srv) | round(2) }} mcg</td><td class="dv">{{ (nutrition.vitamin_k_mcg * srv / dv.vitamin_k_mcg * 100) | round | int }}%</td></tr>{% endif %}
     </table>
   </div>
   {% endif %}

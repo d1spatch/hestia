@@ -61,6 +61,15 @@ _TO_ML: dict[str, float] = {
     "floz": 1 / 29.5735,
 }
 
+# Units that are already handled as volume/weight conversions — skip these when
+# building unit_sizes so we don't double-count.
+_SKIP_FOR_UNIT_SIZES: frozenset[str] = frozenset({
+    "tsp", "teaspoon", "tbsp", "tablespoon", "cup",
+    "ml", "milliliter", "milliliters", "fl oz", "floz",
+    "g", "gram", "grams", "oz", "ounce", "ounces", "lb", "pound", "pounds",
+    "kg", "kilogram", "kilograms", "",
+})
+
 
 def _load_dotenv() -> None:
     """Load .env from the project root (hestia/) if it exists."""
@@ -180,6 +189,39 @@ def fetch(fdc_id: int) -> dict[str, Any]:
             break
     if g_per_ml is not None:
         nutrition["g_per_ml"] = g_per_ml
+
+    # Parse named portions (whole, clove, leaf, piece, etc.) into unit_sizes,
+    # and generic "unit" synonyms into g_per_unit.
+    # The abbreviation field holds the unit name for named portions; fall back
+    # to portionDescription when abbreviation is absent or generic.
+    _GENERIC_UNIT_NAMES: frozenset[str] = frozenset({
+        "unit", "each", "item", "1 unit", "1 each", "1 item",
+    })
+    unit_sizes: dict[str, float] = {}
+    g_per_unit: float | None = None
+    for portion in data.get("foodPortions", []):
+        abbr = portion.get("measureUnit", {}).get("abbreviation", "").lower().strip()
+        desc = portion.get("portionDescription", "").lower().strip()
+        # Prefer abbreviation; fall back to description
+        unit_name = abbr if abbr not in _SKIP_FOR_UNIT_SIZES else desc
+        if not unit_name or unit_name in _SKIP_FOR_UNIT_SIZES:
+            continue
+        gram_weight = portion.get("gramWeight")
+        if gram_weight is None:
+            continue
+        amount = float(portion.get("amount") or 1.0)
+        if amount <= 0:
+            continue
+        g_per = round(float(gram_weight) / amount, 4)
+        if unit_name in _GENERIC_UNIT_NAMES:
+            if g_per_unit is None:  # keep the first match
+                g_per_unit = g_per
+        else:
+            unit_sizes[unit_name] = g_per
+    if g_per_unit is not None:
+        nutrition["g_per_unit"] = g_per_unit
+    if unit_sizes:
+        nutrition["unit_sizes"] = unit_sizes
 
     nutrition["source"] = {
         "type": "usda",

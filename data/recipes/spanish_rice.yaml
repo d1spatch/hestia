@@ -1,5 +1,7 @@
 name: Spanish Rice
-serves: 20
+serves: 15
+total_recipe_grams: 3000
+
 tags: [side dish, rice]
 
 ingredients:
@@ -20,7 +22,7 @@ ingredients:
   - name: jalapeno
     amount: 30
     unit: g
-    note: "any combination of jalapenos, serranos, or other spicy peppers, finely chopped"
+    note: "any combination of jalapenos, serranos, or other spicy peppers, finely chopped. It doesn't seem to taste as good without red chinese chilies."
   - name: tomato paste
     amount: 6
     unit: oz
@@ -32,17 +34,17 @@ ingredients:
   - name: better than bouillon, chicken
     amount: 1
     unit: tbsp
-    note: "If you substitute with chicken broth, use 32 oz of chicken broth and omit the water."
+    note: "If you substitute with chicken broth, use 32 oz of chicken broth and omit the water and salt."
   - name: water
     amount: 32 
     unit: oz
     note: "If you substitute with chicken broth, omit the water."
   - name: salt
-    amount: .5
+    amount: 1
     unit: tsp
-    note: "To taste."
+    note: "To taste. I tried without it and it was pretty bland."
   - name: black pepper
-    amount: .5
+    amount: 1
     unit: tsp
     note: "To taste."
 
@@ -52,9 +54,11 @@ instructions:
   - They say to toast the rice in oil before cooking, but I skip this step and just add the rice to the pot with the other ingredients.
   - Add all ingredients to a large pot and stir to combine. Bring to a boil, then reduce to a simmer and cover with a tight fitting lid.
   - Simmer for 15 minutes, let it steam. DO NOT OPEN THE LID.
-  - Fluff with chopstick to areate the rice and serve.
+  - Fluff with chopstick to aerate the rice and serve.
 
 notes: |
+  - This is a meal prep recipe, cut this down to like... 1/4th for a normal meal.
   - Don't open in the middle of cooking! The steam is what cooks the rice, so opening the lid will let the steam escape and can ruin the result.
   - Put the temperature as low as possible while steaming to prevent burning the bottom.
   - I like to add some chopped cilantro and a squeeze of lime juice when serving.
+  - No salt was terrible. Also Jalopenos don't work as well as Asian red chili peppers and green peppers. I will retry with those again and update the recipe.

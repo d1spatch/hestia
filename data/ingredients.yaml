@@ -18,23 +18,36 @@ BelVita Breakfast Biscuit:
     price_per_kg: 7.8765
 bay leaves:
   nutrition:
-    calcium_per_100g: 0.0
-    calories_per_100g: 0.0
-    carbs_per_100g: 0.0
+    calcium_per_100g: 834.0
+    calories_per_100g: 313.0
+    carbs_per_100g: 74.97
     cholesterol_per_100g: 0.0
-    fat_per_100g: 0.0
-    fiber_per_100g: 50.0
-    iron_per_100g: 0.0
-    protein_per_100g: 0.0
-    saturated_fat_per_100g: 0.0
-    sodium_per_100g: 0.0
+    fat_per_100g: 8.36
+    fiber_per_100g: 26.3
+    g_per_unit: 0.6
+    iron_per_100g: 43.0
+    magnesium_per_100g: 120.0
+    manganese_per_100g: 8.167
+    potassium_per_100g: 529.0
+    protein_per_100g: 7.61
+    saturated_fat_per_100g: 2.28
+    sodium_per_100g: 0.023
     source:
-      description: BAY LEAVES
-      fdc_id: 451475
-      retrieved: '2026-03-17'
+      description: Spices, bay leaf
+      fdc_id: 170917
+      retrieved: '2026-03-18'
       type: usda
     sugar_per_100g: 0.0
-    vitamin_c_per_100g: 0.0
+    vitamin_c_per_100g: 46.5
+    vitamin_d_per_100g: 0.0
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-03-18'
+      package_price: 15.29
+      price_per_kg: 50.8811
+      store: Ralphs
+    price_per_kg: 50.8811
 better than bouillon, beef:
   nutrition:
     calories_per_100g: 250.0
@@ -214,6 +227,27 @@ butter:
       price_per_kg: 14.5395
       store: Costco
     price_per_kg: 14.5395
+cajun seasoning:
+  nutrition:
+    calories_per_100g: 0.0
+    carbs_per_100g: 0.0
+    fat_per_100g: 0.0
+    g_per_tbsp: 8
+    protein_per_100g: 0.0
+    sodium_per_100g: 6.875
+    source:
+      description: CAJUN SEASONING, CAJUN
+      fdc_id: 2419752
+      retrieved: '2026-03-18'
+      type: usda
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-03-18'
+      package_price: 11.39
+      price_per_kg: 22.3206
+      store: Costco
+    price_per_kg: 22.3206
 chicken broth:
   nutrition:
     calcium_per_100g: 187.0
@@ -551,6 +585,39 @@ jalapeno:
       price_per_kg: 2.844
       store: Ralphs
     price_per_kg: 2.844
+lime:
+  nutrition:
+    calcium_per_100g: 33.0
+    calories_per_100g: 30.0
+    carbs_per_100g: 10.54
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 0.2
+    fiber_per_100g: 2.8
+    g_per_unit: 67.0
+    iron_per_100g: 0.6
+    magnesium_per_100g: 6.0
+    manganese_per_100g: 0.008
+    potassium_per_100g: 102.0
+    protein_per_100g: 0.7
+    saturated_fat_per_100g: 0.022
+    sodium_per_100g: 0.002
+    source:
+      description: Limes, raw
+      fdc_id: 168155
+      retrieved: '2026-03-18'
+      type: usda
+    sugar_per_100g: 1.69
+    vitamin_c_per_100g: 29.1
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.6
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-03-18'
+      package_price: 0.5
+      price_per_kg: 7.4627
+      store: Ralphs
+    price_per_kg: 7.4627
 long grain white rice:
   nutrition:
     calcium_per_100g: 4.46

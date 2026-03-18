@@ -25,7 +25,7 @@ ingredients:
   - name: salt
     amount: 2
     unit: tsp
-    nutrition_pct: 25.0
+    nutrition_pct: 50.0
   - name: garlic
     amount: 30
     unit: g
@@ -46,4 +46,4 @@ instructions:
 
 notes: |
   Using frozen garlic is fine.
-  Haejin really hates when you add tequila to this recipe.
+  Haejin really hates when I add tequila to this recipe.
