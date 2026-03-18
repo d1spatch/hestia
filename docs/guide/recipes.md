@@ -15,6 +15,9 @@ ingredients:                   # (required) List of ingredients
   - name: bread flour          # Must match a catalog entry name or alias
     amount: 500                # Numeric quantity
     unit: g                    # See supported units below
+    optional: false            # (optional) Mark ingredient as optional
+    note: ""                   # (optional) Short note shown next to ingredient
+    nutrition_pct: 100         # (optional) % of ingredient counted toward nutrition (default 100)
 
 instructions:                  # (required) Ordered list of steps
   - Mix flour and water.
@@ -38,13 +41,19 @@ Hestia converts quantities to grams for nutrition and cost calculations.
 | `mg` | milligrams | 0.001 g |
 | `oz` | ounces | 28.35 g |
 | `lb` | pounds | 453.59 g |
-| `ml` | millilitres | 1 g (water density) |
-| `l` | litres | 1000 g |
-| `cl` | centilitres | 10 g |
-| `dl` | decilitres | 100 g |
+| `ml` | millilitres | depends on `g_per_ml` (water = 1 g/mL) |
+| `l` | litres | same, ×1000 |
+| `cl` | centilitres | same, ×10 |
+| `dl` | decilitres | same, ×100 |
+| `tsp` | teaspoons | requires `g_per_tbsp` on the ingredient |
+| `tbsp` | tablespoons | requires `g_per_tbsp` on the ingredient |
+| `cup` | cups | requires `g_per_tbsp` on the ingredient |
 
-!!! note "Non-weight units"
-    Units like `tsp`, `tbsp`, `cup`, or `piece` are stored and displayed correctly but cannot be converted to grams, so those ingredients are excluded from nutrition and cost calculations.
+!!! note "Volume and cooking units"
+    Cooking volume units (`tsp`, `tbsp`, `cup`) are converted to grams using the ingredient's `g_per_tbsp` catalog field (set automatically by `import-usda` or manually). Without it, those ingredients are excluded from nutrition and cost calculations. Liquid volume units (`ml`, `l`) use `g_per_ml` if set, otherwise assume water density (1 g/mL).
+
+!!! note "Count units"
+    `piece`, `whole`, and similar count units cannot be converted and are always excluded from calculations.
 
 ---
 

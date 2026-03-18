@@ -150,21 +150,25 @@ def load_all_recipes(recipes_dir: Path) -> list[tuple[Path, Recipe]]:
 # Computation helpers
 # ---------------------------------------------------------------------------
 
-# Unit conversion to grams (for weight-based nutrients/cost).
-# For non-weight units we return None and skip the computation.
+# Exact weight-unit conversions to grams.
 _GRAM_CONVERSIONS: dict[str, float] = {
     "g": 1.0,
     "kg": 1000.0,
     "mg": 0.001,
     "oz": 28.3495,
     "lb": 453.592,
-    "ml": 1.0,   # approximate: water density = 1 g/ml
+}
+
+# Metric volume units — multiplier to get mL from the given unit.
+# Grams = mL * g_per_ml (defaults to water density 1.0 if not in catalog).
+_ML_CONVERSIONS: dict[str, float] = {
+    "ml": 1.0,
     "l": 1000.0,
     "cl": 10.0,
     "dl": 100.0,
 }
 
-# Ratios relative to tbsp — used as fallback when only tbsp is in unit_conversions.
+# Ratios relative to tbsp for cooking volume units.
 _TBSP_RATIOS: dict[str, float] = {
     "tsp": 1 / 3,
     "tbsp": 1.0,
@@ -172,7 +176,7 @@ _TBSP_RATIOS: dict[str, float] = {
 }
 
 
-def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None) -> float | None:
+def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None, g_per_ml: float | None = None) -> float | None:
     """Convert an ingredient quantity to grams.
 
     Handles weight units (`g`, `kg`, `mg`, `oz`, `lb`), metric volume units
@@ -182,17 +186,21 @@ def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None) -> float
     Args:
         amount: Numeric quantity.
         unit: Unit string (case-insensitive).
-        g_per_tbsp: Grams per tablespoon for this ingredient (from the catalog
-            field ``g_per_tbsp``). Used to convert `tsp`/`tbsp`/`cup` via
-            fixed ratios (1 tbsp = 3 tsp = 1/16 cup).
+        g_per_tbsp: Grams per tablespoon (catalog field). Converts tsp/tbsp/cup
+            via fixed ratios (1 tbsp = 3 tsp = 1/16 cup).
+        g_per_ml: Grams per mL (catalog field). Converts ml/l/cl/dl. Falls back
+            to water density (1.0 g/mL) if not provided.
 
     Returns:
         Equivalent mass in grams, or `None` if the unit cannot be converted.
     """
     u = unit.lower()
-    factor = _GRAM_CONVERSIONS.get(u)
-    if factor is not None:
-        return amount * factor
+    weight_factor = _GRAM_CONVERSIONS.get(u)
+    if weight_factor is not None:
+        return amount * weight_factor
+    ml_factor = _ML_CONVERSIONS.get(u)
+    if ml_factor is not None:
+        return amount * ml_factor * (g_per_ml if g_per_ml is not None else 1.0)
     if g_per_tbsp is not None:
         ratio = _TBSP_RATIOS.get(u)
         if ratio is not None:
@@ -263,7 +271,7 @@ def compute_nutrition(
             missing.append(ing.name)
             continue
 
-        grams = to_grams(ing.amount, ing.unit, entry.get("g_per_tbsp"))
+        grams = to_grams(ing.amount, ing.unit, entry.get("g_per_tbsp"), entry.get("g_per_ml"))
         if grams is None:
             # Can't compute nutrition for non-weight units (e.g. "1 piece")
             print(f"{entry['name']}: No gram conversion for unit '{ing.unit}'")

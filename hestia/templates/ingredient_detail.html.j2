@@ -96,11 +96,11 @@
     <h2>Pricing</h2>
     {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}
     <p class="current-price">
-      {{ "%.2f"|format(ing.price_per_kg) }} <span class="ccy">{{ ing.currency or 'USD' }}</span>
+      <span class="ccy">{{ (ing.currency or 'USD') | csym }}</span>{{ "%.2f"|format(ing.price_per_kg) }}
       <span class="per">/&nbsp;kg</span>
     </p>
     {% else %}
-    <p style="color:#7a5c44;font-style:italic">No price recorded.</p>
+    <p style="color:#607a58;font-style:italic">No price recorded.</p>
     {% endif %}
 
     {% if ing.price_history and ing.price_history | length > 0 %}
@@ -120,9 +120,9 @@
         <tr>
           <td>{{ h.date }}</td>
           <td>{{ h.store or '—' }}</td>
-          <td class="r">{% if h.package_price is defined and h.package_price is not none %}{{ "%.2f"|format(h.package_price) }} {{ ing.currency or 'USD' }}{% else %}—{% endif %}</td>
+          <td class="r">{% if h.package_price is defined and h.package_price is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(h.package_price) }}{% else %}—{% endif %}</td>
           <td class="r">{{ h.net_weight or '—' }}</td>
-          <td class="r">{{ "%.4f"|format(h.price_per_kg) }} {{ ing.currency or 'USD' }}</td>
+          <td class="r">{{ (ing.currency or 'USD') | csym }}{{ "%.4f"|format(h.price_per_kg) }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -146,9 +146,9 @@
           datasets: [{
             label: 'Price / kg',
             data: prices,
-            borderColor: '#5c4033',
-            backgroundColor: 'rgba(92,64,51,0.1)',
-            pointBackgroundColor: '#5c4033',
+            borderColor: '#3b5740',
+            backgroundColor: 'rgba(59,87,64,0.1)',
+            pointBackgroundColor: '#3b5740',
             pointRadius: 5,
             tension: 0.2,
             fill: true,
@@ -186,33 +186,33 @@
 <style>
 .meta-row { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; align-items:center; margin-bottom:1.4rem; font-size:0.9rem; }
 .badge { background:var(--accent); color:#fff; border-radius:3px; padding:2px 10px; font-size:0.8rem; }
-.meta-label { color:#7a5c44; font-style:italic; }
+.meta-label { color:#607a58; font-style:italic; }
 .meta-val { color:var(--text); }
 
 .detail-grid { display:grid; grid-template-columns: 1fr 1fr; gap:1.4rem; align-items:start; }
 @media(max-width:680px) { .detail-grid { grid-template-columns:1fr; } }
 
-.card { background:#fff8ef; border:1px solid var(--border); border-radius:8px; padding:1.3rem 1.6rem; }
+.card { background:#edf3eb; border:1px solid var(--border); border-radius:8px; padding:1.3rem 1.6rem; }
 .card h2 { font-size:1.05rem; color:var(--accent); margin-bottom:0.15rem; border-bottom:1px solid var(--border); padding-bottom:0.3rem; }
-.subhead { font-size:0.78rem; color:#7a5c44; margin-bottom:0.7rem; }
+.subhead { font-size:0.78rem; color:#607a58; margin-bottom:0.7rem; }
 
 .nf-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
-.nf-table td { padding:0.28rem 0.2rem; border-bottom:1px solid #e8d8c4; }
+.nf-table td { padding:0.28rem 0.2rem; border-bottom:1px solid var(--border); }
 .nf-table td:last-child { text-align:right; font-variant-numeric:tabular-nums; font-weight:bold; }
 .nf-table tr.major td { font-size:1.1rem; font-weight:bold; border-bottom:3px solid var(--border); }
-.nf-table tr.sub td:first-child { padding-left:1.2rem; color:#7a5c44; }
+.nf-table tr.sub td:first-child { padding-left:1.2rem; color:#607a58; }
 
 .current-price { font-size:2rem; font-weight:bold; color:var(--accent); line-height:1.2; }
-.current-price .ccy { font-size:1rem; font-weight:normal; color:#7a5c44; }
-.current-price .per { font-size:1rem; font-weight:normal; color:#7a5c44; }
+.current-price .ccy { font-size:1rem; font-weight:normal; color:#607a58; }
+.current-price .per { font-size:1rem; font-weight:normal; color:#607a58; }
 
 .ph-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
 .ph-table th { text-align:left; border-bottom:2px solid var(--border); padding:0.3rem 0.4rem; color:var(--accent); font-style:italic; font-size:0.8rem; }
 .ph-table th.r { text-align:right; }
-.ph-table td { padding:0.3rem 0.4rem; border-bottom:1px solid #e8d8c4; }
+.ph-table td { padding:0.3rem 0.4rem; border-bottom:1px solid var(--border); }
 .ph-table td.r { text-align:right; font-variant-numeric:tabular-nums; }
 .ph-table tr:first-child td { font-weight:bold; }
 
-.source-note { font-size:0.75rem; color:#a07860; margin-top:1rem; line-height:1.5; }
+.source-note { font-size:0.75rem; color:#7a9870; margin-top:1rem; line-height:1.5; }
 </style>
 {% endblock %}

@@ -48,7 +48,7 @@
         {% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}—{% endif %}
       </td>
       <td class="r num">
-        {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}{{ "%.2f"|format(ing.price_per_kg) }} {{ ing.currency or 'USD' }}{% else %}—{% endif %}
+        {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(ing.price_per_kg) }}{% else %}—{% endif %}
       </td>
     </tr>
     {% endfor %}
@@ -79,12 +79,12 @@
   font-family: Georgia, serif; font-style: italic;
 }
 .ing-table th.r { text-align: right; }
-.ing-table td { padding: 0.38rem 0.7rem; border-bottom: 1px solid #e8d8c4; }
-.ing-table tr:hover td { background: #fff3e0; }
+.ing-table td { padding: 0.38rem 0.7rem; border-bottom: 1px solid var(--border); }
+.ing-table tr:hover td { background: #e2ede0; }
 .name-cell { font-weight: bold; }
 .ing-link { color: var(--accent); text-decoration: none; }
 .ing-link:hover { text-decoration: underline; }
-.cat { color: #7a5c44; font-size: 0.88rem; }
+.cat { color: var(--muted); font-size: 0.88rem; }
 .r { text-align: right; }
 .num { font-variant-numeric: tabular-nums; }
 </style>

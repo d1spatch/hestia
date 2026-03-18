@@ -43,14 +43,22 @@ _NUTRIENT_MAP: dict[int, str] = {
 # FDC reports these in mg; we convert to g for consistency with other fields
 _MG_TO_G = {"sodium_per_100g", "cholesterol_per_100g"}
 
-# FDC measureUnit abbreviations → multiplier to convert that unit's gramWeight to g-per-tbsp.
-# Only cooking volume units are relevant; all others are ignored.
+# FDC abbreviation → multiplier to normalise that unit's gramWeight to g-per-tbsp.
 _TO_TBSP: dict[str, float] = {
     "tsp": 3.0,        # 1 tbsp = 3 tsp
     "teaspoon": 3.0,
     "tbsp": 1.0,
     "tablespoon": 1.0,
     "cup": 1 / 16,     # 1 cup = 16 tbsp
+}
+
+# FDC abbreviation → multiplier to normalise that unit's gramWeight to g-per-mL.
+_TO_ML: dict[str, float] = {
+    "ml": 1.0,
+    "milliliter": 1.0,
+    "milliliters": 1.0,
+    "fl oz": 1 / 29.5735,   # 1 fl oz = 29.5735 mL
+    "floz": 1 / 29.5735,
 }
 
 
@@ -155,6 +163,23 @@ def fetch(fdc_id: int) -> dict[str, Any]:
             break
     if g_per_tbsp is not None:
         nutrition["g_per_tbsp"] = g_per_tbsp
+
+    # Parse foodPortions for mL density (g per mL).
+    # Prefer mL directly; fall back to fl oz.
+    g_per_ml: float | None = None
+    for unit_pref in ("ml", "milliliter", "milliliters", "fl oz", "floz"):
+        for portion in data.get("foodPortions", []):
+            abbr = portion.get("measureUnit", {}).get("abbreviation", "").lower().strip()
+            gram_weight = portion.get("gramWeight")
+            if abbr == unit_pref and gram_weight is not None:
+                amount = float(portion.get("amount") or 1.0)
+                if amount > 0:
+                    g_per_ml = round(float(gram_weight) / amount * _TO_ML[abbr], 4)
+                    break
+        if g_per_ml is not None:
+            break
+    if g_per_ml is not None:
+        nutrition["g_per_ml"] = g_per_ml
 
     nutrition["source"] = {
         "type": "usda",

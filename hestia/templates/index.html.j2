@@ -33,12 +33,12 @@
          data-name="{{ recipe.name | lower }}"
          data-tags="{{ recipe.tags | join(',') | lower }}"
          data-ingredients="{{ ing_names | join(',') | lower }}"
-         style="background:#fff8ef; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
+         style="background:#edf3eb; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
       <a href="{{ base }}recipe/{{ recipe.slug }}/"
          style="font-size:1.2rem; color:var(--accent); font-weight:bold; text-decoration:none">
         {{ recipe.name }}
       </a>
-      <div style="font-size:0.85rem; color:#7a5c44; margin-top:0.3rem">
+      <div style="font-size:0.85rem; color:#607a58; margin-top:0.3rem">
         Serves <strong>{{ recipe.serves }}</strong>
         {% if recipe.tags %}
           &nbsp;&nbsp;
@@ -48,7 +48,7 @@
           {% endfor %}
         {% endif %}
       </div>
-      <div style="font-size:0.82rem; color:#a07860; margin-top:0.25rem">
+      <div style="font-size:0.82rem; color:#7a9870; margin-top:0.25rem">
         {{ ing_names | join(', ') }}
       </div>
     </div>

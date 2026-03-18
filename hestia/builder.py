@@ -31,8 +31,10 @@ def _make_env(base: str) -> Environment:
         loader=FileSystemLoader(str(_TEMPLATES_DIR)),
         autoescape=select_autoescape(["html"]),
     )
+    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
     env.filters["url_encode"] = quote_plus
     env.filters["tojson"] = _tojson
+    env.filters["csym"] = lambda code: _CSYM.get(code, code)
     env.globals["base"] = base
     return env
 

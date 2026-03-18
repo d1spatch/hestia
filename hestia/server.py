@@ -38,8 +38,10 @@ def _web_env() -> Environment:
             raise TypeError(f"Not serializable: {type(obj)}")
         return json.dumps(v, default=default)
 
+    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
     env.filters["url_encode"] = quote_plus
     env.filters["tojson"] = _tojson
+    env.filters["csym"] = lambda code: _CSYM.get(code, code)
     env.globals["base"] = "/"
     return env
 

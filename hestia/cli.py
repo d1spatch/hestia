@@ -878,9 +878,9 @@ def ingredient_import_usda(
 @ingredient_app.command("update-price")
 def ingredient_price_update(
     name: Annotated[str, typer.Argument(help="Ingredient name.")],
-    package_price: Annotated[Optional[float], typer.Option("--package-price", "-P", help="Price paid for the whole package. Use with --net-weight to compute price/kg automatically.")] = None,
+    package_price_str: Annotated[Optional[str], typer.Option("--package-price", "-P", help="Price paid for the whole package. Use with --net-weight to compute price/kg automatically.")] = None,
     net_weight: Annotated[Optional[str], typer.Option("--net-weight", "-w", help="Package net weight, e.g. '32oz', '2lb', '500g', '1.5kg'.")] = None,
-    price: Annotated[Optional[float], typer.Option("--price", "-p", help="Price per kg (alternative to --package-price + --net-weight).")] = None,
+    price_str: Annotated[Optional[str], typer.Option("--price", "-p", help="Price per kg (alternative to --package-price + --net-weight).")] = None,
     store: Annotated[Optional[str], typer.Option("--store", "-s", help="Store or retailer name.")] = None,
     currency: Annotated[str, typer.Option("--currency", help="Currency code (default: USD).")] = "USD",
     record_date: Annotated[Optional[str], typer.Option("--date", "-d", help="Date of purchase as YYYY-MM-DD. Defaults to today.")] = None,
@@ -895,6 +895,8 @@ def ingredient_price_update(
         hestia ingredient update-price "bread flour" -P 8.99 -w 5lb -s Costco
         hestia ingredient update-price "bread flour" --price 1.98 --store "Whole Foods"
     """
+    package_price: Optional[float] = float(package_price_str.lstrip("$").strip()) if package_price_str is not None else None
+    price: Optional[float] = float(price_str.lstrip("$").strip()) if price_str is not None else None
     if package_price is not None and net_weight is not None:
         try:
             weight_kg = _parse_weight_kg(net_weight)
@@ -910,7 +912,7 @@ def ingredient_price_update(
         # Interactive: ask for package info (natural) or price/kg (advanced)
         pkg_str = typer.prompt("Package price (leave blank to enter price/kg directly)", default="")
         if pkg_str:
-            package_price = float(pkg_str)
+            package_price = float(pkg_str.lstrip("$").strip())
             wt_str = typer.prompt("Net weight (e.g. 32oz, 2lb, 500g, 1.5kg)", default="")
             if wt_str:
                 try:
@@ -924,11 +926,11 @@ def ingredient_price_update(
                 rprint("[red]Net weight is required when entering package price.[/red]")
                 raise typer.Exit(1)
         else:
-            price_str = typer.prompt("Price per kg", default="")
-            if not price_str:
+            price_inp = typer.prompt("Price per kg", default="")
+            if not price_inp:
                 rprint("[red]A price is required.[/red]")
                 raise typer.Exit(1)
-            price = float(price_str)
+            price = float(price_inp.lstrip("$").strip())
         if not store:
             store_str = typer.prompt("Store (leave blank to skip)", default="")
             store = store_str or None

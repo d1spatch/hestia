@@ -101,16 +101,20 @@ Both templates receive two variables:
 
 ### HTML customisation
 
-Edit `recipe.html.j2` directly. The CSS is in a `<style>` block at the top. Colours are controlled via CSS custom properties:
+Templates extend `base.html.j2`, which defines the shared layout and colour palette via CSS custom properties:
 
 ```css
 :root {
-  --accent: #5c4033;   /* headings, borders */
-  --light:  #fdf6ec;   /* page background  */
-  --border: #d4b896;   /* table borders    */
-  --text:   #2c1f14;   /* body text        */
+  --accent: #5f855a;   /* headings, links  */
+  --nav:    #3b5740;   /* navigation bar   */
+  --light:  #f4f7f2;   /* page background  */
+  --border: #beccb5;   /* borders          */
+  --text:   #2a3828;   /* body text        */
+  --muted:  #607a58;   /* secondary text   */
 }
 ```
+
+Edit `base.html.j2` to change the global palette. Page-specific CSS goes in the `{% block extra_style %}` block of each template (`recipe.html.j2`, etc.).
 
 ### LaTeX customisation
 

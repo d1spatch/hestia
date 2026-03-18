@@ -30,6 +30,8 @@ The ingredient catalog is stored in `data/ingredients.yaml` — a plain YAML fil
 | `vitamin_c_per_100g` | Milligrams of Vitamin C per 100 g |
 | `vitamin_d_per_100g` | Micrograms of Vitamin D per 100 g |
 | `vitamin_k_per_100g` | Micrograms of Vitamin K per 100 g |
+| `g_per_tbsp` | Grams per tablespoon — enables `tsp`/`tbsp`/`cup` unit conversion (auto-set by `import-usda`) |
+| `g_per_ml` | Grams per mL — density for liquid ingredients (auto-set by `import-usda`; defaults to 1.0 g/mL) |
 | `category` | Freeform category, e.g. `grain`, `dairy`, `vegetable` |
 | `source` | Provenance block (auto-populated by `import-usda`) |
 | `notes` | Freeform notes |
@@ -102,7 +104,7 @@ Returns a table of matching foods with their FDC IDs and data types.
 hestia ingredient import-usda 169762 --name "oat bran" --category grain
 ```
 
-Populates all available macros, micronutrients, and a `source` attribution block automatically.
+Populates all available macros, micronutrients, volume conversion data (`g_per_tbsp`, `g_per_ml`), and a `source` attribution block automatically.
 
 Use `--update` to merge nutrition data into an ingredient that already exists in the catalog:
 
@@ -127,6 +129,9 @@ Use `update-price` to record a new price observation. Each call appends to the i
 ```bash
 # From a store label (price/kg computed automatically)
 hestia ingredient update-price "bread flour" -P 5.99 -w 5lb -s Costco
+
+# A leading $ is accepted and ignored
+hestia ingredient update-price "bread flour" -P "$5.99" -w 5lb -s Costco
 
 # Direct price/kg
 hestia ingredient update-price "bread flour" --price 1.32 --store "Whole Foods"

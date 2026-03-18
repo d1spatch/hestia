@@ -33,10 +33,13 @@ def _env(escape_latex: bool = False) -> Environment:
             trim_blocks=True,
             autoescape=False,
         )
-    return Environment(
+    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
+    env = Environment(
         loader=FileSystemLoader(str(_TEMPLATES_DIR)),
         autoescape=select_autoescape(["html"]),
     )
+    env.filters["csym"] = lambda code: _CSYM.get(code, code)
+    return env
 
 
 def _latex_escape(text: str) -> str:

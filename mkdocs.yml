@@ -1,19 +1,20 @@
 site_name: Hestia Cookbook
 site_description: Precision cookbook CLI — recipes, ingredients, nutrition.
 site_author: Hestia
+site_url: https://d1spatch.github.io/hestia/docs/
 
 theme:
   name: material
   palette:
     - scheme: default
-      primary: brown
-      accent: deep-orange
+      primary: green
+      accent: teal
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - scheme: slate
-      primary: brown
-      accent: deep-orange
+      primary: green
+      accent: teal
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
@@ -46,6 +47,7 @@ nav:
       - Recipes: guide/recipes.md
       - Ingredients: guide/ingredients.md
       - Rendering Output: guide/rendering.md
+      - Web UI: guide/web.md
   - CLI Reference: reference/cli.md
   - API Reference:
       - recipe.py: reference/recipe.md

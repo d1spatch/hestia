@@ -27,8 +27,14 @@ jobs:
       - name: Install hestia
         run: pip install -e .
 
-      - name: Build static site
+      - name: Install docs dependencies
+        run: pip install mkdocs-material mkdocstrings[python]
+
+      - name: Build app static site
         run: hestia build --base-url /${{ github.event.repository.name }}/ --output _site
+
+      - name: Build documentation
+        run: mkdocs build --site-dir _site/docs
 
       - uses: actions/upload-pages-artifact@v3
         with:

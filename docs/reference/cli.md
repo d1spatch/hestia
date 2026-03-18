@@ -32,6 +32,32 @@ hestia serve --port 9000 --no-browser
 
 ---
 
+## `hestia build`
+
+Generate a complete static site for deployment (e.g. GitHub Pages).
+
+```
+hestia build [--base-url URL] [--output DIR]
+```
+
+| Option | Description | Default |
+|---|---|---|
+| `--base-url` | URL prefix for all internal links | `/` |
+| `--output` | Output directory (wiped and recreated) | `_site` |
+
+Renders every recipe page, the ingredient catalog, and individual ingredient detail pages as static HTML.
+
+**Examples:**
+```bash
+# Local preview
+hestia build
+
+# GitHub Pages (repo name = hestia)
+hestia build --base-url /hestia/ --output _site
+```
+
+---
+
 ## `hestia recipe`
 
 ### `recipe add`

@@ -14,37 +14,47 @@ ingredients:
     unit: g
     note: "1 can of sweet corn, keeping the liquid"
   - name: garlic
-    amount: 15
+    amount: 30
     unit: g
-    note: "3 cloves, minced"
+    note: "approximately one square of garlic minced, sometimes i double it"
   - name: jalapeno
     amount: 30
     unit: g
     note: "any combination of jalapenos, serranos, or other spicy peppers, finely chopped"
   - name: tomato paste
-    amount: 170
-    unit: g
-    note: "1 can of tomato paste (6oz)"
+    amount: 6
+    unit: oz
+    note: "1 can of tomato paste"
 #  - name: chicken broth
 #    amount: 32
 #    unit: oz
 #    note: "About one costco carton of chicken broth or eqiuivalent better than bullion"
   - name: better than bouillon, chicken
-    amount: 2
+    amount: 1
     unit: tbsp
+    note: "If you substitute with chicken broth, use 32 oz of chicken broth and omit the water."
+  - name: water
+    amount: 32 
+    unit: oz
+    note: "If you substitute with chicken broth, omit the water."
   - name: salt
-    amount: 2
+    amount: .5
     unit: tsp
-    note: "If using a carton of chicken stock, you may want to reduce the salt to 1 tsp or less, depending on how salty your stock is."
+    note: "To taste."
+  - name: black pepper
+    amount: .5
+    unit: tsp
+    note: "To taste."
 
 instructions:
   - Rinse the rice in a fine mesh strainer until the water runs clear. Drain well.
+  - in a 6-8 quart pot, heat a few tablespoons of oil over medium heat. Add the onion and cook until softened, about 5 minutes. Add the garlic and jalapeno and cook for another minute until fragrant.
   - They say to toast the rice in oil before cooking, but I skip this step and just add the rice to the pot with the other ingredients.
   - Add all ingredients to a large pot and stir to combine. Bring to a boil, then reduce to a simmer and cover with a tight fitting lid.
   - Simmer for 15 minutes, let it steam. DO NOT OPEN THE LID.
-  - Fluff with a fork and serve. Can be stored in the fridge for up to 5 days.
+  - Fluff with chopstick to areate the rice and serve.
 
 notes: |
-  - Don't open in the middle of cooking! The steam is what cooks the rice, so opening the lid will let the steam escape and can result in undercooked rice.
+  - Don't open in the middle of cooking! The steam is what cooks the rice, so opening the lid will let the steam escape and can ruin the result.
   - Put the temperature as low as possible while steaming to prevent burning the bottom.
   - I like to add some chopped cilantro and a squeeze of lime juice when serving.

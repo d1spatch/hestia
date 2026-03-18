@@ -14,6 +14,7 @@ Most recipe apps trade precision for convenience. Hestia is built differently:
 - **Ingredient catalog** — a central database of ingredients with price per kg, calories, and macros. Add a recipe and instantly see its cost and calorie count.
 - **Plain-text recipes** — recipes live as YAML files that you can read, edit, diff, and version-control with git.
 - **Beautiful output** — render any recipe to a print-ready HTML page or a typeset PDF via LaTeX.
+- **Web UI** — browse your cookbook in a local web server or deploy it as a static site to GitHub Pages.
 
 ---
 
@@ -40,5 +41,6 @@ hestia recipe render sourdough_bread --format both
 | [Recipes](guide/recipes.md) | YAML format, adding and listing recipes |
 | [Ingredients](guide/ingredients.md) | Catalog management, bulk CSV import |
 | [Rendering](guide/rendering.md) | HTML and PDF output, MiKTeX setup |
+| [Web UI](guide/web.md) | Local server and GitHub Pages deployment |
 | [CLI Reference](reference/cli.md) | Every command and option |
 | [API Reference](reference/recipe.md) | Python module documentation |

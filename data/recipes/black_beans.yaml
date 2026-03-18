@@ -11,7 +11,7 @@ ingredients:
     unit: lb
     note: "enough to cover the beans by about 2 inches"
   - name: salt
-    amount: 1
+    amount: .5
     unit: tsp
   - name: garlic
     amount: 15

@@ -1,38 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ recipe.name }}</title>
-<style>
-  :root {
-    --accent: #5c4033;
-    --light: #fdf6ec;
-    --border: #d4b896;
-    --text: #2c1f14;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Georgia', serif;
-    background: var(--light);
-    color: var(--text);
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 3rem 2rem;
-    line-height: 1.7;
-  }
-  h1 {
-    font-size: 2.2rem;
+{% extends "base.html.j2" %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block extra_style %}
+  h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  h2 {
+    font-size: 1.2rem;
     color: var(--accent);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 2rem 0 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
-  .meta {
-    color: #7a5c44;
-    font-size: 0.9rem;
-    margin-bottom: 1.8rem;
-  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.8rem; }
   .tags span {
     background: var(--accent);
     color: #fff;
@@ -41,58 +20,54 @@
     font-size: 0.78rem;
     margin-right: 4px;
   }
-  h2 {
-    font-size: 1.2rem;
-    color: var(--accent);
-    margin: 2rem 0 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-  }
-  th {
-    text-align: left;
-    border-bottom: 2px solid var(--border);
-    padding: 0.3rem 0.5rem;
-    color: var(--accent);
-  }
-  td { padding: 0.3rem 0.5rem; border-bottom: 1px solid #e8d8c4; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem; }
+  th { text-align: left; border-bottom: 2px solid var(--border); padding: 0.3rem 0.5rem; color: var(--accent); }
+  td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); }
   tr:last-child td { border-bottom: none; }
   ol { padding-left: 1.5rem; }
   ol li { margin-bottom: 0.5rem; }
   .notes {
-    background: #fff8ef;
+    background: #edf3eb;
     border-left: 4px solid var(--border);
     padding: 0.8rem 1rem;
     font-style: italic;
-    color: #5a4030;
+    color: #3a5040;
     white-space: pre-line;
   }
   .missing { color: #c0392b; font-size: 0.85rem; margin-top: 0.5rem; }
-  .ing-group { font-size: 1rem; color: #7a5c44; margin: 1.2rem 0 0.4rem; font-style: italic; text-transform: none; letter-spacing: 0; }
-  tr.ing-group-row td { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: bold; padding-top: 1rem; border-bottom: 1px solid var(--border); background: transparent; }
-  td.ing-indent { padding-left: 1rem; }
-  .optional { font-size: 0.75rem; color: #a07860; font-style: italic; margin-left: 0.4rem; }
-  .ing-note { font-style: italic; color: #a07860; font-size: 0.85rem; text-align: left; }
-  @media print {
-    body { padding: 1.5rem; }
+  .ing-group { font-size: 1rem; color: var(--muted); margin: 1.2rem 0 0.4rem; font-style: italic; }
+  tr.ing-group-row td {
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--accent); font-weight: bold; padding-top: 1rem;
+    border-bottom: 1px solid var(--border); background: transparent;
   }
-</style>
-</head>
-<body>
+  td.ing-indent { padding-left: 1rem; }
+  .optional { font-size: 0.75rem; color: #7a9870; font-style: italic; margin-left: 0.4rem; }
+  .ing-note { font-style: italic; color: #7a9870; font-size: 0.85rem; }
+  .dv-note { font-size: 0.75rem; color: #7a9870; margin: 0.2rem 0 0.8rem; }
+  .nf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+  .nf-card { background: #edf3eb; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.2rem; }
+  .nf-section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: bold; margin-bottom: 0.5rem; }
+  .nf-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .nf-table td { padding: 0.2rem 0.2rem; border-bottom: 1px solid var(--border); }
+  .nf-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: bold; }
+  .nf-table tr.major td { font-size: 1rem; font-weight: bold; border-bottom: 2px solid var(--border); }
+  .nf-table tr.sub td:first-child { padding-left: 1rem; color: var(--muted); }
+  .nf-table tr.cost-item td { font-size: 0.84rem; color: var(--muted); }
+  .nf-table tr:last-child td { border-bottom: none; }
+  .nf-table .dv { text-align: right; color: var(--muted); font-weight: normal; font-size: 0.82rem; white-space: nowrap; }
+  .dbg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 0.5rem; }
+  .dbg-table th { text-align: right; font-size: 0.75rem; color: var(--accent); border-bottom: 2px solid var(--border); padding: 0.2rem 0.4rem; white-space: nowrap; }
+  .dbg-table th:first-child { text-align: left; }
+  .dbg-table td { text-align: right; padding: 0.2rem 0.4rem; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  .dbg-table td:first-child { text-align: left; font-weight: bold; }
+  .dbg-table tr:last-child td { border-bottom: 2px solid var(--border); font-weight: bold; background: #edf3eb; }
+  .dbg-warn { color: #c0392b; font-weight: bold; }
+  @media print { .container { padding: 1.5rem; } nav { display: none; } }
+{% endblock %}
 
-{% if show_nav %}
-<nav style="background:#5c4033; padding:0.6rem 2rem; margin:-3rem -2rem 2rem; display:flex; gap:1.5rem; align-items:center">
-  <strong style="color:#fff; font-size:1.1rem; font-family:Georgia,serif">Hestia</strong>
-  <a href="{{ base }}" style="color:#fff; font-family:Georgia,serif; text-decoration:none">Recipes</a>
-  <a href="{{ base }}ingredients/" style="color:#fff; font-family:Georgia,serif; text-decoration:none">Ingredients</a>
-</nav>
-{% endif %}
-
+{% block content %}
+{% set csym = nutrition.currency | csym %}
 <h1>{{ recipe.name }}</h1>
 <div class="meta">
   Serves: <strong>{{ recipe.serves }}</strong>
@@ -163,10 +138,10 @@
     <div class="nf-section-title">Cost</div>
     <table class="nf-table">
       {% for item in nutrition.cost_breakdown %}
-      <tr class="cost-item"><td colspan="3">{{ item.name }}</td><td>{{ nutrition.currency }} {{ "%.2f"|format(item.cost) }}</td></tr>
+      <tr class="cost-item"><td colspan="3">{{ item.name }}</td><td>{{ csym }}{{ "%.2f"|format(item.cost) }}</td></tr>
       {% endfor %}
-      <tr class="major"><td colspan="3">Total Recipe</td><td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</td></tr>
-      <tr><td colspan="3">Per Serving</td><td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost / srv) }}</td></tr>
+      <tr class="major"><td colspan="3">Total Recipe</td><td>{{ csym }}{{ "%.2f"|format(nutrition.cost) }}</td></tr>
+      <tr><td colspan="3">Per Serving</td><td>{{ csym }}{{ "%.2f"|format(nutrition.cost / srv) }}</td></tr>
     </table>
   </div>
 
@@ -208,28 +183,6 @@
 </p>
 {% endif %}
 
-<style>
-.nf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
-.nf-card { background: #fff8ef; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.2rem; }
-.nf-section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: bold; margin-bottom: 0.5rem; }
-.nf-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-.nf-table td { padding: 0.2rem 0.2rem; border-bottom: 1px solid #e8d8c4; }
-.nf-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: bold; }
-.nf-table tr.major td { font-size: 1rem; font-weight: bold; border-bottom: 2px solid var(--border); }
-.nf-table tr.sub td:first-child { padding-left: 1rem; color: #7a5c44; }
-.nf-table tr.cost-item td { font-size: 0.84rem; color: #7a5c44; }
-.nf-table tr:last-child td { border-bottom: none; }
-.nf-table .dv { text-align: right; color: #7a5c44; font-weight: normal; font-size: 0.82rem; white-space: nowrap; }
-.dv-note { font-size: 0.75rem; color: #a07860; margin: 0.2rem 0 0.8rem; }
-.dbg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 0.5rem; }
-.dbg-table th { text-align: right; font-size: 0.75rem; color: var(--accent); border-bottom: 2px solid var(--border); padding: 0.2rem 0.4rem; white-space: nowrap; }
-.dbg-table th:first-child { text-align: left; }
-.dbg-table td { text-align: right; padding: 0.2rem 0.4rem; border-bottom: 1px solid #e8d8c4; font-variant-numeric: tabular-nums; }
-.dbg-table td:first-child { text-align: left; font-weight: bold; }
-.dbg-table tr:last-child td { border-bottom: 2px solid var(--border); font-weight: bold; background: #fff8ef; }
-.dbg-warn { color: #c0392b; font-weight: bold; }
-</style>
-
 {% if debug %}
 {% set dv = {
   'calories': 2000, 'fat': 78, 'saturated_fat': 20, 'cholesterol_mg': 300,
@@ -237,7 +190,7 @@
   'potassium_mg': 4700, 'calcium_mg': 1300, 'iron_mg': 18, 'magnesium_mg': 420
 } %}
 <h2 style="color:#c0392b">&#9881; Nutrition Debug</h2>
-<p style="font-size:0.8rem; color:#a07860; margin-bottom:0.8rem">Per-ingredient breakdown — total recipe (not per serving). % DV shown for flagged values.</p>
+<p style="font-size:0.8rem; color:#7a9870; margin-bottom:0.8rem">Per-ingredient breakdown — total recipe (not per serving). % DV shown for flagged values.</p>
 <div style="overflow-x:auto">
 <table class="dbg-table">
   <thead>
@@ -253,39 +206,21 @@
   <tr>
     <td>{{ i.name }}</td>
     <td>{{ i.grams }}</td>
-    <td>{% if i.cost is not none %}{{ nutrition.currency }} {{ "%.2f"|format(i.cost) }}{% else %}—{% endif %}</td>
-    <td>{{ i.calories }}</td>
-    <td>{{ i.protein }}</td>
-    <td>{{ i.carbs }}</td>
-    <td>{{ i.fat }}</td>
-    <td>{{ i.saturated_fat }}</td>
-    <td>{{ i.fiber }}</td>
-    <td>{{ i.sugar }}</td>
+    <td>{% if i.cost is not none %}{{ csym }}{{ "%.2f"|format(i.cost) }}{% else %}—{% endif %}</td>
+    <td>{{ i.calories }}</td><td>{{ i.protein }}</td><td>{{ i.carbs }}</td><td>{{ i.fat }}</td>
+    <td>{{ i.saturated_fat }}</td><td>{{ i.fiber }}</td><td>{{ i.sugar }}</td>
     <td{% if i.sodium_mg and dv.sodium_mg and (i.sodium_mg / dv.sodium_mg * 100) > 50 %} class="dbg-warn"{% endif %}>{{ i.sodium_mg }}</td>
     <td{% if i.cholesterol_mg and dv.cholesterol_mg and (i.cholesterol_mg / dv.cholesterol_mg * 100) > 50 %} class="dbg-warn"{% endif %}>{{ i.cholesterol_mg }}</td>
-    <td>{{ i.calcium_mg }}</td>
-    <td>{{ i.iron_mg }}</td>
-    <td>{{ i.potassium_mg }}</td>
-    <td>{{ i.magnesium_mg }}</td>
+    <td>{{ i.calcium_mg }}</td><td>{{ i.iron_mg }}</td><td>{{ i.potassium_mg }}</td><td>{{ i.magnesium_mg }}</td>
   </tr>
   {% endfor %}
   <tr>
-    <td>TOTAL</td>
-    <td>—</td>
-    <td>{{ nutrition.currency }} {{ "%.2f"|format(nutrition.cost) }}</td>
-    <td>{{ nutrition.calories }}</td>
-    <td>{{ nutrition.protein }}</td>
-    <td>{{ nutrition.carbs }}</td>
-    <td>{{ nutrition.fat }}</td>
-    <td>{{ nutrition.saturated_fat }}</td>
-    <td>{{ nutrition.fiber }}</td>
-    <td>{{ nutrition.sugar }}</td>
-    <td>{{ nutrition.sodium_mg }}</td>
-    <td>{{ nutrition.cholesterol_mg }}</td>
-    <td>{{ nutrition.calcium_mg }}</td>
-    <td>{{ nutrition.iron_mg }}</td>
-    <td>{{ nutrition.potassium_mg }}</td>
-    <td>{{ nutrition.magnesium_mg }}</td>
+    <td>TOTAL</td><td>—</td>
+    <td>{{ csym }}{{ "%.2f"|format(nutrition.cost) }}</td>
+    <td>{{ nutrition.calories }}</td><td>{{ nutrition.protein }}</td><td>{{ nutrition.carbs }}</td><td>{{ nutrition.fat }}</td>
+    <td>{{ nutrition.saturated_fat }}</td><td>{{ nutrition.fiber }}</td><td>{{ nutrition.sugar }}</td>
+    <td>{{ nutrition.sodium_mg }}</td><td>{{ nutrition.cholesterol_mg }}</td>
+    <td>{{ nutrition.calcium_mg }}</td><td>{{ nutrition.iron_mg }}</td><td>{{ nutrition.potassium_mg }}</td><td>{{ nutrition.magnesium_mg }}</td>
   </tr>
   </tbody>
 </table>
@@ -294,6 +229,4 @@
 <p style="font-size:0.82rem; color:#c0392b; margin-top:0.5rem">Not in catalog (excluded from totals): {{ nutrition.missing_ingredients | join(", ") }}</p>
 {% endif %}
 {% endif %}
-
-</body>
-</html>
+{% endblock %}

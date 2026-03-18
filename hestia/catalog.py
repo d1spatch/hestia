@@ -57,7 +57,7 @@ _NUTRITION_FIELDS = frozenset({
     "fiber_per_100g", "sugar_per_100g", "sodium_per_100g", "saturated_fat_per_100g",
     "cholesterol_per_100g", "vitamin_c_per_100g", "vitamin_d_per_100g",
     "vitamin_k_per_100g", "calcium_per_100g", "iron_per_100g", "magnesium_per_100g",
-    "potassium_per_100g", "manganese_per_100g", "g_per_tbsp", "source",
+    "potassium_per_100g", "manganese_per_100g", "g_per_tbsp", "g_per_ml", "source",
 })
 _PRICING_FIELDS = frozenset({"currency", "price_per_kg", "price_history"})
 _USER_DEFINED_FIELDS = frozenset({"category", "aliases", "notes"})
