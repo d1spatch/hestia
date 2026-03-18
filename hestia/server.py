@@ -17,6 +17,7 @@ from .renderer import render_html_str
 _RECIPES_DIR = Path(__file__).parent.parent / "data" / "recipes"
 _CATALOG_PATH = Path(__file__).parent.parent / "data" / "ingredients.yaml"
 _TEMPLATES_DIR = Path(__file__).parent / "templates"
+_DOCS_DIR = Path(__file__).parent.parent / "site"
 
 # ---------------------------------------------------------------------------
 # Jinja2 env for web-only templates (index, ingredients, base)
@@ -142,6 +143,29 @@ def _handle_ingredient_detail(name: str):
     return _html_response(html)
 
 
+def _handle_docs(parts: list[str]):
+    _CONTENT_TYPES = {
+        ".html": "text/html; charset=utf-8",
+        ".css": "text/css; charset=utf-8",
+        ".js": "application/javascript; charset=utf-8",
+        ".json": "application/json",
+        ".svg": "image/svg+xml",
+        ".png": "image/png",
+        ".ico": "image/x-icon",
+        ".woff2": "font/woff2",
+        ".woff": "font/woff",
+        ".gz": "application/gzip",
+    }
+    sub = "/".join(parts[1:]) if len(parts) > 1 else ""
+    file_path = _DOCS_DIR / sub
+    if file_path.is_dir():
+        file_path = file_path / "index.html"
+    if not file_path.is_file():
+        return _handle_404()
+    ct = _CONTENT_TYPES.get(file_path.suffix.lower(), "application/octet-stream")
+    return "200 OK", [("Content-Type", ct)], file_path.read_bytes()
+
+
 def _handle_404():
     html = "<html><body><h1>404 Not Found</h1></body></html>"
     return _html_response(html, "404 Not Found")
@@ -166,6 +190,8 @@ def _route(environ):
         from urllib.parse import unquote_plus
         raw = "/".join(parts[1:])
         return _handle_ingredient_detail(raw)
+    if parts[0] == "docs":
+        return _handle_docs(parts)
     if parts[0] == "favicon.ico":
         return "404 Not Found", [], b""
     return _handle_404()

@@ -27,6 +27,14 @@ Opens a local web server at `http://127.0.0.1:8765` and launches your browser au
 hestia serve --port 9000 --no-browser
 ```
 
+!!! tip "Docs locally"
+    The **Docs** link in the nav bar serves from the pre-built MkDocs output (`site/` directory). Build it once before starting the server:
+    ```bash
+    python -m mkdocs build
+    hestia serve
+    ```
+    Without a `site/` build the Docs link returns 404.
+
 ---
 
 ## Static site (GitHub Pages)

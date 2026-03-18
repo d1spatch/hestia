@@ -9,23 +9,23 @@ ingredients:
     note: "about 1 cucumber"
   - name: sugar
     amount: 2
-    unit: tbsp
+    unit: tsp
   - name: vinegar
     amount: 2
-    unit: tbsp
+    unit: tsp
   - name: soy sauce
     amount: 2
-    unit: tbsp
+    unit: tsp
   - name: sesame oil
     amount: 2
-    unit: tbsp
+    unit: tsp
   - name: crushed red pepper flakes
     amount: 2
-    unit: tbsp
+    unit: tsp
   - name: salt
     amount: 2
-    unit: tbsp
-    nutrition_pct: 10.0
+    unit: tsp
+    nutrition_pct: 75.0
   - name: garlic
     amount: 30
     unit: g
@@ -36,14 +36,14 @@ ingredients:
     note: "about a 4th of an onion, thinly sliced"
 
 instructions:
-  - Thinly slice the cucumber in a mandoline and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
+  - Thinly slice the cucumber in a mandolin and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
   - Rinse the cucumber under cold water to remove excess salt. Drain and pat dry with paper towels.
   - Once dry, add the cucumber back to the bowl and toss with sugar, white vinegar, soy sauce, crushed red pepper flakes, and sesame oil until well coated.
   - Add garlic and sliced onions if desired.
   - Add 1/8th teaspoon of capsaicin powder if you want it spicier.
   - Squish into mason jar, fill to top with liquid, and let sit in the fridge for at least a day before serving.
-  - Can be stored in the fridge for up to 1 week.
+  - Can be stored in the fridge for up to 2 week.
 
 notes: |
   Using frozen garlic is fine.
-  Haejin really hates when you add tequilla to this recipe.
+  Haejin really hates when you add tequila to this recipe.
