@@ -25,7 +25,7 @@ ingredients:
   - name: salt
     amount: 2
     unit: tsp
-    nutrition_pct: 75.0
+    nutrition_pct: 25.0
   - name: garlic
     amount: 30
     unit: g
