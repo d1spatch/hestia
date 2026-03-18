@@ -57,10 +57,10 @@ _NUTRITION_FIELDS = frozenset({
     "fiber_per_100g", "sugar_per_100g", "sodium_per_100g", "saturated_fat_per_100g",
     "cholesterol_per_100g", "vitamin_c_per_100g", "vitamin_d_per_100g",
     "vitamin_k_per_100g", "calcium_per_100g", "iron_per_100g", "magnesium_per_100g",
-    "potassium_per_100g", "manganese_per_100g", "source",
+    "potassium_per_100g", "manganese_per_100g", "g_per_tbsp", "source",
 })
 _PRICING_FIELDS = frozenset({"currency", "price_per_kg", "price_history"})
-_USER_DEFINED_FIELDS = frozenset({"category", "aliases", "g_per_tbsp", "notes"})
+_USER_DEFINED_FIELDS = frozenset({"category", "aliases", "notes"})
 
 
 # ---------------------------------------------------------------------------
@@ -84,6 +84,10 @@ def _load(catalog_path: Path) -> dict[str, dict[str, Any]]:
             if isinstance(section_data, dict):
                 flat.update(section_data)
         flat.update(entry)  # remaining top-level fields (legacy flat or unknowns)
+        # Migrate unit_conversions: {tbsp: X} → g_per_tbsp: X
+        uc = flat.pop("unit_conversions", None)
+        if isinstance(uc, dict) and "tbsp" in uc and "g_per_tbsp" not in flat:
+            flat["g_per_tbsp"] = uc["tbsp"]
         data[name] = flat
     return data
 

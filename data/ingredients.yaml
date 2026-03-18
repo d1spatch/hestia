@@ -11,11 +11,11 @@ BelVita Breakfast Biscuit:
     sugar_per_100g: 20.0
   pricing:
     currency: USD
-    price_per_kg: 7.8765
     price_history:
     - date: '2026-03-14'
       package_price: 11.79
       price_per_kg: 7.8765
+    price_per_kg: 7.8765
 bay leaves:
   nutrition:
     calcium_per_100g: 0.0
@@ -28,18 +28,19 @@ bay leaves:
     protein_per_100g: 0.0
     saturated_fat_per_100g: 0.0
     sodium_per_100g: 0.0
-    sugar_per_100g: 0.0
-    vitamin_c_per_100g: 0.0
     source:
       description: BAY LEAVES
       fdc_id: 451475
       retrieved: '2026-03-17'
       type: usda
+    sugar_per_100g: 0.0
+    vitamin_c_per_100g: 0.0
 better than bouillon, beef:
   nutrition:
     calories_per_100g: 250.0
     carbs_per_100g: 16.67
     fat_per_100g: 8.33
+    g_per_tbsp: 18.0
     protein_per_100g: 16.67
     sodium_per_100g: 11.667
     source:
@@ -49,19 +50,18 @@ better than bouillon, beef:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 18.0905
     price_history:
     - date: '2026-03-17'
       package_price: 10.77
       price_per_kg: 18.0905
       store: Costco
-  user_defined:
-    g_per_tbsp: 18.0
+    price_per_kg: 18.0905
 better than bouillon, chicken:
   nutrition:
     calories_per_100g: 167.0
     carbs_per_100g: 33.33
     fat_per_100g: 0.0
+    g_per_tbsp: 18.0
     protein_per_100g: 16.67
     sodium_per_100g: 11.667
     source:
@@ -71,14 +71,12 @@ better than bouillon, chicken:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 18.0905
     price_history:
     - date: '2026-03-17'
       package_price: 10.77
       price_per_kg: 18.0905
       store: Costco
-  user_defined:
-    g_per_tbsp: 18.0
+    price_per_kg: 18.0905
 black beans:
   nutrition:
     calcium_per_100g: 191.0
@@ -96,12 +94,12 @@ black beans:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 1.4277
     price_history:
     - date: '2026-03-17'
       package_price: 16.19
       price_per_kg: 1.4277
       store: Costco
+    price_per_kg: 1.4277
 black pepper:
   nutrition:
     calcium_per_100g: 443.0
@@ -110,6 +108,7 @@ black pepper:
     cholesterol_per_100g: 0.0
     fat_per_100g: 3.26
     fiber_per_100g: 25.3
+    g_per_tbsp: 15.0
     iron_per_100g: 9.71
     magnesium_per_100g: 171.0
     manganese_per_100g: 12.753
@@ -117,25 +116,23 @@ black pepper:
     protein_per_100g: 10.39
     saturated_fat_per_100g: 1.392
     sodium_per_100g: 0.02
-    sugar_per_100g: 0.64
-    vitamin_c_per_100g: 0.0
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 163.7
     source:
       description: Spices, pepper, black
       fdc_id: 170931
       retrieved: '2026-03-17'
       type: usda
+    sugar_per_100g: 0.64
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 163.7
   pricing:
     currency: USD
-    price_per_kg: 21.2394
     price_history:
     - date: '2026-03-17'
       package_price: 8.49
       price_per_kg: 21.2394
       store: Costco
-  user_defined:
-    g_per_tbsp: 15.0
+    price_per_kg: 21.2394
 blueberries:
   nutrition:
     calcium_per_100g: 11.69
@@ -147,20 +144,20 @@ blueberries:
     potassium_per_100g: 85.64
     protein_per_100g: 0.7031
     sodium_per_100g: 0.0
-    vitamin_c_per_100g: 8.059
     source:
       description: Blueberries, raw
       fdc_id: 2346411
       retrieved: '2026-03-16'
       type: usda
+    vitamin_c_per_100g: 8.059
   pricing:
     currency: USD
-    price_per_kg: 27.7881
     price_history:
     - date: '2026-03-16'
       package_price: 14.18
       price_per_kg: 27.7881
       store: Costco
+    price_per_kg: 27.7881
 bread flour:
   nutrition:
     calcium_per_100g: 19.0
@@ -180,12 +177,12 @@ bread flour:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 3.3025
     price_history:
     - date: '2026-03-16'
       package_price: 7.49
       price_per_kg: 3.3025
       store: Ralphs
+    price_per_kg: 3.3025
 butter:
   nutrition:
     calcium_per_100g: 21.0
@@ -200,23 +197,23 @@ butter:
     protein_per_100g: 0.85
     saturated_fat_per_100g: 45.6
     sodium_per_100g: 0.524
-    sugar_per_100g: 0.58
-    vitamin_c_per_100g: 0.0
-    vitamin_d_per_100g: 0.4
-    vitamin_k_per_100g: 7.0
     source:
       description: Butter, stick
       fdc_id: 2710155
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 0.58
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.4
+    vitamin_k_per_100g: 7.0
   pricing:
     currency: USD
-    price_per_kg: 14.5395
     price_history:
     - date: '2026-03-16'
       package_price: 13.19
       price_per_kg: 14.5395
       store: Costco
+    price_per_kg: 14.5395
 chicken broth:
   nutrition:
     calcium_per_100g: 187.0
@@ -232,23 +229,23 @@ chicken broth:
     protein_per_100g: 16.66
     saturated_fat_per_100g: 3.43
     sodium_per_100g: 23.875
-    sugar_per_100g: 17.36
-    vitamin_c_per_100g: 1.1
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 0.0
     source:
       description: Soup, chicken broth or bouillon, dry
       fdc_id: 171562
       retrieved: '2026-03-17'
       type: usda
+    sugar_per_100g: 17.36
+    vitamin_c_per_100g: 1.1
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.0
   pricing:
     currency: USD
-    price_per_kg: 1.8739
     price_history:
     - date: '2026-03-17'
       package_price: 10.2
       price_per_kg: 1.8739
       store: Costco
+    price_per_kg: 1.8739
 cream cheese:
   nutrition:
     calcium_per_100g: 97.11
@@ -262,20 +259,20 @@ cream cheese:
     protein_per_100g: 5.7899
     saturated_fat_per_100g: 19.73
     sodium_per_100g: 0.3678
-    vitamin_k_per_100g: 2.4
     source:
       description: Cream cheese, full fat, block
       fdc_id: 2346385
       retrieved: '2026-03-16'
       type: usda
+    vitamin_k_per_100g: 2.4
   pricing:
     currency: USD
-    price_per_kg: 9.1639
     price_history:
     - date: '2026-03-16'
       package_price: 12.47
       price_per_kg: 9.1639
       store: Costco
+    price_per_kg: 9.1639
 crushed red pepper flakes:
   nutrition:
     calcium_per_100g: 134.0
@@ -283,6 +280,7 @@ crushed red pepper flakes:
     carbs_per_100g: 68.7
     fat_per_100g: 3.0
     fiber_per_100g: 21.3
+    g_per_tbsp: 5.5
     iron_per_100g: 10.4
     potassium_per_100g: 3170.0
     protein_per_100g: 17.9
@@ -294,7 +292,6 @@ crushed red pepper flakes:
     price_per_kg: 16.8962
   user_defined:
     category: seasoning
-    g_per_tbsp: 5.5
 cucumber:
   nutrition:
     calcium_per_100g: 16.34
@@ -307,15 +304,14 @@ cucumber:
     manganese_per_100g: 0.085
     potassium_per_100g: 170.0
     protein_per_100g: 0.67
-    vitamin_k_per_100g: 24.0
     source:
       description: Cucumber, with peel, raw
       fdc_id: 2346406
       retrieved: '2026-03-14'
       type: usda
+    vitamin_k_per_100g: 24.0
   pricing:
     currency: USD
-    price_per_kg: 6.6333
     price_history:
     - date: '2025-03-14'
       package_price: 1.99
@@ -325,6 +321,7 @@ cucumber:
       package_price: 1.99
       price_per_kg: 6.6333
       store: Ralphs
+    price_per_kg: 6.6333
   user_defined:
     category: vegetable
 egg:
@@ -342,11 +339,11 @@ egg:
     sodium_per_100g: 0.129
   pricing:
     currency: USD
-    price_per_kg: 7.175
     price_history:
     - date: '2026-03-16'
       package_price: 8.61
       price_per_kg: 7.175
+    price_per_kg: 7.175
   user_defined:
     category: dairy
 garlic:
@@ -363,23 +360,23 @@ garlic:
     protein_per_100g: 6.62
     saturated_fat_per_100g: 0.089
     sodium_per_100g: 0.017
-    sugar_per_100g: 1.0
-    vitamin_c_per_100g: 10.0
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 1.7
     source:
       description: Garlic, raw
       fdc_id: 2709786
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 1.0
+    vitamin_c_per_100g: 10.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 1.7
   pricing:
     currency: USD
-    price_per_kg: 10.3544
     price_history:
     - date: '2026-03-16'
       package_price: 14.09
       price_per_kg: 10.3544
       store: Costco
+    price_per_kg: 10.3544
 goat cheese (costco):
   nutrition:
     calcium_per_100g: 46.6667
@@ -397,13 +394,13 @@ goat cheese (costco):
     vitamin_d_per_100g: 0.0
   pricing:
     currency: USD
-    price_per_kg: 13.8167
     price_history:
     - date: '2026-03-14'
       net_weight: 600g
       package_price: 8.29
       price_per_kg: 13.8167
       store: Costco
+    price_per_kg: 13.8167
   user_defined:
     category: cheese
 heavy cream:
@@ -420,23 +417,23 @@ heavy cream:
     protein_per_100g: 2.02
     saturated_fat_per_100g: 20.4
     sodium_per_100g: 0.021
-    sugar_per_100g: 2.92
-    vitamin_c_per_100g: 0.6
-    vitamin_d_per_100g: 1.6
-    vitamin_k_per_100g: 3.2
     source:
       description: Cream, heavy
       fdc_id: 2705597
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 2.92
+    vitamin_c_per_100g: 0.6
+    vitamin_d_per_100g: 1.6
+    vitamin_k_per_100g: 3.2
   pricing:
     currency: USD
-    price_per_kg: 10.3958
     price_history:
     - date: '2026-03-16'
       package_price: 4.99
       price_per_kg: 10.3958
       store: Trader Joes
+    price_per_kg: 10.3958
 jalapeno:
   nutrition:
     calcium_per_100g: 10.1
@@ -449,12 +446,12 @@ jalapeno:
     potassium_per_100g: 166.9
     protein_per_100g: 0.6211
     sodium_per_100g: 0.0
-    vitamin_c_per_100g: 89.94
     source:
       description: Peppers, jalapeno, seeded, raw
       fdc_id: 2747661
       retrieved: '2026-03-17'
       type: usda
+    vitamin_c_per_100g: 89.94
 long grain white rice:
   nutrition:
     calcium_per_100g: 4.46
@@ -475,12 +472,12 @@ long grain white rice:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 2.1936
     price_history:
     - date: '2026-03-16'
       package_price: 1.99
       price_per_kg: 2.1936
       store: Ralphs
+    price_per_kg: 2.1936
 maple syrup:
   nutrition:
     calcium_per_100g: 102.0
@@ -496,47 +493,47 @@ maple syrup:
     protein_per_100g: 0.04
     saturated_fat_per_100g: 0.007
     sodium_per_100g: 0.012
-    sugar_per_100g: 60.46
-    vitamin_c_per_100g: 0.0
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 0.0
     source:
       description: Syrups, maple
       fdc_id: 169661
       retrieved: '2026-03-16'
       type: usda
+    sugar_per_100g: 60.46
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.0
   pricing:
     currency: USD
-    price_per_kg: 14.9132
     price_history:
     - date: '2026-03-16'
       package_price: 14.29
       price_per_kg: 14.9132
       store: Costco
+    price_per_kg: 14.9132
 salt:
   nutrition:
     calories_per_100g: 0.0
+    g_per_tbsp: 18.0
     sodium_per_100g: 100
   pricing:
     currency: USD
     price_per_kg: 2.27
   user_defined:
     category: seasoning
-    g_per_tbsp: 18.0
 sesame oil:
   nutrition:
     calories_per_100g: 884.0
+    g_per_tbsp: 13.6
   pricing:
     currency: USD
-    price_per_kg: 153.7912
     price_history:
     - date: '2026-03-14'
       package_price: 27.99
       price_per_kg: 153.7912
       store: H-Mart
+    price_per_kg: 153.7912
   user_defined:
     category: oil
-    g_per_tbsp: 13.6
 sourdough starter:
   nutrition:
     calories_per_100g: 60.0
@@ -553,38 +550,39 @@ soy sauce:
     cholesterol_per_100g: 0.0
     fat_per_100g: 0.57
     fiber_per_100g: 0.8
+    g_per_tbsp: 16.0
     iron_per_100g: 1.45
     magnesium_per_100g: 74.0
     potassium_per_100g: 435.0
     protein_per_100g: 8.14
     saturated_fat_per_100g: 0.073
     sodium_per_100g: 3.6
-    sugar_per_100g: 0.4
-    vitamin_c_per_100g: 0.0
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 0.0
     source:
       description: Soy sauce
       fdc_id: 2707442
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 0.4
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.0
   pricing:
     currency: USD
-    price_per_kg: 8.1279
     price_history:
     - date: '2026-03-14'
       package_price: 6.99
       price_per_kg: 8.1279
       store: H-Mart
+    price_per_kg: 8.1279
   user_defined:
     category: seasoning
-    g_per_tbsp: 16.0
 sugar:
   nutrition:
     calcium_per_100g: 1.0
     calories_per_100g: 385.0
     carbs_per_100g: 99.6
     fat_per_100g: 0.32
+    g_per_tbsp: 12.5
     iron_per_100g: 0.05
     magnesium_per_100g: 0.3
     manganese_per_100g: 0.004
@@ -598,7 +596,6 @@ sugar:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 2.3534
     price_history:
     - date: '2026-03-14'
       package_price: 5.49
@@ -608,9 +605,9 @@ sugar:
       package_price: 4.27
       price_per_kg: 2.3534
       store: Walmart
+    price_per_kg: 2.3534
   user_defined:
     category: sweetener
-    g_per_tbsp: 12.5
 sweet corn:
   nutrition:
     calcium_per_100g: 0.6563
@@ -631,12 +628,12 @@ sweet corn:
       type: usda
   pricing:
     currency: USD
-    price_per_kg: 1.6146
     price_history:
     - date: '2026-03-16'
       package_price: 13.95
       price_per_kg: 1.6146
       store: Costco
+    price_per_kg: 1.6146
 sweet onion:
   nutrition:
     calcium_per_100g: 20.0
@@ -645,31 +642,30 @@ sweet onion:
     cholesterol_per_100g: 0.0
     fat_per_100g: 0.08
     fiber_per_100g: 0.9
+    g_per_tbsp: 10.0
     iron_per_100g: 0.26
     magnesium_per_100g: 9.0
     manganese_per_100g: 0.076
     potassium_per_100g: 119.0
     protein_per_100g: 0.8
     sodium_per_100g: 0.008
-    sugar_per_100g: 5.02
-    vitamin_c_per_100g: 4.8
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 0.3
     source:
       description: Onions, sweet, raw
       fdc_id: 170008
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 5.02
+    vitamin_c_per_100g: 4.8
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.3
   pricing:
     currency: USD
-    price_per_kg: 4.5714
     price_history:
     - date: '2026-03-16'
       package_price: 0.8
       price_per_kg: 4.5714
       store: Trader Joes
-  user_defined:
-    g_per_tbsp: 10.0
+    price_per_kg: 4.5714
 tomato paste:
   nutrition:
     calcium_per_100g: 36.85
@@ -683,31 +679,31 @@ tomato paste:
     potassium_per_100g: 971.6
     protein_per_100g: 4.2344
     sodium_per_100g: 0.0611
-    vitamin_c_per_100g: 18.4
     source:
       description: Tomato, paste, canned, without salt added
       fdc_id: 2685580
       retrieved: '2026-03-16'
       type: usda
+    vitamin_c_per_100g: 18.4
   pricing:
     currency: USD
-    price_per_kg: 5.5588
     price_history:
     - date: '2026-03-16'
       package_price: 11.34
       price_per_kg: 5.5588
       store: Costco
+    price_per_kg: 5.5588
 vanilla extract:
   nutrition:
     calories_per_100g: 288.0
     carbs_per_100g: 12.65
     fat_per_100g: 0.06
+    g_per_tbsp: 13.0
     protein_per_100g: 0.06
     sodium_per_100g: 0.014
     sugar_per_100g: 12.65
   user_defined:
     category: flavoring
-    g_per_tbsp: 13.0
 vinegar:
   nutrition:
     calcium_per_100g: 7.0
@@ -716,32 +712,32 @@ vinegar:
     cholesterol_per_100g: 0.0
     fat_per_100g: 0.0
     fiber_per_100g: 0.0
+    g_per_tbsp: 15.0
     iron_per_100g: 0.2
     magnesium_per_100g: 5.0
     potassium_per_100g: 73.0
     protein_per_100g: 0.0
     saturated_fat_per_100g: 0.0
     sodium_per_100g: 0.005
-    sugar_per_100g: 0.4
-    vitamin_c_per_100g: 0.0
-    vitamin_d_per_100g: 0.0
-    vitamin_k_per_100g: 0.0
     source:
       description: Vinegar
       fdc_id: 2709351
       retrieved: '2026-03-14'
       type: usda
+    sugar_per_100g: 0.4
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.0
   pricing:
     currency: USD
-    price_per_kg: 3.7753
     price_history:
     - date: '2026-03-14'
       package_price: 3.99
       price_per_kg: 3.7753
       store: Ralphs
+    price_per_kg: 3.7753
   user_defined:
     category: seasoning
-    g_per_tbsp: 15.0
 water:
   nutrition:
     calories_per_100g: 0.0

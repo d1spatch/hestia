@@ -164,9 +164,8 @@ _GRAM_CONVERSIONS: dict[str, float] = {
     "dl": 100.0,
 }
 
-# Volume units expressed as multiples of one tablespoon.
-# Requires an ingredient-specific g_per_tbsp to convert to grams.
-_TBSP_CONVERSIONS: dict[str, float] = {
+# Ratios relative to tbsp — used as fallback when only tbsp is in unit_conversions.
+_TBSP_RATIOS: dict[str, float] = {
     "tsp": 1 / 3,
     "tbsp": 1.0,
     "cup": 16.0,
@@ -184,7 +183,8 @@ def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None) -> float
         amount: Numeric quantity.
         unit: Unit string (case-insensitive).
         g_per_tbsp: Grams per tablespoon for this ingredient (from the catalog
-            field ``g_per_tbsp``). Required to convert `tsp`/`tbsp`/`cup`.
+            field ``g_per_tbsp``). Used to convert `tsp`/`tbsp`/`cup` via
+            fixed ratios (1 tbsp = 3 tsp = 1/16 cup).
 
     Returns:
         Equivalent mass in grams, or `None` if the unit cannot be converted.
@@ -193,9 +193,10 @@ def to_grams(amount: float, unit: str, g_per_tbsp: float | None = None) -> float
     factor = _GRAM_CONVERSIONS.get(u)
     if factor is not None:
         return amount * factor
-    tbsp_factor = _TBSP_CONVERSIONS.get(u)
-    if tbsp_factor is not None and g_per_tbsp is not None:
-        return amount * tbsp_factor * g_per_tbsp
+    if g_per_tbsp is not None:
+        ratio = _TBSP_RATIOS.get(u)
+        if ratio is not None:
+            return amount * ratio * g_per_tbsp
     return None
 
 
@@ -279,10 +280,11 @@ def compute_nutrition(
         else:
             print(f"{entry['name']}: No price available")
 
+        nutrition_scale = (grams / 100.0) * (ing.nutrition_pct / 100.0)
         ing_nutrients: dict[str, float] = {}
         for field in _nutrient_fields:
             if entry.get(field) is not None:
-                value = entry[field] * (grams / 100.0)
+                value = entry[field] * nutrition_scale
                 totals[field] += value
                 ing_nutrients[field] = value
 

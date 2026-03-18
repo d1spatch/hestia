@@ -43,6 +43,16 @@ _NUTRIENT_MAP: dict[int, str] = {
 # FDC reports these in mg; we convert to g for consistency with other fields
 _MG_TO_G = {"sodium_per_100g", "cholesterol_per_100g"}
 
+# FDC measureUnit abbreviations → multiplier to convert that unit's gramWeight to g-per-tbsp.
+# Only cooking volume units are relevant; all others are ignored.
+_TO_TBSP: dict[str, float] = {
+    "tsp": 3.0,        # 1 tbsp = 3 tsp
+    "teaspoon": 3.0,
+    "tbsp": 1.0,
+    "tablespoon": 1.0,
+    "cup": 1 / 16,     # 1 cup = 16 tbsp
+}
+
 
 def _load_dotenv() -> None:
     """Load .env from the project root (hestia/) if it exists."""
@@ -128,6 +138,23 @@ def fetch(fdc_id: int) -> dict[str, Any]:
             if field in _MG_TO_G:
                 fval = fval / 1000.0
             nutrition[field] = round(fval, 4)
+
+    # Parse foodPortions → store only g-per-tbsp (tsp/cup are derived by fixed ratios).
+    # Prefer tbsp directly; fall back to tsp or cup if tbsp isn't listed.
+    g_per_tbsp: float | None = None
+    for unit_pref in ("tbsp", "tablespoon", "tsp", "teaspoon", "cup"):
+        for portion in data.get("foodPortions", []):
+            abbr = portion.get("measureUnit", {}).get("abbreviation", "").lower().strip()
+            gram_weight = portion.get("gramWeight")
+            if abbr == unit_pref and gram_weight is not None:
+                amount = float(portion.get("amount") or 1.0)
+                if amount > 0:
+                    g_per_tbsp = round(float(gram_weight) / amount * _TO_TBSP[abbr], 4)
+                    break
+        if g_per_tbsp is not None:
+            break
+    if g_per_tbsp is not None:
+        nutrition["g_per_tbsp"] = g_per_tbsp
 
     nutrition["source"] = {
         "type": "usda",

@@ -25,10 +25,13 @@ ingredients:
     amount: 170
     unit: g
     note: "1 can of tomato paste (6oz)"
-  - name: chicken broth
-    amount: 32
-    unit: oz
-    note: "About one costco carton of chicken broth or eqiuivalent better than bullion"
+#  - name: chicken broth
+#    amount: 32
+#    unit: oz
+#    note: "About one costco carton of chicken broth or eqiuivalent better than bullion"
+  - name: better than bouillon, chicken
+    amount: 2
+    unit: tbsp
   - name: salt
     amount: 2
     unit: tsp
