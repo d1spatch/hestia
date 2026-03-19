@@ -355,7 +355,7 @@ def compute_nutrition(
 
     grams_per_serving = total_grams / serves_count
     # Scale factor: what fraction of total recipe nutrients go into one serving
-    serving_scale = grams_per_serving / ingredient_grams if ingredient_grams > 0 else (1.0 / serves_count)
+    serving_scale = grams_per_serving / total_grams if total_grams > 0 else (1.0 / serves_count)
 
     return {
         "cost": round(total_cost, 2),

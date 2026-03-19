@@ -20,9 +20,9 @@ ingredients:
     unit: g
     note: "approximately one square of garlic minced, sometimes i double it"
   - name: jalapeno
-    amount: 30
+    amount: 50
     unit: g
-    note: "any combination of jalapenos, serranos, or other spicy peppers, finely chopped. It doesn't seem to taste as good without red chinese chilies."
+    note: "asian peppers seem to work better"
   - name: tomato paste
     amount: 6
     unit: oz
@@ -32,19 +32,19 @@ ingredients:
 #    unit: oz
 #    note: "About one costco carton of chicken broth or eqiuivalent better than bullion"
   - name: better than bouillon, chicken
-    amount: 1
+    amount: 2
     unit: tbsp
     note: "If you substitute with chicken broth, use 32 oz of chicken broth and omit the water and salt."
   - name: water
-    amount: 32 
-    unit: oz
+    amount: 2 
+    unit: lb
     note: "If you substitute with chicken broth, omit the water."
   - name: salt
-    amount: 1
+    amount: 2
     unit: tsp
     note: "To taste. I tried without it and it was pretty bland."
   - name: black pepper
-    amount: 1
+    amount: 2
     unit: tsp
     note: "To taste."
 
