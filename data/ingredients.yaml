@@ -92,19 +92,30 @@ better than bouillon, chicken:
     price_per_kg: 18.0905
 black beans:
   nutrition:
-    calcium_per_100g: 191.0
-    fat_per_100g: 1.45
-    fiber_per_100g: 4.2
-    iron_per_100g: 5.34
-    magnesium_per_100g: 180.0
-    manganese_per_100g: 2.08
-    potassium_per_100g: 1540.0
-    protein_per_100g: 24.4
+    calcium_per_100g: 123.0
+    calories_per_100g: 341.0
+    carbs_per_100g: 62.36
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 1.42
+    fiber_per_100g: 15.5
+    iron_per_100g: 5.02
+    magnesium_per_100g: 171.0
+    manganese_per_100g: 1.06
+    potassium_per_100g: 1483.0
+    protein_per_100g: 21.6
+    saturated_fat_per_100g: 0.366
+    sodium_per_100g: 0.005
     source:
-      description: Beans, Dry, Black (0% moisture)
-      fdc_id: 747444
-      retrieved: '2026-03-17'
+      description: Beans, black, mature seeds, raw
+      fdc_id: 173734
+      retrieved: '2026-03-28'
       type: usda
+    sugar_per_100g: 2.12
+    unit_sizes:
+      undetermined: 12.1
+    vitamin_c_per_100g: 0.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 5.6
   pricing:
     currency: USD
     price_history:
@@ -149,6 +160,7 @@ black pepper:
 blueberries:
   nutrition:
     calcium_per_100g: 11.69
+    calories_per_100g: 57.3846
     carbs_per_100g: 14.5718
     fat_per_100g: 0.3063
     iron_per_100g: 0.3398
@@ -160,8 +172,10 @@ blueberries:
     source:
       description: Blueberries, raw
       fdc_id: 2346411
-      retrieved: '2026-03-16'
+      retrieved: '2026-03-28'
       type: usda
+    unit_sizes:
+      racc: 140.0
     vitamin_c_per_100g: 8.059
   pricing:
     currency: USD
@@ -238,7 +252,7 @@ cajun seasoning:
     source:
       description: CAJUN SEASONING, CAJUN
       fdc_id: 2419752
-      retrieved: '2026-03-18'
+      retrieved: '2026-03-28'
       type: usda
   pricing:
     currency: USD
@@ -283,6 +297,7 @@ chicken broth:
 cream cheese:
   nutrition:
     calcium_per_100g: 97.11
+    calories_per_100g: 336.7321
     carbs_per_100g: 4.5561
     cholesterol_per_100g: 0.101
     fat_per_100g: 33.49
@@ -296,8 +311,10 @@ cream cheese:
     source:
       description: Cream cheese, full fat, block
       fdc_id: 2346385
-      retrieved: '2026-03-16'
+      retrieved: '2026-03-28'
       type: usda
+    unit_sizes:
+      racc: 30.0
     vitamin_k_per_100g: 2.4
   pricing:
     currency: USD
@@ -504,6 +521,7 @@ goat cheese (costco):
 gold potatoes:
   nutrition:
     calcium_per_100g: 5.943
+    calories_per_100g: 71.5752
     carbs_per_100g: 15.9624
     fat_per_100g: 0.2638
     iron_per_100g: 0.3728
@@ -515,7 +533,7 @@ gold potatoes:
     source:
       description: Potatoes, gold, without skin, raw
       fdc_id: 2346403
-      retrieved: '2026-03-21'
+      retrieved: '2026-03-28'
       type: usda
     unit_sizes:
       racc: 110.0
@@ -531,19 +549,30 @@ gold potatoes:
     price_per_kg: 2.2002
 green onion:
   nutrition:
-    calcium_per_100g: 59.44
-    fiber_per_100g: 2.3
-    iron_per_100g: 1.044
-    magnesium_per_100g: 18.94
-    manganese_per_100g: 0.2713
-    potassium_per_100g: 232.0
-    protein_per_100g: 0.6687
-    sodium_per_100g: 0.0099
+    calcium_per_100g: 72.0
+    calories_per_100g: 32.0
+    carbs_per_100g: 7.34
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 0.19
+    fiber_per_100g: 2.6
+    iron_per_100g: 1.48
+    magnesium_per_100g: 20.0
+    manganese_per_100g: 0.16
+    potassium_per_100g: 276.0
+    protein_per_100g: 1.83
+    saturated_fat_per_100g: 0.032
+    sodium_per_100g: 0.016
     source:
-      description: Green onion, (scallion), bulb and greens, root removed, raw
-      fdc_id: 2727585
-      retrieved: '2026-03-17'
+      description: Onions, spring or scallions (includes tops and bulb), raw
+      fdc_id: 170005
+      retrieved: '2026-03-28'
       type: usda
+    sugar_per_100g: 2.33
+    unit_sizes:
+      undetermined: 25.0
+    vitamin_c_per_100g: 18.8
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 207.0
   pricing:
     currency: USD
     price_history:
@@ -590,6 +619,7 @@ heavy cream:
 jalapeno:
   nutrition:
     calcium_per_100g: 10.1
+    calories_per_100g: 24.1264
     carbs_per_100g: 5.0757
     fat_per_100g: 0.1488
     fiber_per_100g: 1.725
@@ -602,7 +632,7 @@ jalapeno:
     source:
       description: Peppers, jalapeno, seeded, raw
       fdc_id: 2747661
-      retrieved: '2026-03-17'
+      retrieved: '2026-03-28'
       type: usda
     vitamin_c_per_100g: 89.94
   pricing:
@@ -841,7 +871,7 @@ rice wine vinegar:
     source:
       description: RICE WINE VINEGAR
       fdc_id: 1975322
-      retrieved: '2026-03-21'
+      retrieved: '2026-03-28'
       type: usda
     sugar_per_100g: 0.0
     vitamin_c_per_100g: 0.0

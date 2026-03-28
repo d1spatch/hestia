@@ -517,6 +517,117 @@ def ingredient_list(
     console.print(table)
 
 
+@ingredient_app.command("show")
+def ingredient_show(
+    name: Annotated[str, typer.Argument(help="Ingredient name (or alias) to display.")],
+):
+    """Show full nutrition, pricing, and metadata for a single ingredient.
+
+    Looks up by exact name first, then falls back to case-insensitive name
+    and alias matching.
+
+    \b
+    Example:
+        hestia ingredient show blueberries
+        hestia ingredient show "bread flour"
+    """
+    entry = _catalog.get_ingredient(name)
+    if not entry:
+        rprint(f"[red]Ingredient not found:[/red] {name}")
+        raise typer.Exit(1)
+
+    display_name = entry.get("name", name)
+    rprint(f"\n[bold]{display_name}[/bold]")
+    if entry.get("category"):
+        rprint(f"[dim]Category:[/dim] {entry['category']}")
+    if entry.get("aliases"):
+        rprint(f"[dim]Aliases:[/dim]  {', '.join(entry['aliases'])}")
+    if entry.get("notes"):
+        rprint(f"[dim]Notes:[/dim]    {entry['notes']}")
+
+    # Nutrition
+    _MACROS = [
+        ("calories_per_100g",       "Calories",        "kcal"),
+        ("protein_per_100g",        "Protein",         "g"),
+        ("carbs_per_100g",          "Carbohydrates",   "g"),
+        ("fat_per_100g",            "Fat",             "g"),
+        ("saturated_fat_per_100g",  "Saturated fat",   "g"),
+        ("fiber_per_100g",          "Fiber",           "g"),
+        ("sugar_per_100g",          "Sugar",           "g"),
+        ("sodium_per_100g",         "Sodium",          "g"),
+        ("cholesterol_per_100g",    "Cholesterol",     "g"),
+    ]
+    _MICROS = [
+        ("vitamin_c_per_100g",   "Vitamin C",  "mg"),
+        ("vitamin_d_per_100g",   "Vitamin D",  "mcg"),
+        ("vitamin_k_per_100g",   "Vitamin K",  "mcg"),
+        ("calcium_per_100g",     "Calcium",    "mg"),
+        ("iron_per_100g",        "Iron",       "mg"),
+        ("magnesium_per_100g",   "Magnesium",  "mg"),
+        ("potassium_per_100g",   "Potassium",  "mg"),
+        ("manganese_per_100g",   "Manganese",  "mg"),
+    ]
+
+    nutrition_rows = [(label, entry[field], unit) for field, label, unit in _MACROS if entry.get(field) is not None]
+    micro_rows     = [(label, entry[field], unit) for field, label, unit in _MICROS  if entry.get(field) is not None]
+
+    if nutrition_rows or micro_rows:
+        nt = Table(title="Nutrition (per 100g)", show_header=True, show_lines=False, box=None)
+        nt.add_column("Nutrient", style="dim")
+        nt.add_column("Amount", justify="right")
+        nt.add_column("Unit", style="dim")
+        for label, val, unit in nutrition_rows:
+            nt.add_row(label, f"{val:.2f}", unit)
+        if nutrition_rows and micro_rows:
+            nt.add_row("", "", "")
+        for label, val, unit in micro_rows:
+            nt.add_row(label, f"{val:.3f}", unit)
+        rprint("")
+        console.print(nt)
+
+    # Unit conversions
+    conv_lines = []
+    if entry.get("g_per_tbsp") is not None:
+        conv_lines.append(f"1 tbsp = {entry['g_per_tbsp']:.2f} g")
+    if entry.get("g_per_ml") is not None:
+        conv_lines.append(f"1 ml = {entry['g_per_ml']:.4f} g")
+    if entry.get("g_per_unit") is not None:
+        conv_lines.append(f"1 unit = {entry['g_per_unit']:.2f} g")
+    if entry.get("unit_sizes"):
+        for unit_name, grams in entry["unit_sizes"].items():
+            conv_lines.append(f"1 {unit_name} = {grams:.2f} g")
+    if conv_lines:
+        rprint(f"\n[dim]Unit conversions:[/dim] {' · '.join(conv_lines)}")
+
+    # Pricing
+    if entry.get("price_per_kg") is not None:
+        ccy = entry.get("currency", "USD")
+        rprint(f"\n[dim]Price:[/dim] {entry['price_per_kg']:.4f} {ccy}/kg")
+        history = entry.get("price_history", [])
+        if history:
+            pt = Table(show_header=True, show_lines=False, box=None)
+            pt.add_column("Date",      style="dim")
+            pt.add_column("Price/kg",  justify="right")
+            pt.add_column("Store")
+            pt.add_column("Package",   style="dim")
+            for obs in history:
+                pkg = ""
+                if obs.get("package_price") and obs.get("net_weight"):
+                    pkg = f"{obs['package_price']} / {obs['net_weight']}"
+                pt.add_row(
+                    str(obs.get("date", "")),
+                    f"{obs['price_per_kg']:.4f}",
+                    obs.get("store", "—"),
+                    pkg,
+                )
+            console.print(pt)
+
+    # Source attribution
+    source = entry.get("source")
+    if isinstance(source, dict):
+        rprint(f"\n[dim]Source:[/dim] USDA FDC {source.get('fdc_id')} — {source.get('description')} (retrieved {source.get('retrieved')})")
+
+
 def _iprompt(label: str, current: "Any") -> str:
     """Prompt showing the current value; blank input means no change."""
     cur = str(current) if current is not None else ""

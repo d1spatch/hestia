@@ -20,7 +20,9 @@ _BASE = "https://api.nal.usda.gov/fdc/v1"
 
 # FDC nutrient IDs → catalog field names (values per 100g)
 _NUTRIENT_MAP: dict[int, str] = {
-    1008: "calories_per_100g",       # kcal
+    1008: "calories_per_100g",       # kcal — Atwater General Factors
+    2047: "calories_per_100g",       # kcal — Atwater Specific Factors (Foundation foods)
+    2048: "calories_per_100g",       # kcal — gross energy (some Foundation foods)
     1003: "protein_per_100g",        # g
     1004: "fat_per_100g",            # g
     1005: "carbs_per_100g",          # g

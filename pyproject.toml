@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hestia"
-version = "0.1.0"
+version = "1.0.0"
 description = "A precision cookbook CLI with ingredient catalog and LaTeX/HTML rendering"
 requires-python = ">=3.10"
 dependencies = [
