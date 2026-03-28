@@ -5,46 +5,46 @@ tags: [dessert, cake]
 ingredients:
   - group: Filling
     items:
-      - name: cream cheese
+      - item: cream cheese
         amount: 300
         unit: g
-      - name: heavy cream
+      - item: heavy cream
         amount: 180
         unit: g
-      - name: sugar
+      - item: sugar
         amount: 90
         unit: g
-      - name: egg
+      - item: egg
         amount: 100
         unit: g
         note: "Two Large Eggs"
-      - name: vanilla extract
+      - item: vanilla extract
         amount: 1
         unit: tsp
-      - name: lemon zest
+      - item: lemon zest
         amount: 1
         unit: tsp
         optional: true
   - group: Crust
     items:
-      - name: BelVita Breakfast Biscuit
+      - item: BelVita Breakfast Biscuit
         amount: 350
         unit: g
-      - name: butter
+      - item: butter
         amount: 110
         unit: g
   - group: Compote
     items:
-      - name: blueberries
+      - item: blueberries
         amount: 300
         unit: g
-      - name: maple syrup
+      - item: maple syrup
         amount: 70
         unit: g
-      - name: vanilla extract
+      - item: vanilla extract
         amount: 0.5
         unit: tsp
-      - name: lemon juice
+      - item: lemon juice
         amount: 1
         unit: tbsp
 
@@ -63,4 +63,5 @@ instructions:
 
 notes: |
   - I like to use a springform pan for this, but you can also use a regular cake pan and line it with parchment paper.
+  - USE A THERMOMETER. Temperatures seem to vary wildly. Sometimes it finishes in 30 minutes. Stove directions are always unreliable, cook to temp.
   - I'm going to try to add goat cheese next.

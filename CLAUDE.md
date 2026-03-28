@@ -4,10 +4,10 @@ A precision cookbook CLI. Store recipes as YAML, catalog ingredients with prices
 
 ## Environment
 
-- **Python**: always use `c:\dev\projects\.venv313\Scripts\python.exe`, never bare `python`
-- **Run CLI**: `c:\dev\projects\.venv313\Scripts\python.exe -m hestia <command>`
-- **Docs**: `c:\dev\projects\.venv313\Scripts\python.exe -m mkdocs serve` (from project root)
-- **Install (editable)**: `c:\dev\projects\.venv313\Scripts\python.exe -m pip install -e .`
+- **Python**: always use `uv run python`, never bare `python`
+- **Run CLI**: `uv run python -m hestia <command>`
+- **Docs**: `uv run python -m mkdocs serve` (from project root)
+- **Install (editable)**: `uv pip install -e .`
 - **PDF output** requires MiKTeX (`pdflatex` on PATH)
 
 ## Key Commands

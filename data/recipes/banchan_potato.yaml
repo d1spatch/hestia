@@ -1,0 +1,65 @@
+name: Potato Banchan (감자조림)
+description: Korean braised potatoes with savory soy-based sauce
+serves: 15
+tags: [banchan, potato, vegetarian]
+
+ingredients:
+  - group: Banchan
+    items:
+      - item: gold potatoes
+        amount: 700
+        unit: g
+        notes: Roughly 1.5 pounds of potatoes, peeled and cut into bite-sized chunks
+      - item: sweet onion
+        amount: .25
+        unit: cup
+        notes: thinly sliced
+      - item: sesame oil
+        amount: 1
+        unit: tsp
+      - item: sesame seeds
+        amount: 1
+        unit: tsp
+        notes: for garnish
+  - group: Sauce
+    items:
+      - item: soy sauce
+        amount: 3
+        unit: tbsp
+      - item: sugar
+        amount: 1
+        unit: tbsp
+      - item: rice wine vinegar
+        amount: 1
+        unit: tbsp
+      - item: plum syrup
+        amount: 1
+        unit: tbsp
+      - item: black pepper
+        amount: 1
+        unit: tsp
+      - item: water
+        amount: 0.75
+        unit: cup
+      - item: sesame oil
+        amount: 1
+        unit: tsp
+      - item: garlic
+        amount: 50
+        unit: g
+        notes: minced
+
+
+
+instructions:
+  Sauce:
+    - Mix all sauce ingredients together in a bowl and set aside.
+  Banchan:
+    - Cut potato into 1 inch squares. If you add other vegetables cut them to similar sizes.
+    - Slice onions thinly.
+    - Cook potatoes with oil for 5 minutes, try to get a golden crust on a few of the sides.
+    - Add sauce and other vegetables, cover and simmer for 15-20 minutes until potatoes are tender and sauce is reduced.
+    - Once the sauce is reduced into a gel, cool then serve.
+
+notes: |
+  - Source: https://www.koreanbapsang.com/gamja-jorim-braised-potatoes/

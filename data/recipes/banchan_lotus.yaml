@@ -1,0 +1,36 @@
+name: Lotus Banchan (연근 조림)
+description: Korean braised lotus root in a savory soy-based sauce
+serves: 10
+tags: [banchan, vegetarian]
+
+ingredients:
+  - item: lotus root
+    amount: 1
+    unit: lb
+    notes: peeled and sliced into 1/4-inch rounds
+  - item: soy sauce
+    amount: 3
+    unit: tbsp
+  - item: rice wine
+    amount: 2
+    unit: tbsp
+  - item: sugar
+    amount: 2
+    unit: tbsp
+  - item: plum syrup
+    amount: 2
+    unit: tbsp
+  - item: sesame oil
+    amount: 1
+    unit: tsp
+
+instructions:
+  - Cut of ends of lotus and peel skin. Slice into 1/4 inch rounds.
+  - Boil for 10 minutes in water and vinegar.
+  - Add soy sauce, rice wine, sugar, and plum syrup to a pan and bring to a boil.
+  - After cooled, add sesame seeds and sesame oil.
+
+
+notes: |
+  - Source: https://www.koreanbapsang.com/yeongeun-jorim-sweet-soy-braised-lotus-roots/
+  - The Sauce is weird and too much. I may try the potato sauce next time.

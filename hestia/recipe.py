@@ -25,6 +25,14 @@ class RecipeIngredient(BaseModel):
     """
 
     name: str
+
+    @model_validator(mode="before")
+    @classmethod
+    def _accept_item_key(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "item" in data and "name" not in data:
+            data = dict(data)
+            data["name"] = data.pop("item")
+        return data
     amount: float
     unit: str  # g, ml, kg, L, tsp, tbsp, cup, piece, etc.
     optional: bool = False
@@ -101,7 +109,11 @@ class Recipe(BaseModel):
         Lowercases the name, replaces spaces with underscores and slashes with hyphens.
         Used as the base filename for rendered output.
         """
-        return self.name.lower().replace(" ", "_").replace("/", "-")
+        import re
+        slug = self.name.lower().replace(" ", "_").replace("/", "-")
+        slug = re.sub(r"[^\w-]", "", slug, flags=re.ASCII)
+        slug = re.sub(r"_+", "_", slug).strip("_")
+        return slug
 
 
 # ---------------------------------------------------------------------------
@@ -215,10 +227,12 @@ def to_grams(
     ml_factor = _ML_CONVERSIONS.get(u)
     if ml_factor is not None:
         return amount * ml_factor * (g_per_ml if g_per_ml is not None else 1.0)
-    if g_per_tbsp is not None:
-        ratio = _TBSP_RATIOS.get(u)
-        if ratio is not None:
+    ratio = _TBSP_RATIOS.get(u)
+    if ratio is not None:
+        if g_per_tbsp is not None:
             return amount * ratio * g_per_tbsp
+        elif g_per_ml is not None:
+            return amount * ratio * 14.787 * g_per_ml
     if u == "unit" and g_per_unit is not None:
         return amount * g_per_unit
     if unit_sizes and u in unit_sizes:
