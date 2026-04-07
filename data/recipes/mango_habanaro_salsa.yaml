@@ -1,0 +1,64 @@
+name: Mango Habanaro Salsa
+serves: 20
+tags: [salsa, vegan]
+
+ingredients:
+  - name: mango
+    amount: 1
+    unit: unit
+  - name: habanero peppers
+    amount: 2
+    unit: unit
+  - name: orange bell peppers
+    amount: 1
+    unit: unit
+    note: "yellow/orange one to keep the color."
+  - name: onions
+    amount: 0.25
+    unit: unit
+    note: "about a 4th of an onion, thinly sliced"
+  - name: vinegar
+    amount: 2
+    unit: tbsp
+  - name: lime
+    amount: 3
+    unit: unit
+    note: "juice of 3 limes"
+  - name: sugar
+    amount: 1
+    unit: tbsp
+  - name: garlic
+    amount: 30
+    unit: g
+    note: "approximately one square of garlic minced"
+  - name: ginger
+    amount: 15
+    unit: g
+    note: "approximately one tsp of ginger minced"
+  - name: cinnamon
+    amount: 1
+    unit: pinch
+    note: "to taste"
+  - name: salt
+    amount: 1 
+    unit: pinch
+    note: "to taste"
+  - name: black pepper
+    amount: 1
+    unit: pinch
+    note: "to taste"
+  - name: MSG
+    amount: 5
+    unit: g
+    note: "Optional."
+  
+instructions:
+  - Combine all ingredients in a blender and blend until smooth.
+  - Cook for 10 minutes on medium heat, stirring occasionally.
+  - Adjust seasoning to taste.
+
+notes: |
+  - Source: [https://www.seriouseats.com/papaya-habanero-hot-sauce-recipe](https://www.seriouseats.com/papaya-habanero-hot-sauce-recipe)
+  - Replaced papaya with mango and added a yellow bell pepper for more flavor, i like this better than their actual habanero salsa recipe for some reason.
+  - Mango is very fibrous so blend longer and cook longer than you should for a smooth texture.
+  - Similarly, add spices to taste.

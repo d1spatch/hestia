@@ -20,8 +20,9 @@ ingredients:
     amount: 2
     unit: tsp
   - name: crushed red pepper flakes
-    amount: 2
+    amount: 1
     unit: tsp
+    note: "wife likes it less spicy, so I use 1 tsp. Adjust to your preference."
   - name: salt
     amount: 2
     unit: tsp
@@ -34,6 +35,14 @@ ingredients:
     amount: 0.25
     unit: cup
     note: "about a 4th of an onion, thinly sliced"
+  - name: sesame seeds
+    amount: 3
+    unit: g
+    note: "Just enough to cover everything. I don't measure this."
+  - name: black pepper
+    amount: 1
+    unit: pinch
+    note: "to taste"
 
 instructions:
   - Thinly slice the cucumber in a mandolin and put in metal bowl with salt. Toss to coat and let sit for 10 minutes.
@@ -45,5 +54,6 @@ instructions:
   - Can be stored in the fridge for up to 2 week.
 
 notes: |
-  Using frozen garlic is fine.
-  Haejin really hates when I add tequila to this recipe.
+  - Using frozen garlic is fine.
+  - Haejin really hates when I add tequila to this recipe.
+  - The idea is one cucumber fits nicely into a mason jar, and the liquid just barely covers all the cucumber. You can add chili oil or capsaicin powder if you want it spicier, but I find that the crushed red pepper flakes are enough for me.

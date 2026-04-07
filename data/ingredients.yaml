@@ -16,6 +16,25 @@ BelVita Breakfast Biscuit:
       package_price: 11.79
       price_per_kg: 7.8765
     price_per_kg: 7.8765
+MSG:
+  nutrition:
+    calories_per_100g: 0.0
+    carbs_per_100g: 0.0
+    fat_per_100g: 0.0
+    protein_per_100g: 0.0
+    source:
+      description: FLAVOR ENHANCER MSG
+      fdc_id: 2269416
+      retrieved: '2026-04-06'
+      type: usda
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 9.35
+      price_per_kg: 20.6132
+      store: '"99 Ranch"'
+    price_per_kg: 20.6132
 bay leaves:
   nutrition:
     calcium_per_100g: 834.0
@@ -294,6 +313,40 @@ chicken broth:
       price_per_kg: 1.8739
       store: Costco
     price_per_kg: 1.8739
+cinnamon:
+  nutrition:
+    calcium_per_100g: 1002.0
+    calories_per_100g: 247.0
+    carbs_per_100g: 80.59
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 1.24
+    fiber_per_100g: 53.1
+    iron_per_100g: 8.32
+    magnesium_per_100g: 60.0
+    manganese_per_100g: 17.466
+    potassium_per_100g: 431.0
+    protein_per_100g: 3.99
+    saturated_fat_per_100g: 0.345
+    sodium_per_100g: 0.01
+    source:
+      description: Spices, cinnamon, ground
+      fdc_id: 171320
+      retrieved: '2026-04-06'
+      type: usda
+    sugar_per_100g: 2.17
+    unit_sizes:
+      undetermined: 7.8
+    vitamin_c_per_100g: 3.8
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 31.2
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 2.99
+      price_per_kg: 6.5918
+      store: Ralphs
+    price_per_kg: 6.5918
 cream cheese:
   nutrition:
     calcium_per_100g: 97.11
@@ -478,9 +531,11 @@ ginger:
     source:
       description: Ginger root, raw
       fdc_id: 169231
-      retrieved: '2026-03-17'
+      retrieved: '2026-04-06'
       type: usda
     sugar_per_100g: 1.7
+    unit_sizes:
+      undetermined: 2.0
     vitamin_c_per_100g: 5.0
     vitamin_d_per_100g: 0.0
     vitamin_k_per_100g: 0.1
@@ -524,6 +579,7 @@ gold potatoes:
     calories_per_100g: 71.5752
     carbs_per_100g: 15.9624
     fat_per_100g: 0.2638
+    g_per_unit: 110.0
     iron_per_100g: 0.3728
     magnesium_per_100g: 22.3
     manganese_per_100g: 0.1598
@@ -585,6 +641,40 @@ green onion:
       price_per_kg: 3.3
       store: HanName Chain Sale
     price_per_kg: 3.3
+habanero peppers:
+  nutrition:
+    calcium_per_100g: 13.0
+    calories_per_100g: 34.0
+    carbs_per_100g: 7.66
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 0.4
+    fiber_per_100g: 2.2
+    g_per_unit: 12.0
+    iron_per_100g: 0.64
+    magnesium_per_100g: 19.0
+    potassium_per_100g: 285.0
+    protein_per_100g: 1.39
+    saturated_fat_per_100g: 0.067
+    sodium_per_100g: 0.006
+    source:
+      description: Peppers, hot, raw
+      fdc_id: 2709798
+      retrieved: '2026-04-06'
+      type: usda
+    sugar_per_100g: 4.71
+    unit_sizes:
+      undetermined: 5.0
+    vitamin_c_per_100g: 131.0
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 16.2
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 0.25
+      price_per_kg: 20.8333
+      store: Ralphs
+    price_per_kg: 20.8333
 heavy cream:
   nutrition:
     calcium_per_100g: 61.0
@@ -762,6 +852,41 @@ long grain white rice:
       price_per_kg: 2.1936
       store: Ralphs
     price_per_kg: 2.1936
+mango:
+  nutrition:
+    calcium_per_100g: 11.0
+    calories_per_100g: 60.0
+    carbs_per_100g: 14.98
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 0.38
+    fiber_per_100g: 1.6
+    g_per_unit: 336.0
+    iron_per_100g: 0.16
+    magnesium_per_100g: 10.0
+    manganese_per_100g: 0.063
+    potassium_per_100g: 168.0
+    protein_per_100g: 0.82
+    saturated_fat_per_100g: 0.092
+    sodium_per_100g: 0.001
+    source:
+      description: Mangos, raw
+      fdc_id: 169910
+      retrieved: '2026-04-06'
+      type: usda
+    sugar_per_100g: 13.66
+    unit_sizes:
+      undetermined: 165.0
+    vitamin_c_per_100g: 36.4
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 4.2
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 1.5
+      price_per_kg: 4.4643
+      store: Ralphs
+    price_per_kg: 4.4643
 maple syrup:
   nutrition:
     calcium_per_100g: 102.0
@@ -794,6 +919,67 @@ maple syrup:
       price_per_kg: 14.9132
       store: Costco
     price_per_kg: 14.9132
+onions:
+  nutrition:
+    calcium_per_100g: 23.0
+    calories_per_100g: 40.0
+    carbs_per_100g: 9.34
+    cholesterol_per_100g: 0.0
+    fat_per_100g: 0.1
+    fiber_per_100g: 1.7
+    g_per_unit: 85
+    iron_per_100g: 0.21
+    magnesium_per_100g: 10.0
+    manganese_per_100g: 0.129
+    potassium_per_100g: 146.0
+    protein_per_100g: 1.1
+    saturated_fat_per_100g: 0.042
+    sodium_per_100g: 0.004
+    source:
+      description: Onions, raw
+      fdc_id: 170000
+      retrieved: '2026-04-06'
+      type: usda
+    sugar_per_100g: 4.24
+    vitamin_c_per_100g: 7.4
+    vitamin_d_per_100g: 0.0
+    vitamin_k_per_100g: 0.4
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 0.99
+      price_per_kg: 2.1826
+      store: Ralphs
+    price_per_kg: 2.1826
+orange bell peppers:
+  nutrition:
+    calcium_per_100g: 4.899
+    calories_per_100g: 27.3843
+    carbs_per_100g: 6.7031
+    fat_per_100g: 0.1556
+    fiber_per_100g: 0.9674
+    g_per_unit: 85
+    iron_per_100g: 0.3652
+    magnesium_per_100g: 10.43
+    manganese_per_100g: 0.1491
+    potassium_per_100g: 200.8
+    protein_per_100g: 0.8819
+    sodium_per_100g: 0.0
+    source:
+      description: Peppers, bell, orange, raw
+      fdc_id: 2258591
+      retrieved: '2026-04-06'
+      type: usda
+    vitamin_c_per_100g: 158.3
+  pricing:
+    currency: USD
+    price_history:
+    - date: '2026-04-06'
+      package_price: 1.67
+      price_per_kg: 19.6471
+      store: Ralphs
+    price_per_kg: 19.6471
 pear:
   nutrition:
     calcium_per_100g: 9.0
