@@ -1,0 +1,1 @@
+- [ ] check the css style of this https://situ1994.github.io/schedule1-recipe-finder/ and use something like that in hestia and also the mkdocs

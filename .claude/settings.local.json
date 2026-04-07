@@ -3,7 +3,10 @@
     "allow": [
       "Bash(uv run python -c \":*)",
       "Bash(uv pip:*)",
-      "Bash(uv run:*)"
+      "Bash(uv run:*)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)",
+      "Bash(git config:*)"
     ]
   }
 }

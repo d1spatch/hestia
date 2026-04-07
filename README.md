@@ -70,7 +70,7 @@ Then open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ## Project Layout
 
-```
+```text
 hestia/
 ├── hestia/           # Python package
 │   ├── cli.py        # All CLI commands (Typer)
