@@ -197,8 +197,9 @@ def fetch(fdc_id: int) -> dict[str, Any]:
     # The abbreviation field holds the unit name for named portions; fall back
     # to portionDescription when abbreviation is absent or generic.
     _GENERIC_UNIT_NAMES: frozenset[str] = frozenset({
-        "unit", "each", "item", "1 unit", "1 each", "1 item",
+        "unit", "each", "item", "1 unit", "1 each", "1 item", "racc",
     })
+    _PREFERRED_GENERIC_UNIT_NAMES: frozenset[str] = frozenset({"racc"})
     unit_sizes: dict[str, float] = {}
     g_per_unit: float | None = None
     for portion in data.get("foodPortions", []):
@@ -216,7 +217,8 @@ def fetch(fdc_id: int) -> dict[str, Any]:
             continue
         g_per = round(float(gram_weight) / amount, 4)
         if unit_name in _GENERIC_UNIT_NAMES:
-            if g_per_unit is None:  # keep the first match
+            # Prefer USDA RACC when present; otherwise keep the first generic unit.
+            if unit_name in _PREFERRED_GENERIC_UNIT_NAMES or g_per_unit is None:
                 g_per_unit = g_per
         else:
             unit_sizes[unit_name] = g_per

@@ -130,6 +130,23 @@ def _to_row(name: str, data: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
+def preserve_existing_fields(
+    existing: dict[str, Any],
+    updates: dict[str, Any],
+    fields: set[str] | frozenset[str],
+) -> dict[str, Any]:
+    """Return updates with selected keys omitted when the existing entry has values.
+
+    This is useful for merge-style imports where some fields may have been
+    curated manually and should not be overwritten automatically.
+    """
+    filtered = dict(updates)
+    for field in fields:
+        if existing.get(field) is not None:
+            filtered.pop(field, None)
+    return filtered
+
+
 # ---------------------------------------------------------------------------
 # Public API  (same signatures as the old db.py)
 # ---------------------------------------------------------------------------

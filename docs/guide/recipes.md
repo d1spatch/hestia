@@ -28,6 +28,9 @@ notes: |                       # (optional) Freeform notes, multiline
   Starter should be active and bubbly.
 ```
 
+In the HTML recipe page, notes support clickable links using either Markdown
+link syntax like `[Serious Eats](https://example.com)` or bare `https://` URLs.
+
 ---
 
 ## Supported units
@@ -48,6 +51,7 @@ Hestia converts quantities to grams for nutrition and cost calculations.
 | `tsp` | teaspoons | requires `g_per_tbsp` on the ingredient |
 | `tbsp` | tablespoons | requires `g_per_tbsp` on the ingredient |
 | `cup` | cups | requires `g_per_tbsp` on the ingredient |
+| `pinch` | pinch | 2 g |
 
 !!! note "Volume and cooking units"
     Cooking volume units (`tsp`, `tbsp`, `cup`) are converted to grams using the ingredient's `g_per_tbsp` catalog field (set automatically by `import-usda` or manually). Without it, those ingredients are excluded from nutrition and cost calculations. Liquid volume units (`ml`, `l`) use `g_per_ml` if set, otherwise assume water density (1 g/mL).

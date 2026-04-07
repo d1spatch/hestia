@@ -332,7 +332,7 @@ hestia ingredient import-usda <fdc_id> [options]
 | `--category`, `-c` | Category label |
 | `--update` | Merge nutrition data into an existing entry instead of failing |
 
-Populates macros, micronutrients, and a `source` attribution block automatically.
+Populates macros, micronutrients, conversion data such as `g_per_tbsp`, `g_per_ml`, and `g_per_unit`, plus a `source` attribution block automatically.
 
 **Example:**
 ```bash

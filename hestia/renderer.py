@@ -9,7 +9,9 @@ from pathlib import Path
 from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup
 
+from .html_notes import notes_to_html
 from .recipe import Recipe
 
 _TEMPLATES_DIR = Path(__file__).parent / "templates"
@@ -39,6 +41,7 @@ def _env(escape_latex: bool = False) -> Environment:
         autoescape=select_autoescape(["html"]),
     )
     env.filters["csym"] = lambda code: _CSYM.get(code, code)
+    env.filters["notes_html"] = lambda text: Markup(notes_to_html(text))
     return env
 
 

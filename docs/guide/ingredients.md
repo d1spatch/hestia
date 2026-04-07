@@ -32,6 +32,7 @@ The ingredient catalog is stored in `data/ingredients.yaml` — a plain YAML fil
 | `vitamin_k_per_100g` | Micrograms of Vitamin K per 100 g |
 | `g_per_tbsp` | Grams per tablespoon — enables `tsp`/`tbsp`/`cup` unit conversion (auto-set by `import-usda`) |
 | `g_per_ml` | Grams per mL — density for liquid ingredients (auto-set by `import-usda`; defaults to 1.0 g/mL) |
+| `g_per_unit` | Grams per generic unit - used for recipe entries like `unit: unit` (auto-set by `import-usda`, including USDA `racc` when available) |
 | `category` | Freeform category, e.g. `grain`, `dairy`, `vegetable` |
 | `source` | Provenance block (auto-populated by `import-usda`) |
 | `notes` | Freeform notes |
@@ -104,7 +105,7 @@ Returns a table of matching foods with their FDC IDs and data types.
 hestia ingredient import-usda 169762 --name "oat bran" --category grain
 ```
 
-Populates all available macros, micronutrients, volume conversion data (`g_per_tbsp`, `g_per_ml`), and a `source` attribution block automatically.
+Populates all available macros, micronutrients, and conversion data (`g_per_tbsp`, `g_per_ml`, `g_per_unit`) automatically, plus a `source` attribution block.
 
 Use `--update` to merge nutrition data into an ingredient that already exists in the catalog:
 

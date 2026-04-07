@@ -172,6 +172,11 @@ _GRAM_CONVERSIONS: dict[str, float] = {
     "lb": 453.592,
 }
 
+_FIXED_GRAM_UNITS: dict[str, float] = {
+    "pinch": 2.0,
+    "pinches": 2.0,
+}
+
 # Metric volume units — multiplier to get mL from the given unit.
 # Grams = mL * g_per_ml (defaults to water density 1.0 if not in catalog).
 _ML_CONVERSIONS: dict[str, float] = {
@@ -201,9 +206,10 @@ def to_grams(
 
     Handles weight units (`g`, `kg`, `mg`, `oz`, `lb`), metric volume units
     that approximate water density (`ml`, `l`, `cl`, `dl`), cooking volume
-    units (`tsp`, `tbsp`, `cup`) when *g_per_tbsp* is supplied, named natural
-    units (e.g. `whole`, `clove`, `square`) when *unit_sizes* is supplied, and
-    the generic `unit` unit when *g_per_unit* is supplied.
+    units (`tsp`, `tbsp`, `cup`) when *g_per_tbsp* is supplied, fixed cooking
+    units such as `pinch`, named natural units (e.g. `whole`, `clove`,
+    `square`) when *unit_sizes* is supplied, and the generic `unit` unit when
+    *g_per_unit* is supplied.
 
     Args:
         amount: Numeric quantity.
@@ -224,6 +230,9 @@ def to_grams(
     weight_factor = _GRAM_CONVERSIONS.get(u)
     if weight_factor is not None:
         return amount * weight_factor
+    fixed_gram_factor = _FIXED_GRAM_UNITS.get(u)
+    if fixed_gram_factor is not None:
+        return amount * fixed_gram_factor
     ml_factor = _ML_CONVERSIONS.get(u)
     if ml_factor is not None:
         return amount * ml_factor * (g_per_ml if g_per_ml is not None else 1.0)

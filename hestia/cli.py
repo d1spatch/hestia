@@ -975,6 +975,7 @@ def ingredient_import_usda(
 
     if existing and update:
         updates = {k: v for k, v in data.items() if k != "name"}
+        updates = _catalog.preserve_existing_fields(existing, updates, {"g_per_unit"})
         _catalog.update_ingredient(ingredient_name, updates)
         rprint(f"[green]Updated:[/green] {ingredient_name}  (source: USDA FDC {fdc_id})")
     else:

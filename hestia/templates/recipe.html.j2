@@ -34,6 +34,11 @@
     color: #3a5040;
     white-space: pre-line;
   }
+  .notes a {
+    color: var(--accent);
+    text-decoration: underline;
+    word-break: break-word;
+  }
   .missing { color: #c0392b; font-size: 0.85rem; margin-top: 0.5rem; }
   .ing-group { font-size: 1rem; color: var(--muted); margin: 1.2rem 0 0.4rem; font-style: italic; }
   tr.ing-group-row td {
@@ -122,7 +127,7 @@
 
 {% if recipe.notes %}
 <h2>Notes</h2>
-<div class="notes">{{ recipe.notes }}</div>
+<div class="notes">{{ recipe.notes | notes_html }}</div>
 {% endif %}
 
 {% set dv = {
