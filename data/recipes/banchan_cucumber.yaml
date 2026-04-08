@@ -4,9 +4,8 @@ tags: [banchan, vegetarian]
 
 ingredients:
   - name: cucumber
-    amount: 300
-    unit: g
-    note: "about 1 cucumber"
+    amount: 1
+    unit: unit
   - name: sugar
     amount: 2
     unit: tsp

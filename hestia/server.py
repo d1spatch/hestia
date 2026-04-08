@@ -11,7 +11,7 @@ from wsgiref.simple_server import make_server, WSGIRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from . import catalog as _catalog
-from .recipe import compute_nutrition, load_all_recipes, load_recipe
+from .recipe import compute_nutrition, load_all_recipes
 from .renderer import render_html_str
 
 _RECIPES_DIR = Path(__file__).parent.parent / "data" / "recipes"
@@ -39,7 +39,7 @@ def _web_env() -> Environment:
             raise TypeError(f"Not serializable: {type(obj)}")
         return json.dumps(v, default=default)
 
-    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
+    _CSYM = {"USD": "$", "EUR": "\u20ac", "GBP": "\u00a3"}
     env.filters["url_encode"] = quote_plus
     env.filters["tojson"] = _tojson
     env.filters["csym"] = lambda code: _CSYM.get(code, code)
@@ -59,6 +59,21 @@ def _get_recipes():
     if _recipe_cache is None:
         _recipe_cache = load_all_recipes(_RECIPES_DIR)
     return _recipe_cache
+
+
+def _list_ingredients():
+    return _catalog.list_ingredients(catalog_path=_CATALOG_PATH)
+
+
+def _site_summary(recipes=None, ingredients=None):
+    recipes = recipes if recipes is not None else _get_recipes()
+    ingredients = ingredients if ingredients is not None else _list_ingredients()
+    tags = {tag.lower() for _, recipe in recipes for tag in recipe.tags}
+    return {
+        "recipe_count": len(recipes),
+        "ingredient_count": len(ingredients),
+        "tag_count": len(tags),
+    }
 
 
 def _build_catalog_for(recipe):
@@ -103,6 +118,7 @@ def _handle_index(query: str):
         q=q,
         tag=tag,
         ingredient=ingredient,
+        summary=_site_summary(all_recipes),
     )
     return _html_response(html)
 
@@ -123,12 +139,17 @@ def _handle_ingredients(query: str):
     params = parse_qs(query)
     q = params.get("q", [""])[0].strip()
 
-    items = _catalog.list_ingredients(catalog_path=_CATALOG_PATH)
+    all_items = _list_ingredients()
+    items = all_items
     if q:
         items = [i for i in items if q.lower() in i["name"].lower()]
 
     env = _web_env()
-    html = env.get_template("ingredients.html.j2").render(ingredients=items, q=q)
+    html = env.get_template("ingredients.html.j2").render(
+        ingredients=items,
+        q=q,
+        summary=_site_summary(_get_recipes(), all_items),
+    )
     return _html_response(html)
 
 

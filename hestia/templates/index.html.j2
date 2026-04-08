@@ -2,24 +2,100 @@
 
 {% block title %}Recipes{% endblock %}
 
-{% block content %}
-<h1>All Recipes</h1>
+{% block page_intro %}
+<section class="hero hero--home">
+  <div class="hero__copy surface-card">
+    <p class="eyebrow">Precision cookbook</p>
+    <h1 class="hero__title">Cook from data without losing the feeling of a real kitchen.</h1>
+    <p class="hero__lead">
+      Hestia keeps exact weights, reusable ingredient data, nutrition, and cost inside a
+      web interface that stays bright, calm, and easy to move through.
+    </p>
+    <div class="hero__actions">
+      <a class="button" href="#recipe-grid">Browse recipes</a>
+      <a class="button button--ghost" href="{{ base }}docs/quickstart/">Read the quickstart</a>
+    </div>
+  </div>
+  <aside class="hero__rail surface-card surface-card--accent">
+    <p class="eyebrow eyebrow--soft">At a glance</p>
+    <div class="stat-grid">
+      <article class="stat-card">
+        <span class="stat-card__label">Recipes</span>
+        <strong>{{ summary.recipe_count }}</strong>
+        <p>Versionable dishes ready to browse.</p>
+      </article>
+      <article class="stat-card">
+        <span class="stat-card__label">Tags</span>
+        <strong>{{ summary.tag_count }}</strong>
+        <p>Quick themes for baking, sides, sauces, and more.</p>
+      </article>
+      <article class="stat-card">
+        <span class="stat-card__label">Ingredients</span>
+        <strong>{{ summary.ingredient_count }}</strong>
+        <p>Linked pantry intelligence across every recipe.</p>
+      </article>
+      <article class="stat-card">
+        <span class="stat-card__label">Workflow</span>
+        <strong>YAML</strong>
+        <p>Plain text recipes that still render like a polished product.</p>
+      </article>
+    </div>
+    <p class="hero-note">
+      Search by dish, tag, or pantry item, then jump straight into cost and nutrition-aware recipe pages.
+    </p>
+  </aside>
+</section>
+{% endblock %}
 
-<form class="search-bar" method="get" action="{{ base }}"{% if static %} onsubmit="return false"{% endif %}>
-  <input id="q-input"   name="q"          value="{{ q }}"          placeholder="Search by name…">
-  <input id="tag-input" name="tag"        value="{{ tag }}"         placeholder="Filter by tag…">
-  <input id="ing-input" name="ingredient" value="{{ ingredient }}"  placeholder="Must contain ingredient…">
-  <button type="submit">Search</button>
-  {% if q or tag or ingredient %}
-    <a class="clear-link" href="{{ base }}">Clear</a>
-  {% endif %}
-</form>
+{% block content %}
+<section class="search-panel surface-card">
+  <div class="search-panel__header">
+    <div>
+      <p class="eyebrow">Recipe finder</p>
+      <h2 class="section-heading">Search the full cookbook.</h2>
+    </div>
+    <p class="search-panel__summary">
+      <span id="results-count">{{ recipes | length }}</span> of {{ summary.recipe_count }} recipes visible
+    </p>
+  </div>
+
+  <form method="get" action="{{ base }}"{% if static %} onsubmit="return false"{% endif %}>
+    <div class="filter-grid">
+      <label class="field">
+        <span>Name</span>
+        <input id="q-input" name="q" value="{{ q }}" placeholder="sourdough, salsa, cheesecake">
+      </label>
+      <label class="field">
+        <span>Tag</span>
+        <input id="tag-input" name="tag" value="{{ tag }}" placeholder="bread, banchan, dessert">
+      </label>
+      <label class="field">
+        <span>Ingredient</span>
+        <input id="ing-input" name="ingredient" value="{{ ingredient }}" placeholder="flour, habanero, cucumber">
+      </label>
+    </div>
+    <div class="filter-actions">
+      <button class="button" type="submit">Refine results</button>
+      {% if q or tag or ingredient %}
+        <a class="text-link" href="{{ base }}">Reset filters</a>
+      {% endif %}
+    </div>
+  </form>
+</section>
 
 {% if not recipes %}
-  <p class="no-results" id="no-results">No recipes match your search.</p>
+  <section class="surface-card empty-state" id="no-results">
+    <p class="eyebrow">No matches yet</p>
+    <h2 class="section-heading">No recipes matched this search.</h2>
+    <p>Try a broader tag, part of an ingredient name, or clear the filters and start fresh.</p>
+  </section>
 {% else %}
-  <p class="no-results" id="no-results" style="display:none">No recipes match your search.</p>
-  <div style="display:grid; gap:0.9rem" id="recipe-grid">
+  <section class="surface-card empty-state" id="no-results" style="display:none">
+    <p class="eyebrow">No matches yet</p>
+    <h2 class="section-heading">No recipes matched this search.</h2>
+    <p>Try a broader tag, part of an ingredient name, or clear the filters and start fresh.</p>
+  </section>
+  <div class="recipe-grid" id="recipe-grid">
     {% for path, recipe in recipes %}
     {% set ing_names = [] %}
     {% for item in recipe.ingredients %}
@@ -29,29 +105,33 @@
         {% set _ = ing_names.append(item.name) %}
       {% endif %}
     {% endfor %}
-    <div class="recipe-card"
-         data-name="{{ recipe.name | lower }}"
-         data-tags="{{ recipe.tags | join(',') | lower }}"
-         data-ingredients="{{ ing_names | join(',') | lower }}"
-         style="background:#edf3eb; border:1px solid var(--border); border-radius:6px; padding:1rem 1.4rem">
-      <a href="{{ base }}recipe/{{ recipe.slug }}/"
-         style="font-size:1.2rem; color:var(--accent); font-weight:bold; text-decoration:none">
-        {{ recipe.name }}
-      </a>
-      <div style="font-size:0.85rem; color:#607a58; margin-top:0.3rem">
-        Serves <strong>{{ recipe.serves }}</strong>
+    <article
+      class="recipe-card"
+      data-name="{{ recipe.name | lower }}"
+      data-tags="{{ recipe.tags | join(',') | lower }}"
+      data-ingredients="{{ ing_names | join(',') | lower }}"
+    >
+      <div class="recipe-card__meta">
+        <span>Serves {{ recipe.serves }}</span>
+        <span>&middot;</span>
+        <span>{{ ing_names | length }} ingredients</span>
+      </div>
+      <a class="recipe-card__title" href="{{ base }}recipe/{{ recipe.slug }}/">{{ recipe.name }}</a>
+      <div class="recipe-card__body">
         {% if recipe.tags %}
-          &nbsp;&nbsp;
+        <div class="chip-row">
           {% for t in recipe.tags %}
-            <span style="background:var(--accent); color:#fff; border-radius:3px;
-                         padding:1px 7px; font-size:0.75rem; margin-right:3px">{{ t }}</span>
+            <span class="chip">{{ t }}</span>
           {% endfor %}
+        </div>
         {% endif %}
+        <p class="recipe-card__ingredients">{{ ing_names | join(', ') }}</p>
       </div>
-      <div style="font-size:0.82rem; color:#7a9870; margin-top:0.25rem">
-        {{ ing_names | join(', ') }}
+      <div class="recipe-card__footer">
+        <a class="text-link" href="{{ base }}recipe/{{ recipe.slug }}/">Open recipe</a>
+        <span>Nutrition-aware detail view</span>
       </div>
-    </div>
+    </article>
     {% endfor %}
   </div>
 {% endif %}
@@ -59,26 +139,32 @@
 {% if static %}
 <script>
 (function() {
-  var qInput   = document.getElementById('q-input');
+  var qInput = document.getElementById('q-input');
   var tagInput = document.getElementById('tag-input');
   var ingInput = document.getElementById('ing-input');
-  var noRes    = document.getElementById('no-results');
+  var noRes = document.getElementById('no-results');
+  var results = document.getElementById('results-count');
 
   function filter() {
-    var q   = qInput.value.toLowerCase().trim();
+    var q = qInput.value.toLowerCase().trim();
     var tag = tagInput.value.toLowerCase().trim();
     var ing = ingInput.value.toLowerCase().trim();
     var cards = document.querySelectorAll('.recipe-card');
     var shown = 0;
     cards.forEach(function(card) {
       var match =
-        (!q   || card.dataset.name.includes(q)) &&
+        (!q || card.dataset.name.includes(q)) &&
         (!tag || card.dataset.tags.split(',').some(function(t) { return t.trim().includes(tag); })) &&
         (!ing || card.dataset.ingredients.split(',').some(function(i) { return i.trim().includes(ing); }));
       card.style.display = match ? '' : 'none';
-      if (match) shown++;
+      if (match) {
+        shown++;
+      }
     });
     noRes.style.display = shown === 0 ? '' : 'none';
+    if (results) {
+      results.textContent = String(shown);
+    }
   }
 
   [qInput, tagInput, ingInput].forEach(function(el) {

@@ -399,19 +399,21 @@ crushed red pepper flakes:
 cucumber:
   nutrition:
     calcium_per_100g: 16.34
-    calories_per_100g: 15.0
-    carbs_per_100g: 3.67
-    fat_per_100g: 0.1
+    calories_per_100g: 13.9349
+    carbs_per_100g: 2.9525
+    fat_per_100g: 0.1775
     fiber_per_100g: 0.5
-    iron_per_100g: 0.25
-    magnesium_per_100g: 10.1
-    manganese_per_100g: 0.085
-    potassium_per_100g: 170.0
-    protein_per_100g: 0.67
+    g_per_unit: 300
+    iron_per_100g: 0.0
+    magnesium_per_100g: 10.11
+    manganese_per_100g: 0.0849
+    potassium_per_100g: 169.6
+    protein_per_100g: 0.625
+    sodium_per_100g: 0.0015
     source:
       description: Cucumber, with peel, raw
       fdc_id: 2346406
-      retrieved: '2026-03-14'
+      retrieved: '2026-04-08'
       type: usda
     vitamin_k_per_100g: 24.0
   pricing:
@@ -425,7 +427,11 @@ cucumber:
       package_price: 1.99
       price_per_kg: 6.6333
       store: Ralphs
-    price_per_kg: 6.6333
+    - date: '2026-04-08'
+      package_price: 0.99
+      price_per_kg: 3.3
+      store: Ralphs
+    price_per_kg: 3.3
   user_defined:
     category: vegetable
 egg:
@@ -785,9 +791,10 @@ lemon juice:
     source:
       description: Lemon juice, raw
       fdc_id: 167747
-      retrieved: '2026-03-21'
+      retrieved: '2026-04-08'
       type: usda
     sugar_per_100g: 2.52
+    g_per_tbsp: 15.25
     unit_sizes:
       undetermined: 30.5
     vitamin_c_per_100g: 38.7

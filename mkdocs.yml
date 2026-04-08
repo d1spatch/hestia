@@ -5,19 +5,9 @@ site_url: https://d1spatch.github.io/hestia/docs/
 
 theme:
   name: material
+  font: false
   palette:
     - scheme: default
-      primary: green
-      accent: teal
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - scheme: slate
-      primary: green
-      accent: teal
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
   features:
     - navigation.tabs
     - navigation.sections
@@ -69,3 +59,6 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+
+extra_css:
+  - assets/stylesheets/hestia-docs.css

@@ -26,6 +26,17 @@ class NotesToHtmlTests(unittest.TestCase):
 
         self.assertEqual(html, "&lt;b&gt;unsafe&lt;/b&gt;")
 
+    def test_bullet_list_becomes_html_list(self) -> None:
+        html = notes_to_html(
+            "- First note item\n"
+            "- Second note item with [link](https://example.com)"
+        )
+
+        self.assertTrue(html.startswith("<ul>"))
+        self.assertIn("<li>First note item</li>", html)
+        self.assertIn('<a href="https://example.com"', html)
+        self.assertTrue(html.endswith("</ul>"))
+
 
 if __name__ == "__main__":
     unittest.main()

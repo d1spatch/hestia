@@ -1,47 +1,103 @@
-{% extends "base.html.j2" %}
+﻿{% extends "base.html.j2" %}
 
 {% block title %}{{ ing.name }}{% endblock %}
 
+{% block page_intro %}
+<section class="hero hero--detail">
+  <div class="hero__copy surface-card">
+    <a class="back-link" href="{{ base }}ingredients/">&larr; Back to the ingredient catalog</a>
+    <p class="eyebrow">Ingredient profile</p>
+    <h1 class="hero__title hero__title--tight">{{ ing.name }}</h1>
+    <p class="hero__lead">
+      Reference nutrition, sourcing, and price history for one ingredient record in your pantry database.
+    </p>
+    <div class="chip-row">
+      {% if ing.category %}<span class="chip chip--strong">{{ ing.category }}</span>{% endif %}
+      {% if ing.aliases %}<span class="chip chip--soft">{{ ing.aliases | length }} aliases</span>{% endif %}
+      {% if ing.source %}<span class="chip chip--soft">{{ ing.source.type | upper }}</span>{% endif %}
+    </div>
+    {% if ing.notes %}
+      <div class="note-block" style="margin-top:1.2rem">{{ ing.notes }}</div>
+    {% endif %}
+  </div>
+  <aside class="hero__rail surface-card surface-card--accent">
+    <p class="eyebrow eyebrow--soft">Snapshot</p>
+    <div class="metric-grid">
+      <article class="metric-card">
+        <span class="metric-card__label">Calories</span>
+        <strong>
+          {% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}
+            {{ "%.0f"|format(ing.calories_per_100g) }} kcal
+          {% else %}
+            -
+          {% endif %}
+        </strong>
+      </article>
+      <article class="metric-card">
+        <span class="metric-card__label">Protein</span>
+        <strong>
+          {% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}
+            {{ "%.1f"|format(ing.protein_per_100g) }} g
+          {% else %}
+            -
+          {% endif %}
+        </strong>
+      </article>
+      <article class="metric-card">
+        <span class="metric-card__label">Carbs</span>
+        <strong>
+          {% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}
+            {{ "%.1f"|format(ing.carbs_per_100g) }} g
+          {% else %}
+            -
+          {% endif %}
+        </strong>
+      </article>
+      <article class="metric-card">
+        <span class="metric-card__label">Fat</span>
+        <strong>
+          {% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}
+            {{ "%.1f"|format(ing.fat_per_100g) }} g
+          {% else %}
+            -
+          {% endif %}
+        </strong>
+      </article>
+    </div>
+    {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}
+      <p class="price-display">
+        <small>{{ (ing.currency or 'USD') | csym }}</small>{{ "%.2f"|format(ing.price_per_kg) }}
+        <span>/ kg</span>
+      </p>
+    {% else %}
+      <p class="hero-note">No current price is recorded for this ingredient yet.</p>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}
+
 {% block content %}
-<p style="margin-bottom:1rem">
-  <a href="{{ base }}ingredients/" style="color:var(--accent);text-decoration:none;font-size:0.9rem">&larr; All Ingredients</a>
-</p>
-
-<h1>{{ ing.name }}</h1>
-
-{% if ing.category or ing.aliases or ing.notes %}
-<div class="meta-row">
-  {% if ing.category %}<span class="badge">{{ ing.category }}</span>{% endif %}
-  {% if ing.aliases %}
-    <span class="meta-label">Also known as:</span>
-    <span class="meta-val">{{ ing.aliases | join(', ') }}</span>
-  {% endif %}
-  {% if ing.notes %}
-    <span class="meta-label" style="margin-left:1rem">Note:</span>
-    <span class="meta-val">{{ ing.notes }}</span>
-  {% endif %}
-</div>
-{% endif %}
-
-<div class="detail-grid">
-
-  <!-- Nutrition Facts -->
-  <section class="card">
-    <h2>Nutrition Facts</h2>
-    <p class="subhead">per 100 g</p>
-    <table class="nf-table">
+<div class="detail-layout">
+  <section class="panel-card surface-card">
+    <div class="panel-card__header">
+      <div>
+        <p class="eyebrow">Nutrition facts</p>
+        <h2 class="section-heading">Per 100 g reference.</h2>
+      </div>
+    </div>
+    <table class="nutrition-table">
       <tbody>
         <tr class="major"><td>Calories</td>
-          <td>{% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }} kcal{% else %}—{% endif %}</td></tr>
+          <td>{% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }} kcal{% else %}-{% endif %}</td></tr>
         <tr><td>Protein</td>
-          <td>{% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }} g{% else %}—{% endif %}</td></tr>
+          <td>{% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }} g{% else %}-{% endif %}</td></tr>
         <tr><td>Total Fat</td>
-          <td>{% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}—{% endif %}</td></tr>
+          <td>{% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}-{% endif %}</td></tr>
         {% if ing.saturated_fat_per_100g is defined and ing.saturated_fat_per_100g is not none %}
         <tr class="sub"><td>Saturated Fat</td><td>{{ "%.1f"|format(ing.saturated_fat_per_100g) }} g</td></tr>
         {% endif %}
         <tr><td>Total Carbohydrate</td>
-          <td>{% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }} g{% else %}—{% endif %}</td></tr>
+          <td>{% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }} g{% else %}-{% endif %}</td></tr>
         {% if ing.fiber_per_100g is defined and ing.fiber_per_100g is not none %}
         <tr class="sub"><td>Dietary Fiber</td><td>{{ "%.1f"|format(ing.fiber_per_100g) }} g</td></tr>
         {% endif %}
@@ -82,7 +138,7 @@
     </table>
 
     {% if ing.source %}
-    <p class="source-note">
+    <p class="subtle" style="margin-top:1rem">
       Source: {{ ing.source.type | upper }}
       {% if ing.source.fdc_id %} &middot; FDC ID {{ ing.source.fdc_id }}{% endif %}
       {% if ing.source.description %} &middot; {{ ing.source.description }}{% endif %}
@@ -91,38 +147,42 @@
     {% endif %}
   </section>
 
-  <!-- Pricing -->
-  <section class="card">
-    <h2>Pricing</h2>
+  <section class="panel-card surface-card">
+    <div class="panel-card__header">
+      <div>
+        <p class="eyebrow">Pricing</p>
+        <h2 class="section-heading">Track current cost and movement.</h2>
+      </div>
+    </div>
     {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}
-    <p class="current-price">
-      <span class="ccy">{{ (ing.currency or 'USD') | csym }}</span>{{ "%.2f"|format(ing.price_per_kg) }}
-      <span class="per">/&nbsp;kg</span>
+    <p class="price-display">
+      <small>{{ (ing.currency or 'USD') | csym }}</small>{{ "%.2f"|format(ing.price_per_kg) }}
+      <span>/ kg</span>
     </p>
     {% else %}
-    <p style="color:#607a58;font-style:italic">No price recorded.</p>
+    <p class="subtle">No price recorded.</p>
     {% endif %}
 
     {% if ing.price_history and ing.price_history | length > 0 %}
-    <h3 style="margin-top:1.4rem;margin-bottom:0.6rem">Price History</h3>
-    <table class="ph-table">
+    <h3 class="step-group__title" style="margin-top:1.4rem">Price history</h3>
+    <table class="nutrition-table">
       <thead>
         <tr>
           <th>Date</th>
           <th>Store</th>
-          <th class="r">Package</th>
-          <th class="r">Net Wt</th>
-          <th class="r">Per kg</th>
+          <th class="align-right">Package</th>
+          <th class="align-right">Net wt</th>
+          <th class="align-right">Per kg</th>
         </tr>
       </thead>
       <tbody>
         {% for h in ing.price_history | reverse %}
         <tr>
           <td>{{ h.date }}</td>
-          <td>{{ h.store or '—' }}</td>
-          <td class="r">{% if h.package_price is defined and h.package_price is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(h.package_price) }}{% else %}—{% endif %}</td>
-          <td class="r">{{ h.net_weight or '—' }}</td>
-          <td class="r">{{ (ing.currency or 'USD') | csym }}{{ "%.4f"|format(h.price_per_kg) }}</td>
+          <td>{{ h.store or '-' }}</td>
+          <td class="align-right mono">{% if h.package_price is defined and h.package_price is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(h.package_price) }}{% else %}-{% endif %}</td>
+          <td class="align-right mono">{{ h.net_weight or '-' }}</td>
+          <td class="align-right mono">{{ (ing.currency or 'USD') | csym }}{{ "%.4f"|format(h.price_per_kg) }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -135,6 +195,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <script>
     (function() {
+      var root = getComputedStyle(document.documentElement);
+      var brand = root.getPropertyValue('--brand').trim();
+      var accent = root.getPropertyValue('--accent').trim();
       var history = {{ ing.price_history | tojson }};
       var labels = history.map(function(h) { return h.date; });
       var prices = history.map(function(h) { return h.price_per_kg; });
@@ -146,12 +209,12 @@
           datasets: [{
             label: 'Price / kg',
             data: prices,
-            borderColor: '#3b5740',
-            backgroundColor: 'rgba(59,87,64,0.1)',
-            pointBackgroundColor: '#3b5740',
+            borderColor: brand,
+            backgroundColor: 'rgba(47, 107, 79, 0.1)',
+            pointBackgroundColor: accent,
             pointRadius: 5,
             tension: 0.2,
-            fill: true,
+            fill: true
           }]
         },
         options: {
@@ -169,7 +232,11 @@
           scales: {
             y: {
               beginAtZero: false,
-              ticks: { callback: function(v) { return '$' + v.toFixed(2); } }
+              ticks: {
+                callback: function(v) {
+                  return '{{ (ing.currency or "USD") | csym }}' + v.toFixed(2);
+                }
+              }
             }
           }
         }
@@ -177,42 +244,7 @@
     })();
     </script>
     {% endif %}
-
     {% endif %}
   </section>
-
 </div>
-
-<style>
-.meta-row { display:flex; flex-wrap:wrap; gap:0.5rem 1rem; align-items:center; margin-bottom:1.4rem; font-size:0.9rem; }
-.badge { background:var(--accent); color:#fff; border-radius:3px; padding:2px 10px; font-size:0.8rem; }
-.meta-label { color:#607a58; font-style:italic; }
-.meta-val { color:var(--text); }
-
-.detail-grid { display:grid; grid-template-columns: 1fr 1fr; gap:1.4rem; align-items:start; }
-@media(max-width:680px) { .detail-grid { grid-template-columns:1fr; } }
-
-.card { background:#edf3eb; border:1px solid var(--border); border-radius:8px; padding:1.3rem 1.6rem; }
-.card h2 { font-size:1.05rem; color:var(--accent); margin-bottom:0.15rem; border-bottom:1px solid var(--border); padding-bottom:0.3rem; }
-.subhead { font-size:0.78rem; color:#607a58; margin-bottom:0.7rem; }
-
-.nf-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
-.nf-table td { padding:0.28rem 0.2rem; border-bottom:1px solid var(--border); }
-.nf-table td:last-child { text-align:right; font-variant-numeric:tabular-nums; font-weight:bold; }
-.nf-table tr.major td { font-size:1.1rem; font-weight:bold; border-bottom:3px solid var(--border); }
-.nf-table tr.sub td:first-child { padding-left:1.2rem; color:#607a58; }
-
-.current-price { font-size:2rem; font-weight:bold; color:var(--accent); line-height:1.2; }
-.current-price .ccy { font-size:1rem; font-weight:normal; color:#607a58; }
-.current-price .per { font-size:1rem; font-weight:normal; color:#607a58; }
-
-.ph-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
-.ph-table th { text-align:left; border-bottom:2px solid var(--border); padding:0.3rem 0.4rem; color:var(--accent); font-style:italic; font-size:0.8rem; }
-.ph-table th.r { text-align:right; }
-.ph-table td { padding:0.3rem 0.4rem; border-bottom:1px solid var(--border); }
-.ph-table td.r { text-align:right; font-variant-numeric:tabular-nums; }
-.ph-table tr:first-child td { font-weight:bold; }
-
-.source-note { font-size:0.75rem; color:#7a9870; margin-top:1rem; line-height:1.5; }
-</style>
 {% endblock %}

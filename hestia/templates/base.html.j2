@@ -1,110 +1,58 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}Hestia{% endblock %} — Hestia Cookbook</title>
+<title>{% block title %}Hestia{% endblock %} - Hestia Cookbook</title>
+<meta name="description" content="{% block meta_description %}Precision cookbook with recipes, ingredient intelligence, and calm kitchen-focused browsing.{% endblock %}">
 <style>
-  :root {
-    --accent: #5f855a;
-    --nav:    #3b5740;
-    --light:  #f4f7f2;
-    --border: #beccb5;
-    --text:   #2a3828;
-    --muted:  #607a58;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: Georgia, serif;
-    background: var(--light);
-    color: var(--text);
-    line-height: 1.7;
-  }
-  nav {
-    background: var(--nav);
-    color: #fff;
-    padding: 0.7rem 2rem;
-    display: flex;
-    gap: 1.8rem;
-    align-items: center;
-  }
-  nav .brand {
-    font-size: 1.15rem;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    margin-right: 0.5rem;
-  }
-  nav a {
-    color: #c8ddc0;
-    text-decoration: none;
-    font-size: 0.95rem;
-  }
-  nav a:hover { color: #fff; text-decoration: underline; }
-  .container {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
-  }
-  h1 {
-    font-size: 1.9rem;
-    color: var(--accent);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0.4rem;
-    margin-bottom: 1.5rem;
-  }
-  .search-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.8rem;
-    align-items: center;
-  }
-  .search-bar input {
-    flex: 1;
-    min-width: 140px;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-family: Georgia, serif;
-    font-size: 0.9rem;
-    background: #edf3eb;
-    color: var(--text);
-  }
-  .search-bar button {
-    background: var(--nav);
-    color: #fff;
-    border: none;
-    padding: 0.4rem 1.1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: Georgia, serif;
-    font-size: 0.9rem;
-  }
-  .search-bar button:hover { opacity: 0.85; }
-  .clear-link {
-    color: var(--accent);
-    font-size: 0.88rem;
-    text-decoration: none;
-    align-self: center;
-  }
-  .clear-link:hover { text-decoration: underline; }
-  .no-results {
-    color: var(--accent);
-    font-style: italic;
-  }
+  {% include "_brand.css.j2" %}
+  {% include "_app.css.j2" %}
   {% block extra_style %}{% endblock %}
 </style>
 </head>
-<body>
-<nav>
-  <a class="brand" href="{{ base }}">Hestia</a>
-  <a href="{{ base }}">Recipes</a>
-  <a href="{{ base }}ingredients/">Ingredients</a>
-  <a href="{{ base }}docs/">Docs</a>
-</nav>
-<div class="container">
-  {% block content %}{% endblock %}
+<body class="{% block body_class %}app-page{% endblock %}">
+{% set nav_visible = show_nav if show_nav is defined else true %}
+<div class="site-backdrop" aria-hidden="true">
+  <div class="site-backdrop__orb site-backdrop__orb--one"></div>
+  <div class="site-backdrop__orb site-backdrop__orb--two"></div>
+  <div class="site-backdrop__orb site-backdrop__orb--three"></div>
 </div>
+{% if nav_visible %}
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand-mark" href="{{ base }}">
+      <span class="brand-mark__glyph">H</span>
+      <span class="brand-mark__copy">
+        <span class="brand-mark__kicker">Kitchen system</span>
+        <span class="brand-mark__name">Hestia</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="{{ base }}">Recipes</a>
+      <a href="{{ base }}ingredients/">Ingredients</a>
+      <a href="{{ base }}docs/">Docs</a>
+    </nav>
+  </div>
+</header>
+{% endif %}
+<main class="page-shell">
+  {% block page_intro %}{% endblock %}
+  <div class="content-shell">
+    {% block content %}{% endblock %}
+  </div>
+</main>
+{% if nav_visible %}
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>Built for cooks who like precision without a sterile interface.</div>
+    <div class="site-footer__links">
+      <a href="{{ base }}">Recipe browser</a>
+      <a href="{{ base }}ingredients/">Ingredient catalog</a>
+      <a href="{{ base }}docs/">Documentation</a>
+    </div>
+  </div>
+</footer>
+{% endif %}
 </body>
 </html>

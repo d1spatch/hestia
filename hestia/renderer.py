@@ -35,7 +35,7 @@ def _env(escape_latex: bool = False) -> Environment:
             trim_blocks=True,
             autoescape=False,
         )
-    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
+    _CSYM = {"USD": "$", "EUR": "\u20ac", "GBP": "\u00a3"}
     env = Environment(
         loader=FileSystemLoader(str(_TEMPLATES_DIR)),
         autoescape=select_autoescape(["html"]),

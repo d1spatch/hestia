@@ -31,12 +31,21 @@ def _make_env(base: str) -> Environment:
         loader=FileSystemLoader(str(_TEMPLATES_DIR)),
         autoescape=select_autoescape(["html"]),
     )
-    _CSYM = {"USD": "$", "EUR": "€", "GBP": "£"}
+    _CSYM = {"USD": "$", "EUR": "\u20ac", "GBP": "\u00a3"}
     env.filters["url_encode"] = quote_plus
     env.filters["tojson"] = _tojson
     env.filters["csym"] = lambda code: _CSYM.get(code, code)
     env.globals["base"] = base
     return env
+
+
+def _site_summary(recipes, ingredients):
+    tags = {tag.lower() for _, recipe in recipes for tag in recipe.tags}
+    return {
+        "recipe_count": len(recipes),
+        "ingredient_count": len(ingredients),
+        "tag_count": len(tags),
+    }
 
 
 def build(output_dir: Path, base_url: str = "/") -> None:
@@ -53,12 +62,14 @@ def build(output_dir: Path, base_url: str = "/") -> None:
     env = _make_env(base_url)
     all_recipes = load_all_recipes(_RECIPES_DIR)
     all_ingredients = _catalog.list_ingredients(catalog_path=_CATALOG_PATH)
+    summary = _site_summary(all_recipes, all_ingredients)
 
     # --- index ---
     html = env.get_template("index.html.j2").render(
         recipes=all_recipes,
         q="", tag="", ingredient="",
         static=True,
+        summary=summary,
     )
     (output_dir / "index.html").write_text(html, encoding="utf-8")
 
@@ -80,6 +91,7 @@ def build(output_dir: Path, base_url: str = "/") -> None:
         ingredients=all_ingredients,
         q="",
         static=True,
+        summary=summary,
     )
     ingredients_dir = output_dir / "ingredients"
     ingredients_dir.mkdir(parents=True)

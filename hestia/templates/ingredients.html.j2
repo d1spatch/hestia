@@ -1,91 +1,158 @@
-{% extends "base.html.j2" %}
+﻿{% extends "base.html.j2" %}
 
 {% block title %}Ingredients{% endblock %}
 
-{% block content %}
-<h1>Ingredient Catalog</h1>
+{% block page_intro %}
+<section class="hero hero--catalog">
+  <div class="hero__copy surface-card">
+    <p class="eyebrow">Ingredient catalog</p>
+    <h1 class="hero__title hero__title--tight">Build a pantry that knows its numbers.</h1>
+    <p class="hero__lead">
+      Browse price history, macros, and sourcing details in a cleaner catalog view that matches
+      the recipe experience.
+    </p>
+    <div class="hero__actions">
+      <a class="button" href="#ingredient-table">Browse catalog</a>
+      <a class="button button--ghost" href="{{ base }}docs/guide/ingredients/">See the ingredients guide</a>
+    </div>
+  </div>
+  <aside class="hero__rail surface-card">
+    <p class="eyebrow">Catalog health</p>
+    <div class="stat-grid">
+      <article class="stat-card">
+        <span class="stat-card__label">Ingredients</span>
+        <strong>{{ summary.ingredient_count }}</strong>
+        <p>Tracked records in the pantry database.</p>
+      </article>
+      <article class="stat-card">
+        <span class="stat-card__label">Recipes</span>
+        <strong>{{ summary.recipe_count }}</strong>
+        <p>Recipes that can pull cost and nutrition from this catalog.</p>
+      </article>
+    </div>
+    <p class="hero-note">
+      Open any ingredient profile to inspect references, per-100g data, and historical price tracking.
+    </p>
+  </aside>
+</section>
+{% endblock %}
 
-<form class="search-bar" method="get" action="{{ base }}ingredients/"{% if static %} onsubmit="return false"{% endif %}>
-  <input id="ing-q" name="q" value="{{ q }}" placeholder="Search ingredients…">
-  <button type="submit">Search</button>
-  {% if q %}
-    <a class="clear-link" href="{{ base }}ingredients/">Clear</a>
-  {% endif %}
-</form>
+{% block content %}
+<section class="search-panel surface-card">
+  <div class="search-panel__header">
+    <div>
+      <p class="eyebrow">Find pantry entries</p>
+      <h2 class="section-heading">Search the ingredient database.</h2>
+    </div>
+    <p class="search-panel__summary">
+      <span id="ingredient-count">{{ ingredients | length }}</span> of {{ summary.ingredient_count }} ingredients visible
+    </p>
+  </div>
+
+  <form method="get" action="{{ base }}ingredients/"{% if static %} onsubmit="return false"{% endif %}>
+    <div class="filter-grid">
+      <label class="field">
+        <span>Name</span>
+        <input id="ing-q" name="q" value="{{ q }}" placeholder="rice vinegar, bread flour, cucumber">
+      </label>
+    </div>
+    <div class="filter-actions">
+      <button class="button" type="submit">Search catalog</button>
+      {% if q %}
+        <a class="text-link" href="{{ base }}ingredients/">Reset filters</a>
+      {% endif %}
+    </div>
+  </form>
+</section>
 
 {% if not ingredients %}
-  <p class="no-results">No ingredients match your search.</p>
+  <section class="surface-card empty-state" id="ing-empty">
+    <p class="eyebrow">No matches yet</p>
+    <h2 class="section-heading">No ingredients matched this search.</h2>
+    <p>Try a broader pantry keyword or clear the filter to see the full catalog.</p>
+  </section>
 {% else %}
-<table class="ing-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Category</th>
-      <th class="r">kcal / 100g</th>
-      <th class="r">Protein</th>
-      <th class="r">Carbs</th>
-      <th class="r">Fat</th>
-      <th class="r">Price / kg</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for ing in ingredients %}
-    <tr class="ing-row" data-name="{{ ing.name | lower }}">
-      <td class="name-cell">
-        <a href="{{ base }}ingredient/{{ ing.name | url_encode }}/" class="ing-link">{{ ing.name }}</a>
-      </td>
-      <td class="cat">{{ ing.category or '—' }}</td>
-      <td class="r num">
-        {% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }}{% else %}—{% endif %}
-      </td>
-      <td class="r num">
-        {% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }} g{% else %}—{% endif %}
-      </td>
-      <td class="r num">
-        {% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }} g{% else %}—{% endif %}
-      </td>
-      <td class="r num">
-        {% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}—{% endif %}
-      </td>
-      <td class="r num">
-        {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(ing.price_per_kg) }}{% else %}—{% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<section class="table-card surface-card" id="ingredient-table">
+  <div class="table-card__header">
+    <div>
+      <p class="eyebrow">Reference table</p>
+      <h2 class="section-heading">Nutrition and pricing at a glance.</h2>
+    </div>
+    <p class="table-card__summary">Every row links to a full ingredient profile.</p>
+  </div>
+  <div class="table-shell">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th class="align-right">kcal / 100g</th>
+          <th class="align-right">Protein</th>
+          <th class="align-right">Carbs</th>
+          <th class="align-right">Fat</th>
+          <th class="align-right">Price / kg</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ing in ingredients %}
+        <tr class="ing-row" data-name="{{ ing.name | lower }}">
+          <td>
+            <a class="text-link" href="{{ base }}ingredient/{{ ing.name | url_encode }}/">{{ ing.name }}</a>
+          </td>
+          <td class="subtle">{{ ing.category or '-' }}</td>
+          <td class="align-right mono">
+            {% if ing.calories_per_100g is defined and ing.calories_per_100g is not none %}{{ "%.0f"|format(ing.calories_per_100g) }}{% else %}-{% endif %}
+          </td>
+          <td class="align-right mono">
+            {% if ing.protein_per_100g is defined and ing.protein_per_100g is not none %}{{ "%.1f"|format(ing.protein_per_100g) }} g{% else %}-{% endif %}
+          </td>
+          <td class="align-right mono">
+            {% if ing.carbs_per_100g is defined and ing.carbs_per_100g is not none %}{{ "%.1f"|format(ing.carbs_per_100g) }} g{% else %}-{% endif %}
+          </td>
+          <td class="align-right mono">
+            {% if ing.fat_per_100g is defined and ing.fat_per_100g is not none %}{{ "%.1f"|format(ing.fat_per_100g) }} g{% else %}-{% endif %}
+          </td>
+          <td class="align-right mono">
+            {% if ing.price_per_kg is defined and ing.price_per_kg is not none %}{{ (ing.currency or 'USD') | csym }}{{ "%.2f"|format(ing.price_per_kg) }}{% else %}-{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="surface-card empty-state" id="ing-empty" style="display:none">
+  <p class="eyebrow">No matches yet</p>
+  <h2 class="section-heading">No ingredients matched this search.</h2>
+  <p>Try a broader pantry keyword or clear the filter to see the full catalog.</p>
+</section>
 {% endif %}
 
 {% if static %}
 <script>
 (function() {
   var input = document.getElementById('ing-q');
+  var count = document.getElementById('ingredient-count');
+  var empty = document.getElementById('ing-empty');
   function filter() {
     var q = input.value.toLowerCase().trim();
+    var shown = 0;
     document.querySelectorAll('.ing-row').forEach(function(row) {
-      row.style.display = (!q || row.dataset.name.includes(q)) ? '' : 'none';
+      var match = !q || row.dataset.name.includes(q);
+      row.style.display = match ? '' : 'none';
+      if (match) {
+        shown++;
+      }
     });
+    if (count) {
+      count.textContent = String(shown);
+    }
+    if (empty) {
+      empty.style.display = shown === 0 ? '' : 'none';
+    }
   }
   input.addEventListener('input', filter);
 })();
 </script>
 {% endif %}
-
-<style>
-.ing-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
-.ing-table th {
-  text-align: left; border-bottom: 2px solid var(--border);
-  padding: 0.4rem 0.7rem; color: var(--accent); font-size: 0.85rem;
-  font-family: Georgia, serif; font-style: italic;
-}
-.ing-table th.r { text-align: right; }
-.ing-table td { padding: 0.38rem 0.7rem; border-bottom: 1px solid var(--border); }
-.ing-table tr:hover td { background: #e2ede0; }
-.name-cell { font-weight: bold; }
-.ing-link { color: var(--accent); text-decoration: none; }
-.ing-link:hover { text-decoration: underline; }
-.cat { color: var(--muted); font-size: 0.88rem; }
-.r { text-align: right; }
-.num { font-variant-numeric: tabular-nums; }
-</style>
 {% endblock %}
